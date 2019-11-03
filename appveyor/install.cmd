@@ -31,7 +31,7 @@ setlocal enableextensions enabledelayedexpansion
 		git clone -q --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
 	)
 
-	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\ext\winbinder\ /s /e /y /f
+	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\ext\embedder2\ /s /e /y /f
 
 	rem xcopy %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\artifacts\ /y /f
 

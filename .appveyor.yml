@@ -28,5 +28,5 @@ build_script:
 
 artifacts:
   - path: artifacts
-    name: php_winbinder.dll
+    name: embedder2.dll
     type: zip
