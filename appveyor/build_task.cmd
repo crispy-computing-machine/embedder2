@@ -43,8 +43,8 @@ setlocal enableextensions enabledelayedexpansion
 
 		rem cd /d %APPVEYOR_BUILD_FOLDER%
 
-		call vcvarsall.bat
-        msbuild
+		rem call vcvarsall.bat
+        msbuild embeder.sln
         copy "Debug console\embeder.exe" "../out/console.exe" || exit /b 1
         popd
 
