@@ -41,7 +41,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		if %errorlevel% neq 0 exit /b 3
 
-		cd /d %APPVEYOR_BUILD_FOLDER%
+		rem cd /d %APPVEYOR_BUILD_FOLDER%
 
 		call vcvarsall.bat
         msbuild
