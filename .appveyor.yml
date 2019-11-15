@@ -28,5 +28,5 @@ build_script:
 
 artifacts:
   - path: artifacts
-    name: winbinder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%
+    name: embeder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%
     type: zip

@@ -31,7 +31,7 @@ setlocal enableextensions enabledelayedexpansion
 		git clone -q --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
 	)
 
-	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\ext\winbinder\ /s /e /y /f
+	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\embeder\ /s /e /y /f
 
 	rem xcopy %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\artifacts\ /y /f
 
@@ -46,15 +46,6 @@ setlocal enableextensions enabledelayedexpansion
 
 	if "%APPVEYOR_REPO_TAG_NAME%"=="" (
 		set APPVEYOR_REPO_TAG_NAME=%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT:~0,8%
-		for /f "delims=" %%l in (wb\wb_version.h) do (
-			if not "%%l"=="" (
-				set line=%%l
-				if "!line:~8,17!"=="WINBINDER_VERSION" (
-					set APPVEYOR_REPO_TAG_NAME=!line:~29,-1!-%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT:~0,8%
-				)
-			)
-		)
-
 		appveyor SetVariable -Name APPVEYOR_REPO_TAG_NAME -Value !APPVEYOR_REPO_TAG_NAME!
 	)
 endlocal

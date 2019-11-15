@@ -43,27 +43,17 @@ setlocal enableextensions enabledelayedexpansion
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
 
+        MSBuild.exe C:\projects\php-src\embeder\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-		rem xcopy %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
-
-        call vcvarsall.bat
-        MSBuild.exe embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
-        copy "Debug console\embeder.exe" "../out/console.exe" || exit /b 1
-        del /q /f ".\embeder2.exe" 2>nul
         IF NOT EXIST "php.exe" echo Error, PHP not found. && exit /b 1
         php.exe php/embeder2.php new embeder2
         php.exe php/embeder2.php main embeder2 php/embeder2.php
         php.exe php/embeder2.php add embeder2 out/console.exe out/console.exe
 
-
-		rem if not exist "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" exit /b 3
-		rem xcopy %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
-		rem xcopy %APPVEYOR_BUILD_FOLDER%\docs %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\docs\ /y /f
-		rem xcopy %APPVEYOR_BUILD_FOLDER%\php %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\examples\ /y /f
-		rem rem xcopy %APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
-		rem xcopy %APPVEYOR_BUILD_FOLDER%\build\ext\*.dll %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
-		rem 7z a php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\*
-		rem appveyor PushArtifact php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip -FileName php_winbinder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
-		rem move build\ext\php_winbinder.dll artifacts\php_winbinder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.dll
+		xcopy %APPVEYOR_BUILD_FOLDER%\build\ext\php_embeder.dll %APPVEYOR_BUILD_FOLDER%\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
+		rem xcopy %APPVEYOR_BUILD_FOLDER%\build\ext\*.dll %APPVEYOR_BUILD_FOLDER%\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
+		rem 7z a php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\*
+		rem appveyor PushArtifact php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip -FileName php_embeder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
+		rem move build\ext\php_embeder.dll artifacts\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.dll
 	)
 endlocal
