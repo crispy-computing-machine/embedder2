@@ -123,7 +123,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>php7embed.lib;php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerbose</ShowProgress>
       <Version>
       </Version>
