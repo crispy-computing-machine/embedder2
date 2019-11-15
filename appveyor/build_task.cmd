@@ -43,16 +43,16 @@ setlocal enableextensions enabledelayedexpansion
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
 
-        MSBuild.exe C:\projects\php-src\embeder\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
+        MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-        IF NOT EXIST "C:\projects\php-src\embeder\php.exe" echo Error, PHP not found. && exit /b 1
-        C:\projects\embeder2\build\php.exe C:\projects\php-src\embeder\php\embeder2.php new embeder2
-        C:\projects\embeder2\build\php.exe C:\projects\php-src\embeder\php\embeder2.php main embeder2 C:\projects\php-src\embeder\php\embeder2.php
-        C:\projects\embeder2\build\php.exe C:\projects\php-src\embeder\php\embeder2.php add embeder2 C:\projects\php-src\embeder\out\console.exe C:\projects\php-src\embeder\out\console.exe
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\php.exe" echo Error, PHP not found. && exit /b 1
+        %APPVEYOR_BUILD_FOLDER%\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new embeder2
+        %APPVEYOR_BUILD_FOLDER%\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
+        %APPVEYOR_BUILD_FOLDER%\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
 
 		xcopy %APPVEYOR_BUILD_FOLDER%\build\ %APPVEYOR_BUILD_FOLDER%\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\ /y /f
 		7z a php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%\*
 		appveyor PushArtifact php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip -FileName php_embeder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
-		move build\ext\php_embeder.dll artifacts\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%
+		rem move build\ext\php_embeder.dll artifacts\php_embeder-%PHP_REL%-!ZTS_SHORT!-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%
 	)
 endlocal
