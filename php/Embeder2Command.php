@@ -317,7 +317,7 @@ class Embeder2Command {
                 array_shift($temp);
                 array_shift($temp);
                 if (count($temp) !== count($actionData[1])) {
-                    $this->message("Bad number of parameters, '$action' needs: " . implode(', ', $actionData[1]), $error = true);
+                    $this->message('Bad number of parameters, ' . count($temp) . ' provided, ' . count($actionData[1]) . ' needed! "'. $action .'"  needs: ' . implode(', ', $actionData[1]), $error = true);
                 }
 
                 // Call Function
