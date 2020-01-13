@@ -12,7 +12,7 @@ This is the same for extensions, shared ones must be loaded via `php-embed.ini`
 ## Compiliation Requirements
 You'll need:
 
- * Microsoft Visual Studio 2012+ (2010 *might* work)
+ * Microsoft Visual Studio 2012 for PHP 5.6, 2015 for PHP 7.
  * PHP Source code w/ it being compilied
 
 ## How-To Compile
@@ -46,4 +46,4 @@ You're using an old version, `afxres.h` has been replaced by `winres.h`
 
 [Eric Colinet](mailto:e.colinet@laposte.net) - For the original concept & code!
 
-[RainbowDashDC](mailto:rainbowdashdc@mezgrman.de) - Mantaining the project, improving the features, and more!
+[Jared Allard](mailto:jaredallard@outlook.com) - Mantaining the project, improving the features, and more!

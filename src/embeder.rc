@@ -26,7 +26,8 @@ LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
 // PHP
 //
 
-RUN                     PHP     DISCARDABLE     "res\\run.php"
+RUN                     PHP     DISCARDABLE     "..\\php\\run.php"
+LIB                     PHP     DISCARDABLE     "..\\php\\lib.php"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

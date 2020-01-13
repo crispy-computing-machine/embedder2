@@ -31,7 +31,7 @@ setlocal enableextensions enabledelayedexpansion
 		git clone -q --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
 	)
 
-	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\ext\embedder2\ /s /e /y /f
+	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\embeder\ /s /e /y /f
 
 	rem xcopy %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\artifacts\ /y /f
 
@@ -44,5 +44,8 @@ setlocal enableextensions enabledelayedexpansion
 	if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw-w64 >NUL 2>NUL
 	if %errorlevel% neq 0 exit /b 3
 
+	if "%APPVEYOR_REPO_TAG_NAME%"=="" (
+		set APPVEYOR_REPO_TAG_NAME=%APPVEYOR_REPO_BRANCH%-%APPVEYOR_REPO_COMMIT:~0,8%
+		appveyor SetVariable -Name APPVEYOR_REPO_TAG_NAME -Value !APPVEYOR_REPO_TAG_NAME!
 	)
 endlocal

@@ -1,6 +1,11 @@
 src/*.sdf
 src/*.suo
-
+src/.vs
+*.dll
 out/
-
 src/Debug console
+src/Debug_console
+*.exe
+src/embeder.VC.VC.opendb
+src/embeder.VC.db
+src/embeder.aps

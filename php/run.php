@@ -4,7 +4,7 @@
 //
 //       License : PHP License (http://www.php.net/license/3_0.txt)
 //       Author : Eric Colinet <e dot colinet at laposte dot net>
-//       Author : Jared Allard <rainbowdashdc at mezgrman dot de>
+//       Author : Jared Allard <jaredallard at outlooke dot com>
 //       http://wildphp.free.fr/wiki/doku?id=win32std:embeder
 //========================================================================
 

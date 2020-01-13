@@ -41,19 +41,24 @@ setlocal enableextensions enabledelayedexpansion
 
 		if %errorlevel% neq 0 exit /b 3
 
-		rem cd /d %APPVEYOR_BUILD_FOLDER%
+		cd /d %APPVEYOR_BUILD_FOLDER%
 
-		rem call vcvarsall.bat
-        msbuild %APPVEYOR_BUILD_FOLDER%\embeder.sln
-        copy "%APPVEYOR_BUILD_FOLDER%\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\console.exe" || exit /b 1
-        popd
+        MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-        del /q /f "emebeder2.exe" 2>nul
-        IF NOT EXIST "php.exe" echo Error, PHP not found. && exit /b 1
-        php.exe php/embeder2.php new embeder2
-        php.exe php/embeder2.php main embeder2 php/embeder2.php
-        php.exe php/embeder2.php add embeder2 out/console.exe out/console.exe
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
+        rem%APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new embeder2
+        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
+        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
 
+		rem xcopy %APPVEYOR_BUILD_FOLDER% %APPVEYOR_BUILD_FOLDER%\embeder\ /y /f
+
+		rem Compiled PHP embedded
+		rem 7z a embedder.zip C:\obj\Release_TS\*
+
+		rem embed.exe that was built
+		7z a embedder.zip C:\projects\embedder\embeder2\build\*
+
+		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
 endlocal

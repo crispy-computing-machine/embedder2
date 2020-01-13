@@ -26,12 +26,11 @@
 /* Main */
 int main(int argc, char** argv) {
 	zval ret_value;
-	void ***tsrm_ls;
 	int exit_status;
-	char *eval_string= "include 'res:///PHP/RUN';";
+	char *eval_string = "include 'res:///PHP/LIB';";
 
 	/* Start PHP embed */
-	php_embed_init(argc, argv PTSRMLS_CC);
+	php_embed_init(argc, argv TSRMLS_CC);
 	zend_first_try {
 		PG(during_request_startup) = 0;
 		
