@@ -45,18 +45,24 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
+        rem Get https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
+        mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
+
+		rem @todo
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -i
+        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new %APPVEYOR_BUILD_FOLDER%\php\embeder2.exe
+        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
+        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
+
 		rem embed.exe that was built
 		echo Zipping Assets...
 		rem 7z a embedder.zip C:\projects\embeder2\src\Debug console\embeder.exe
 		rem 7z a embedder.zip C:\projects\embeder2\build\php7ts.dll
+		rem 7z a embedder.zip C:\projects\embeder2\build\php.exe
 		7z a embedder.zip C:\projects\*
 
-		rem @todo
-        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new embeder2
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
 
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
