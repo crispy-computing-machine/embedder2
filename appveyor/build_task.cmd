@@ -49,12 +49,18 @@ setlocal enableextensions enabledelayedexpansion
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
 
+        rem nmake ini to download res dll
+        type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension_dir="./ext" > php.ini
+        echo extension=php_win32std.dll >> php.ini
+
 		rem @todo
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -i
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new %APPVEYOR_BUILD_FOLDER%\php\embeder2.exe
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -i
+
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new %APPVEYOR_BUILD_FOLDER%\php\embeder2.exe
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
 
 		rem embed.exe that was built
 		echo Zipping Assets...
