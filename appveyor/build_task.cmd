@@ -57,7 +57,7 @@ setlocal enableextensions enabledelayedexpansion
 		rem 7z a embedder.zip C:\obj\Release_TS\*
 
 		rem embed.exe that was built
-		7z a embedder.zip C:\projects\embedder\*
+		7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\*
 
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
