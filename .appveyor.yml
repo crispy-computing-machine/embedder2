@@ -27,6 +27,6 @@ build_script:
   - appveyor\build.cmd
 
 artifacts:
-  - path: artifacts
+  - path: %APPVEYOR_BUILD_FOLDER%
     name: embeder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%
     type: zip
