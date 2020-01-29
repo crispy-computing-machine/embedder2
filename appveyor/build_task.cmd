@@ -45,7 +45,7 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
+        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
         rem%APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new embeder2
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
@@ -58,7 +58,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		rem embed.exe that was built
 		echo Zipping Build Directory %APPVEYOR_BUILD_FOLDER%
-		7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\*
+		7z a embedder.zip C:\projects\*
 
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
