@@ -29,7 +29,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		if %errorlevel% neq 0 exit /b 3
 
-		cmd /c configure.bat --disable-all --!ZTS_STATE!-zts --enable-embed --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR%
+		cmd /c configure.bat --disable-all --!ZTS_STATE!-zts --enable-embed --enable-cli --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR%
 
 		if %errorlevel% neq 0 exit /b 3
 
@@ -45,20 +45,18 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
+		rem embed.exe that was built
+		echo Zipping Assets...
+		rem 7z a embedder.zip C:\projects\embeder2\src\Debug console\embeder.exe
+		rem 7z a embedder.zip C:\projects\embeder2\build\php7ts.dll
+		7z a embedder.zip C:\projects\*
+
+		rem @todo
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
-        rem%APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new embeder2
+        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new embeder2
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main embeder2 %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add embeder2 %APPVEYOR_BUILD_FOLDER%\out\console.exe %APPVEYOR_BUILD_FOLDER%\out\console.exe
-
-		rem xcopy %APPVEYOR_BUILD_FOLDER% %APPVEYOR_BUILD_FOLDER%\embeder\ /y /f
-
-		rem Compiled PHP embedded
-		rem 7z a embedder.zip C:\obj\Release_TS\*
-
-		rem embed.exe that was built
-		echo Zipping Build Directory %APPVEYOR_BUILD_FOLDER%
-		7z a embedder.zip C:\projects\*
 
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
