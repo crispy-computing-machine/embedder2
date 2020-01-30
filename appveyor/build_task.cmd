@@ -52,7 +52,7 @@ setlocal enableextensions enabledelayedexpansion
         rem nmake ini to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir="%APPVEYOR_BUILD_FOLDER%\build\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_win32std.dll >> php.ini
+        echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		rem @todo
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
