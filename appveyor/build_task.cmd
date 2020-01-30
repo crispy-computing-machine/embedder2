@@ -53,7 +53,7 @@ setlocal enableextensions enabledelayedexpansion
 
         echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension_dir="%APPVEYOR_BUILD_FOLDER%\build\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
