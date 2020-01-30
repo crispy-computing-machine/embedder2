@@ -45,27 +45,31 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-        rem Get https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
+        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
 
-        rem nmake ini to download res dll
+        echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir="%APPVEYOR_BUILD_FOLDER%\build\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
-		rem @todo
+		echo Make embeder2.exe
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -i
-
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -m
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" %APPVEYOR_BUILD_FOLDER%\php\embeder2.php new %APPVEYOR_BUILD_FOLDER%\php\embeder2.exe
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" %APPVEYOR_BUILD_FOLDER%\php\embeder2.php main %APPVEYOR_BUILD_FOLDER%\php\embeder2.exe %APPVEYOR_BUILD_FOLDER%\php\embeder2.php
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" %APPVEYOR_BUILD_FOLDER%\php\embeder2.php add %APPVEYOR_BUILD_FOLDER%\php\embeder2.exe %APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe /out/console.exe
 
-		rem embed.exe that was built
 		echo Zipping Assets...
+
+		echo Adding: %APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe
 		7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe
+
+		echo Adding: %APPVEYOR_BUILD_FOLDER%\build\php7ts.dll
 		7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\php7ts.dll
+
+		echo Adding: %APPVEYOR_BUILD_FOLDER%\build\php.exe
 		7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\php.exe
 
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
