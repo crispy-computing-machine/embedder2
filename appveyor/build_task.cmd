@@ -65,14 +65,8 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Zipping Assets...
 
-		echo Zipping: "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-		7z a embedder.zip "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-
-		echo Zipping: %APPVEYOR_BUILD_FOLDER%\build\php7ts.dll
-		7z a embedder.zip "%APPVEYOR_BUILD_FOLDER%\build\php7ts.dll"
-
-		echo Zipping: %APPVEYOR_BUILD_FOLDER%\build\php.exe
-		7z a embedder.zip "%APPVEYOR_BUILD_FOLDER%\build\php.exe"
+        7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
+        rem @todo add win32std extension & directory
 
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
