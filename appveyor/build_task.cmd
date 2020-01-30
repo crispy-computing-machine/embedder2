@@ -65,8 +65,8 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Zipping Assets...
 
-		echo Zipping: %APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe
-		7z a embedder.zip "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe"
+		echo Zipping: "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
+		7z a embedder.zip "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
 
 		echo Zipping: %APPVEYOR_BUILD_FOLDER%\build\php7ts.dll
 		7z a embedder.zip "%APPVEYOR_BUILD_FOLDER%\build\php7ts.dll"
