@@ -47,3 +47,6 @@ You're using an old version, `afxres.h` has been replaced by `winres.h`
 [Eric Colinet](mailto:e.colinet@laposte.net) - For the original concept & code!
 
 [Jared Allard](mailto:jaredallard@outlook.com) - Mantaining the project, improving the features, and more!
+
+@see http://wildphp.free.fr/wiki/doku.php?id=win32std:embeder
+
