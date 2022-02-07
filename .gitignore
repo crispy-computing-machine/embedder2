@@ -9,3 +9,4 @@ src/Debug_console
 src/embeder.VC.VC.opendb
 src/embeder.VC.db
 src/embeder.aps
+.idea/*
