@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ae9c97a-dbd1-4d1a-8b0e-ba78dfe677df" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="2bed465e-2062-43fa-9153-c403fc5987c7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,13 +10,8 @@
   <component name="ComposerSettings">
     <execution />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1T6jhURYGLuj2LALakX5QRQoPGO" />
+  <component name="ProjectId" id="25QZL40motudGU3PFfFhuWAm3JY" />
   <component name="ProjectViewState">
-    <option name="autoscrollFromSource" value="true" />
-    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
@@ -26,41 +19,22 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="PHP" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\embedder2" />
-    </key>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5ae9c97a-dbd1-4d1a-8b0e-ba78dfe677df" name="Default Changelist" comment="" />
-      <created>1572787558983</created>
+      <changelist id="2bed465e-2062-43fa-9153-c403fc5987c7" name="Changes" comment="" />
+      <created>1645461211927</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1572787558983</updated>
-      <workItem from="1572787560152" duration="1816000" />
-      <workItem from="1638794636022" duration="855000" />
+      <updated>1645461211927</updated>
+      <workItem from="1645461214249" duration="16000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="-1180" y="287" key="FileChooserDialogImpl" timestamp="1603706373776">
-      <screen x="-1920" y="9" width="1920" height="1040" />
-    </state>
-    <state x="-1180" y="287" key="FileChooserDialogImpl/1920.318.1366.728/0.0.1920.1040/-1920.9.1920.1040@-1920.9.1920.1040" timestamp="1603706373776" />
-    <state x="740" y="278" key="FileChooserDialogImpl/1920.318.1366.728/0.0.1920.1040/-1920.9.1920.1040@0.0.1920.1040" timestamp="1595874299297" />
   </component>
 </project>

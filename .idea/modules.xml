@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/embedder2.iml" filepath="$PROJECT_DIR$/.idea/embedder2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/embeder2.iml" filepath="$PROJECT_DIR$/.idea/embeder2.iml" />
     </modules>
   </component>
 </project>
