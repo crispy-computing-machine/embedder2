@@ -46,6 +46,8 @@ int main(int argc, char **argv)
              * Try a different line instead */
             exit(retval);
          } zend_end_try();
+
     PHP_EMBED_END_BLOCK();
+
     exit(retval);
 }
