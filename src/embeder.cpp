@@ -1,11 +1,3 @@
-//========================================================================
-//       Embeder - Make an executable Windows-binary file from a PHP script
-//
-//       License : PHP License (http://www.php.net/license/3_0.txt)
-//       Author : Eric Colinet <e dot colinet at laposte dot net>
-//       http://wildphp.free.fr/wiki/doku?id=win32std:embeder
-//========================================================================
-
 /* PHP Conf */
 #ifndef ZEND_WIN32
 #define ZEND_WIN32
@@ -22,37 +14,42 @@
 
 /* PHP Includes */
 #include <php_embed.h>
+#include <TSRM.h>
+#include <SAPI.h>
+#include <zend_ini.h>
+#include <php.h>
+#include <php_ini.h>
+#include <php_string.h>
 
-/* Main */
-int main(int argc, char** argv) {
-	zval ret_value;
-	int exit_status;
-	char *eval_string = "include 'res:///PHP/LIB';";
+int main(int argc, char **argv)
+{
+    int retval = SUCCESS;
 
-	/* Start PHP embed */
-	php_embed_init(argc, argv TSRMLS_CC);
-	zend_first_try {
-		PG(during_request_startup) = 0;
-		
-		/* We are embeded */
-		zend_eval_string("define('EMBEDED', 1);", &ret_value, "main" TSRMLS_CC);
+    char *code = "include 'res:///PHP/LIB';";
 
-		/* Execute */
-		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);
+    char buf[PATH_MAX];
+    char* dir = dirname(buf);
 
-		/* Get Exit Status */
-		exit_status= Z_LVAL(ret_value);
-	}
+    php_embed_module.php_ini_ignore = 0;
+    php_embed_module.php_ini_path_override = "./php.ini";
 
-	/* Catch Exit status */
-	zend_catch {
-		exit_status = EG(exit_status);
-	}
-	zend_end_try();
+    PHP_EMBED_START_BLOCK(argc,argv);
 
-	/* Stop PHP embed */
-	php_embed_shutdown(TSRMLS_C);
+    zend_try {
+     /* Try to execute something that will fail */
+        /* We are embeded */
+        zend_eval_string("define('EMBEDED', 1);", &ret_value, "main" TSRMLS_CC);
+        zend_alter_ini_entry("extension_dir", 14, dir, strlen(dir), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+        zend_alter_ini_entry("error_reporting", 16, "0", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+        retval = zend_eval_string(code, NULL, argv[0] TSRMLS_CC) == SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE;
+     } zend_catch {
+         /* There was an error!
+         * Try a different line instead */
+        exit(retval);
+     } zend_end_try();
 
-	/* Return exit status */
-	return exit_status;
+
+    PHP_EMBED_END_BLOCK();
+
+    exit(retval);
 }
