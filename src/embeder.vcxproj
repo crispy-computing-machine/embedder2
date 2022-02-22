@@ -3,7 +3,7 @@
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug console|Win32">
       <Configuration>Debug console</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
