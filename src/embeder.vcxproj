@@ -29,7 +29,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug console|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\projects\php-src\main;C:\projects\php-src\include\TSRM;C:\projects\php-src\include\Zend;C:\projects\php-src\include\ext\standard;C:\projects\php-src\sapi\embed;C:\projects\php-src\include\;$(IncludePath)</IncludePath>
+    <IncludePath>C:\projects\php-src\main;C:\projects\php-src\TSRM;C:\projects\php-src\Zend;C:\projects\php-src\ext\standard;C:\projects\php-src\sapi\embed;C:\projects\php-src\include\;$(IncludePath)</IncludePath>
     <LibraryPath>C:\projects\php-src\Release_TS;$(LibraryPath)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
     <GenerateManifest>true</GenerateManifest>

@@ -14,12 +14,6 @@
 
 /* PHP Includes */
 #include <php_embed.h>
-#include <TSRM.h>
-#include <SAPI.h>
-#include <zend_ini.h>
-#include <php.h>
-#include <php_ini.h>
-#include <php_string.h>
 
 int main(int argc, char **argv)
 {
