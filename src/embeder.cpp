@@ -13,7 +13,6 @@
 #endif
 
 /* PHP Includes */
-#include "stdafx.h"
 #include <sapi/embed/php_embed.h>
 #include <TSRM.h>
 #include <SAPI.h>
