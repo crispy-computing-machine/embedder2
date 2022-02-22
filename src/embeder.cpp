@@ -14,7 +14,7 @@
 
 /* PHP Includes */
 #include "php.h"
-#include <php_embed.h>
+#include "php_embed.h"
 
 int main(int argc, char **argv)
 {

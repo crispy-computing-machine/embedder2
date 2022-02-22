@@ -46,7 +46,7 @@ setlocal enableextensions enabledelayedexpansion
 
         ls -ltha %DEPS_DIR%\lib
         ls -ltha %DEPS_DIR%\include
-
+        ls %PHP_BUILD_OBJ_DIR%\Release_TS\
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
         rem 7.2 version
