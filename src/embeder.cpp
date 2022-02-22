@@ -38,7 +38,11 @@ int main(int argc, char **argv)
         zend_eval_string("define('EMBEDED', 1);", retval, "main" TSRMLS_CC);
         // zend_alter_ini_entry("extension_dir", 14, dir, strlen(dir), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
         // zend_alter_ini_entry("error_reporting", 16, "0", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-        retval = zend_eval_string(code, NULL, (char *)"" TSRMLS_CC) == SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE;
+        retval = zend_eval_string(
+                                code,
+                                 NULL,
+                                  (char *)"" TSRMLS_CC
+                                  ) == SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE;
      } zend_catch {
          /* There was an error!
          * Try a different line instead */
