@@ -42,7 +42,7 @@ setlocal enableextensions enabledelayedexpansion
 		if %errorlevel% neq 0 exit /b 3
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
-
+        tree C:\obj\Release_TS\sapi\embed\
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1

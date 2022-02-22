@@ -13,7 +13,7 @@
 #endif
 
 /* PHP Includes */
-# include "sapi/embed/php_embed.h"
+#include <sapi/embed/php_embed.h>
 #include <TSRM.h>
 #include <SAPI.h>
 #include <zend_ini.h>
