@@ -44,13 +44,7 @@ setlocal enableextensions enabledelayedexpansion
 		cd /d %APPVEYOR_BUILD_FOLDER%
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-        rem C:\projects\php-src\main;
-        ls -ltha C:\projects\php-src\TSRM;
-        ls -ltha C:\projects\php-src\Zend;
-        ls -ltha C:\projects\php-src\ext\standard;
-        ls -ltha C:\projects\php-src\sapi\embed;
-        echo "cache directory: "
-        ls -ltha c:\build-cache
+        ls -ltha DEPS_DIR
 
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
