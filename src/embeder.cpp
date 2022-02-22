@@ -9,7 +9,7 @@
     #define ZTS 1
 #endif
 #ifndef ZEND_DEBUG
-    #define ZEND_DEBUG 0
+    #define ZEND_DEBUG 1
 #endif
 
 /* PHP Includes */
