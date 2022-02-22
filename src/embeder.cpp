@@ -1,19 +1,19 @@
 /* PHP Conf */
 #ifndef ZEND_WIN32
-#define ZEND_WIN32
+    #define ZEND_WIN32
 #endif
 #ifndef PHP_WIN32
-#define PHP_WIN32
+    #define PHP_WIN32
 #endif
 #ifndef ZTS
-#define ZTS 1
+    #define ZTS 1
 #endif
 #ifndef ZEND_DEBUG
-#define ZEND_DEBUG 0
+    #define ZEND_DEBUG 0
 #endif
 
 /* PHP Includes */
-#include <sapi/embed/php_embed.h>
+#include <php_embed.h>
 #include <TSRM.h>
 #include <SAPI.h>
 #include <zend_ini.h>
