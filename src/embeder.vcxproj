@@ -87,7 +87,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <SubSystem>Console</SubSystem>
       <OutputFile>out/console.exe</OutputFile>
-      <AdditionalDependencies>php7embed.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>php7embed.lib;php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug console|Win32'">
@@ -123,7 +123,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>C:\obj\Release\php7embed.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\obj\Release\php7embed.lib;C:\obj\Release\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerbose</ShowProgress>
       <Version>
       </Version>
