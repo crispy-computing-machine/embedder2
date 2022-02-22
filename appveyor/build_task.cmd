@@ -44,7 +44,8 @@ setlocal enableextensions enabledelayedexpansion
 		cd /d %APPVEYOR_BUILD_FOLDER%
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
-        ls -ltha %DEPS_DIR%
+        ls -ltha %DEPS_DIR%\lib
+        ls -ltha %DEPS_DIR%\include
 
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
