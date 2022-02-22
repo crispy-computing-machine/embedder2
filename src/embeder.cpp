@@ -27,20 +27,17 @@ int main(int argc, char **argv)
 
     char *code = "include 'res:///PHP/LIB';";
 
-    char buf[PATH_MAX];
-    char* dir = dirname(buf);
-
     php_embed_module.php_ini_ignore = 0;
     php_embed_module.php_ini_path_override = "./php.ini";
 
     PHP_EMBED_START_BLOCK(argc,argv);
 
     zend_try {
-     /* Try to execute something that will fail */
+        /* Try to execute something that will fail */
         /* We are embeded */
-        zend_eval_string("define('EMBEDED', 1);", &ret_value, "main" TSRMLS_CC);
-        zend_alter_ini_entry("extension_dir", 14, dir, strlen(dir), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-        zend_alter_ini_entry("error_reporting", 16, "0", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+        zend_eval_string("define('EMBEDED', 1);", &retval, "main" TSRMLS_CC);
+        // zend_alter_ini_entry("extension_dir", 14, dir, strlen(dir), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+        // zend_alter_ini_entry("error_reporting", 16, "0", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
         retval = zend_eval_string(code, NULL, argv[0] TSRMLS_CC) == SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE;
      } zend_catch {
          /* There was an error!
