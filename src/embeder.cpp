@@ -13,13 +13,15 @@
 #endif
 
 /* PHP Includes */
-#include <sapi/embed/php_embed.h>
+#include <php_embed.h>
 #include <TSRM.h>
 #include <SAPI.h>
 #include <zend_ini.h>
 #include <php.h>
 #include <php_ini.h>
 #include <php_string.h>
+#include <unistd.h>
+#include <libgen.h>
 
 int main(int argc, char **argv)
 {
