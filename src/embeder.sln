@@ -8,13 +8,10 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug console|Win32 = Debug console|Win32
-		Release console|Win32 = Release console|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FE462DB2-5991-467A-9C5C-4BEC5598AF21}.Debug console|Win32.ActiveCfg = Debug console|Win32
 		{FE462DB2-5991-467A-9C5C-4BEC5598AF21}.Debug console|Win32.Build.0 = Debug console|Win32
-		{FE462DB2-5991-467A-9C5C-4BEC5598AF21}.Release console|Win32.ActiveCfg = Release console|Win32
-		{FE462DB2-5991-467A-9C5C-4BEC5598AF21}.Release console|Win32.Build.0 = Release console|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
