@@ -20,7 +20,6 @@
 #include <php.h>
 #include <php_ini.h>
 #include <php_string.h>
-#include <libgen.h>
 
 int main(int argc, char **argv)
 {
