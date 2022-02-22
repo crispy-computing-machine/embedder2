@@ -28,5 +28,5 @@ build_script:
 
 artifacts:
   - path: artifacts
-    name: embeder-%APPVEYOR_REPO_TAG_NAME%-%PHP_REL%
+    name: embedder%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
     type: zip

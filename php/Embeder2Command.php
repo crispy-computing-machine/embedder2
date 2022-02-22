@@ -57,7 +57,7 @@ class Embeder2Command {
      * Help banner
      */
     public function banner() {
-        echo strtolower(basename($this->argv[0])). ' ' .(defined('EMBEDED')?'(embeded) ':'').'- Powered by PHP version '. PHP_VERSION . PHP_EOL;
+        echo "Powered by PHP Embedded (".(var_export(defined('EMBEDED'),TRUE)).") " . phpversion() . "(".(PHP_INT_SIZE === 4 ? '32bit' : '64bit').")" . "\n";
     }
 
     /**
