@@ -49,7 +49,8 @@ setlocal enableextensions enabledelayedexpansion
 		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
         IF EXIST %BUILT_FILE% echo Embeder has been built.
-
+        copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+        set EMBEDER_STUB = "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe";
         rem output folder now prepended with x64 path
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -68,22 +69,19 @@ setlocal enableextensions enabledelayedexpansion
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-		echo List build files and built php config
+		echo List built php config
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -m
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-        echo Make embeder2.exe
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\out\console.exe"
-        copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
-        copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
+        echo Add Embedder.php file and stub.exe to embeder2.exe
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe" "out/console.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		echo Zipping Assets...
-        7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\*
+        7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
         rem @todo add win32std extension & directory
 		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\embedder.zip -FileName embedder%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
 	)
