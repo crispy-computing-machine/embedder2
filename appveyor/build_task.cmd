@@ -51,7 +51,7 @@ setlocal enableextensions enabledelayedexpansion
             echo Not path to embeder?
         )
 
-        copy %BUILT_EMBEDER%
+        copy %BUILT_EMBEDER% "%APPVEYOR_BUILD_FOLDER%\build\"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -79,6 +79,9 @@ setlocal enableextensions enabledelayedexpansion
 		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\embedder.zip -FileName embedder%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
 
 		7z a %APPVEYOR_BUILD_FOLDER%\build.zip C:\projects\php-src\*
+		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\build.zip -FileName php-build-dev-%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
+
+		7z a %APPVEYOR_BUILD_FOLDER%\build.zip C:\projects\embeder2\*
 		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\build.zip -FileName embedder-build-dev-%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
 	)
 endlocal
