@@ -77,5 +77,11 @@ setlocal enableextensions enabledelayedexpansion
 		echo Zipping Assets...
         7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
 		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\embedder.zip -FileName embedder%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
+
+        7z a %APPVEYOR_BUILD_FOLDER%\projects.zip C:\projects\*
+		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\projects.zip -FileName projects.zip
+
+        7z a build.zip %APPVEYOR_BUILD_FOLDER%\*
+		appveyor PushArtifact build.zip -FileName build.zip
 	)
 endlocal
