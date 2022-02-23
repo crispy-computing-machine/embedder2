@@ -74,8 +74,8 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\out\console.exe"
-        copy BUILT_FILE "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
-        copy BUILT_FILE "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
+        copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+        copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
