@@ -13,7 +13,7 @@
     <ResourceCompile Include="embeder.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\php.ico" />
+    <Image Include="res\mainicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

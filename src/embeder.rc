@@ -62,7 +62,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_PHPICON             ICON    DISCARDABLE     "res\\php.ico"
+IDI_PHPICON             ICON    DISCARDABLE     "res\\mainicon.ico"
 #endif    // French (France) resources
 /////////////////////////////////////////////////////////////////////////////
 

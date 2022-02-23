@@ -21,8 +21,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../win32std" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/res" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embeder2\src\res" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -33,7 +38,7 @@
       <option name="presentableId" value="Default" />
       <updated>1645461211927</updated>
       <workItem from="1645461214249" duration="2959000" />
-      <workItem from="1645603510380" duration="8908000" />
+      <workItem from="1645603510380" duration="10048000" />
     </task>
     <servers />
   </component>

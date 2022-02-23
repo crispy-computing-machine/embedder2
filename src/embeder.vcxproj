@@ -99,7 +99,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\projects\embeder2\src\res\php.ico" />
+    <Image Include="C:\projects\embeder2\src\res\mainicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\projects\embeder2\src\res\run.php" />

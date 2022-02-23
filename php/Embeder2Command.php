@@ -67,9 +67,11 @@ class Embeder2Command {
      * @param bool $error
      */
     public function message($message, $error = false) {
-        echo $message . PHP_EOL;
         if($error){
-            die();
+            $this->banner();
+            die($message);
+        } else {
+            echo $message . PHP_EOL;
         }
     }
 
