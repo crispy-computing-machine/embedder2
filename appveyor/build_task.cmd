@@ -54,13 +54,13 @@ setlocal enableextensions enabledelayedexpansion
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
         sleep 10
 
-        set BUILT_EMBEDER = C:\projects\embeder2\src\x64\Debug console\embeder.exe
+        set BUILT_EMBEDER = "C:\projects\embeder2\src\x64\Debug console\embeder.exe"
         if not exist "%BUILT_EMBEDER%" (
-            echo %BUILT_EMBEDER%
+            echo "%BUILT_EMBEDER%"
             echo Not path to embeder?
         )
         rem copy and rename embed stub
-        copy %BUILT_EMBEDER% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+        copy "%BUILT_EMBEDER%" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
