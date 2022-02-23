@@ -47,7 +47,7 @@ setlocal enableextensions enabledelayedexpansion
 		cd /d %APPVEYOR_BUILD_FOLDER%
 		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\x64\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
-        IF EXIST %BUILT_FILE% echo Embeder has been built. && exit /b 1
+        IF EXIST %BUILT_FILE% echo Embeder has been built.
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
