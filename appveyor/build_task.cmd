@@ -43,22 +43,22 @@ setlocal enableextensions enabledelayedexpansion
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-		cd /d %APPVEYOR_BUILD_FOLDER%
-        MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
-        set BUILT_EMBEDER = %APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe
-        if not exist "%BUILT_EMBEDER%" (
-            echo %BUILT_EMBEDER%
-            echo Not path to embeder?
-        )
-
-        copy %BUILT_EMBEDER% "%APPVEYOR_BUILD_FOLDER%\build\"
-
-        echo ---------------------------------------------------------------------------------------------------------------------------------------------
-        echo ---------------------------------------------------------------------------------------------------------------------------------------------
         rem 7.4 version
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php_win32std-x64-7.4-ts-vc15-x64/php_win32std.dll
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php_win32std-x64-7.4-ts-vc15-x64/php_win32std.dll
+
+        echo ---------------------------------------------------------------------------------------------------------------------------------------------
+        echo ---------------------------------------------------------------------------------------------------------------------------------------------
+		cd /d %APPVEYOR_BUILD_FOLDER%
+        MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
+        set BUILT_EMBEDER = "C:\projects\embeder2\src\x64\Debug console\embeder.exe"
+        if not exist "%BUILT_EMBEDER%" (
+            echo %BUILT_EMBEDER%
+            echo Not path to embeder?
+        )
+        rem copy and rename embed stub
+        copy %BUILT_EMBEDER% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -69,19 +69,14 @@ setlocal enableextensions enabledelayedexpansion
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "embeder2.exe" "embeder2.exe%" "out/console.exe"
+        copy %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "embeder2.exe%" "out/console.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		echo Zipping Assets...
-        7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\build*
+        7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
 		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\embedder.zip -FileName embedder%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
-
-		7z a %APPVEYOR_BUILD_FOLDER%\build.zip C:\projects\php-src\*
-		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\build.zip -FileName php-build-dev-%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
-
-		7z a %APPVEYOR_BUILD_FOLDER%\build.zip C:\projects\embeder2\*
-		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\build.zip -FileName embedder-build-dev-%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
 	)
 endlocal
