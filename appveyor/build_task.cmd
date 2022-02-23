@@ -50,10 +50,10 @@ setlocal enableextensions enabledelayedexpansion
         rem echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
 
         rem 7.4 version
-        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php7.4.16/php_win32std.dll
+        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php_win32std-x64-7.4-ts-vc15-x64/php_win32std.dll
 
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php7.4.16/php_win32std.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php_win32std-x64-7.4-ts-vc15-x64/php_win32std.dll
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -64,6 +64,7 @@ setlocal enableextensions enabledelayedexpansion
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		echo Make embeder2.exe
+		ls -ltha "%APPVEYOR_BUILD_FOLDER%\src\Debug console\"
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -m
         copy "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
