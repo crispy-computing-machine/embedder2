@@ -21,7 +21,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../windows-framework" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../win32std" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -39,7 +39,7 @@
       <updated>1645461211927</updated>
       <workItem from="1645461214249" duration="2959000" />
       <workItem from="1645603510380" duration="10344000" />
-      <workItem from="1645614068421" duration="8980000" />
+      <workItem from="1645614068421" duration="12136000" />
     </task>
     <servers />
   </component>

@@ -64,6 +64,7 @@ setlocal enableextensions enabledelayedexpansion
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo error_reporting=E_ALL > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
