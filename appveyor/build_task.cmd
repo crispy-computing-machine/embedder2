@@ -41,12 +41,12 @@ setlocal enableextensions enabledelayedexpansion
 
 		if %errorlevel% neq 0 exit /b 3
 		set PHP_BUILT = "%APPVEYOR_BUILD_FOLDER%\build\php.exe"
-        IF EXIST PHP_BUILT echo PHP has been built.
+        IF EXIST %PHP_BUILT% echo PHP has been built.
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		cd /d %APPVEYOR_BUILD_FOLDER%
-		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe
+		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
         IF EXIST %BUILT_FILE% echo Embeder has been built.
         copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
@@ -69,13 +69,23 @@ setlocal enableextensions enabledelayedexpansion
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-		echo List built php config
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -m
-
+		echo Built?
+        if not exist "%BUILT_FILE%" (
+            echo Embedder not built!
+            ls -ltha "%APPVEYOR_BUILD_FOLDER%\build\"
+            exit /b 3
+        )
+        if not exist "%PHP_BUILT%" (
+            echo PHP not built!
+            ls -ltha "%APPVEYOR_BUILD_FOLDER%\build\"
+            exit /b 3
+        )
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-        echo Add Embedder.php file and stub.exe to embeder2.exe
+        echo %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%EMBEDER_STUB%" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%EMBEDER_STUB%" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
+
+        echo %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%EMBEDER_STUB%" "%EMBEDER_STUB%" "out/console.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%EMBEDER_STUB%" "%EMBEDER_STUB%" "out/console.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
