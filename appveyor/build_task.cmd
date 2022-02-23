@@ -40,19 +40,13 @@ setlocal enableextensions enabledelayedexpansion
 		nmake install
 
 		if %errorlevel% neq 0 exit /b 3
-		set PHP_BUILT = "%APPVEYOR_BUILD_FOLDER%\build\php.exe"
-        IF EXIST %PHP_BUILT% echo PHP has been built.
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		cd /d %APPVEYOR_BUILD_FOLDER%
-		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
-        IF EXIST %BUILT_FILE% echo Embeder has been built.
-        copy %BUILT_FILE% "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
-        set EMBEDER_STUB = "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe";
-        rem output folder now prepended with x64 path
-
+        ls -ltha %APPVEYOR_BUILD_FOLDER%
+        
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         rem 7.4 version
@@ -69,19 +63,6 @@ setlocal enableextensions enabledelayedexpansion
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
-		echo Built?
-        if not exist "%BUILT_FILE%" (
-            echo Embedder not built!
-            ls -ltha "%APPVEYOR_BUILD_FOLDER%\build\"
-            exit /b 3
-        )
-        if not exist "%PHP_BUILT%" (
-            echo PHP not built!
-            ls -ltha "%APPVEYOR_BUILD_FOLDER%\build\"
-            exit /b 3
-        )
-        echo ---------------------------------------------------------------------------------------------------------------------------------------------
-        echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%EMBEDER_STUB%" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -f "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%EMBEDER_STUB%" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
 
@@ -91,8 +72,7 @@ setlocal enableextensions enabledelayedexpansion
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		echo Zipping Assets...
-        7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
-        rem @todo add win32std extension & directory
+        7z a %APPVEYOR_BUILD_FOLDER%\embedder.zip %APPVEYOR_BUILD_FOLDER%\*
 		appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\embedder.zip -FileName embedder%PHP_REL%-%PHP_BUILD_CRT%-%PHP_SDK_ARCH%.zip
 	)
 endlocal
