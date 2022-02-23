@@ -6,7 +6,7 @@ IF NOT EXIST "out/" MD "out/"
 REM Build Embeder
 pushd "src"
 call vcvarsall.bat
-MSBuild.exe embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
+MSBuild.exe embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
 copy "Debug console\embeder.exe" "../out/console.exe" || exit /b 1
 popd
 

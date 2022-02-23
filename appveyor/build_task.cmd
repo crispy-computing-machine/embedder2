@@ -42,7 +42,7 @@ setlocal enableextensions enabledelayedexpansion
 		if %errorlevel% neq 0 exit /b 3
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
-        MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
+        MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
 
         ls -ltha %DEPS_DIR%\lib
         ls -ltha %DEPS_DIR%\include
