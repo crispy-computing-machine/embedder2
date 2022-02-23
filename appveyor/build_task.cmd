@@ -40,14 +40,14 @@ setlocal enableextensions enabledelayedexpansion
 		nmake install
 
 		if %errorlevel% neq 0 exit /b 3
-        IF EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo PHP has been built. && exit /b 1
+        IF EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo PHP has been built.
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		cd /d %APPVEYOR_BUILD_FOLDER%
 		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\x64\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
-        IF NOT EXIST %BUILT_FILE% echo Error, Embeder not found. && exit /b 1
+        IF EXIST %BUILT_FILE% echo Embeder has been built. && exit /b 1
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
