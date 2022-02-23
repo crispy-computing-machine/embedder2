@@ -1,4 +1,4 @@
-@echo off
+@echo on
 setlocal enableextensions enabledelayedexpansion
 
 	cd /D %APPVEYOR_BUILD_FOLDER%
@@ -52,6 +52,8 @@ setlocal enableextensions enabledelayedexpansion
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		cd /d %APPVEYOR_BUILD_FOLDER%
         MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
+        sleep 10
+
         set BUILT_EMBEDER = C:\projects\embeder2\src\x64\Debug console\embeder.exe
         if not exist "%BUILT_EMBEDER%" (
             echo %BUILT_EMBEDER%
