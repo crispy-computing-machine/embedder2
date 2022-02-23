@@ -40,13 +40,17 @@ setlocal enableextensions enabledelayedexpansion
 		nmake install
 
 		if %errorlevel% neq 0 exit /b 3
+        IF EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo PHP has been built. && exit /b 1
 
+        echo ---------------------------------------------------------------------------------------------------------------------------------------------
+        echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		cd /d %APPVEYOR_BUILD_FOLDER%
-        MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
+		set BUILT_FILE = %APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe
+        MSBuild.exe -detailedSummary %APPVEYOR_BUILD_FOLDER%\src\x64\embeder.sln /p:Configuration="Debug console" /p:Platform="x64"
+        IF NOT EXIST %BUILT_FILE% echo Error, Embeder not found. && exit /b 1
 
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        copy "Debug console\embeder.exe" "../out/console.exe" || exit /b 1
-
+        echo ---------------------------------------------------------------------------------------------------------------------------------------------
+        echo ---------------------------------------------------------------------------------------------------------------------------------------------
         rem 7.4 version
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php_win32std-x64-7.4-ts-vc15-x64/php_win32std.dll
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
@@ -62,8 +66,6 @@ setlocal enableextensions enabledelayedexpansion
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
 		echo List build files and built php config
-		ls -ltha %APPVEYOR_BUILD_FOLDER%\\build\\
-		ls -ltha C:\\obj\\Release_TS\\Debug_console\\
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -m
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,10 +73,9 @@ setlocal enableextensions enabledelayedexpansion
         echo Make embeder2.exe
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "out/console.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\x64\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\out\console.exe"
+        copy BUILT_FILE "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+        copy BUILT_FILE "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
 
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
         echo ---------------------------------------------------------------------------------------------------------------------------------------------
