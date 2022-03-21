@@ -109,6 +109,7 @@ class Embeder2Command {
      *
      * @param $exeFile - Full path and extension
      * @param $newFile - Full path and extension
+     * @return bool
      */
     public function add_main($exeFile, $newFile) {
 
@@ -116,7 +117,7 @@ class Embeder2Command {
         $this->check_exe($exeFile, false);
 
         $this->message('Adding main file ' . $newFile . ' to ' . $exeFile);
-        $this->update_resource($exeFile, 'PHP', 'RUN', file_get_contents($newFile), 1036);
+        return $this->update_resource($exeFile, 'PHP', 'RUN', file_get_contents($newFile), 1036);
     }
 
     /**
@@ -125,13 +126,14 @@ class Embeder2Command {
      * @param $exeFile - Full path and extension
      * @param $newFile - Full path and extension
      * @param $alias
+     * @return bool
      */
     public function add_file($exeFile, $newFile, $alias) {
 
         $this->check_exe($exeFile);
         $md5 = md5($alias);
-        $this->message('Adding aditional file ' . $newFile . ' to ' . $exeFile . ' as ' . $md5);
-        $this->update_resource($exeFile, 'PHP', $md5, file_get_contents($newFile));
+        $this->message('Adding additional file ' . $newFile . ' to ' . $exeFile . ' as ' . $md5);
+        return $this->update_resource($exeFile, 'PHP', $md5, file_get_contents($newFile));
     }
 
     /**
@@ -193,6 +195,7 @@ class Embeder2Command {
      * @param $name
      * @param $data
      * @param null $lang
+     * @return bool
      */
     public function update_resource($exeFile, $section, $name, $data, $lang=null) {
 
@@ -200,11 +203,13 @@ class Embeder2Command {
         $res = "res:///$section/$name";
 
         // Set resource
-        if(!res_set($exeFile, $section, $name, $data, $lang)) {
+        $reset = res_set($exeFile, $section, $name, $data, $lang);
+        if(!$reset) {
             $this->message("Can't update " . $res, $error = true);
         }
 
         $this->message("Updated '" . $exeFile . "' -> '" . $res . "' (" . strlen($data) . ' bytes)');
+        return $reset;
     }
 
     /**
