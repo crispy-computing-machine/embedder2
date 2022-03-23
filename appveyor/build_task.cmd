@@ -51,9 +51,7 @@ setlocal enableextensions enabledelayedexpansion
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/latest.zip
 
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\latest.zip" https://github.com/crispy-computing-machine/win32std/releases/download/latest/latest.zip
-        echo Extracting "%APPVEYOR_BUILD_FOLDER%\build\ext\latest.zip"
-        powershell Expand-Archive "%APPVEYOR_BUILD_FOLDER%\build\ext\latest.zip" "%APPVEYOR_BUILD_FOLDER%\build\ext\"
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/latest.zip
 
         echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
