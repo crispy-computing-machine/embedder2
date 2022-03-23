@@ -19,7 +19,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../win32std" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../web/eshop-framework" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -37,6 +37,7 @@
       <updated>1645461211927</updated>
       <workItem from="1645461214249" duration="2959000" />
       <workItem from="1647857910385" duration="388000" />
+      <workItem from="1648031589495" duration="1112000" />
     </task>
     <servers />
   </component>
