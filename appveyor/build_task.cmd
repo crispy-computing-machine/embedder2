@@ -51,7 +51,7 @@ setlocal enableextensions enabledelayedexpansion
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/latest.zip
 
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/latest.zip
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php7.4.16/php_win32std.dll
 
         echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
