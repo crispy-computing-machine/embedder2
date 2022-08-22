@@ -20,6 +20,28 @@ setlocal enableextensions enabledelayedexpansion
 
     set BUILD_TYPE=Debug
 
+    if "%APPVEYOR%" equ "True" rmdir /s /q C:\cygwin >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q C:\cygwin64 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw-w64 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q C:\msys64 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-Win32 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-Win64 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-v11-Win32 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-v11-Win64 >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" del /f /q C:\Windows\System32\libcrypto-1_1-x64.dll >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
+    if "%APPVEYOR%" equ "True" del /f /q C:\Windows\System32\libssl-1_1-x64.dll >NUL 2>NUL
+    if %errorlevel% neq 0 exit /b 3
 
 	for %%z in (%ZTS_STATES%) do (
 		set ZTS_STATE=%%z
@@ -66,7 +88,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Make embeder2.exe
 
-        copy "%APPVEYOR_BUILD_FOLDER%\build\php.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
