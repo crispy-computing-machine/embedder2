@@ -45,6 +45,8 @@
     <OutDir>.\Release_console\</OutDir>
     <IntDir>.\Release_console\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\php-src\main;..\..\php-src\TSRM;..\..\php-src\Zend;..\..\php-src\ext\standard;..\..\php-src\sapi\embed;..\..\php-src;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\php-src\Release_TS;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug console|Win32'">
     <LinkIncremental>true</LinkIncremental>
