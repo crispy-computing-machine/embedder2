@@ -62,13 +62,15 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
-        rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" -m
+        ls "%APPVEYOR_BUILD_FOLDER%\src\Release console\"
         copy "%APPVEYOR_BUILD_FOLDER%\src\Release console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\Release console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\Release console\embeder.exe" "out/console.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
+        if %errorlevel% neq 0 exit /b 3
 
         rem Quick cleanup
         del %APPVEYOR_BUILD_FOLDER%\build\php.exe
