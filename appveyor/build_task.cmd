@@ -48,13 +48,13 @@ setlocal enableextensions enabledelayedexpansion
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
         rem 7.2 version
-        rem echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/dll/php_win32std.dll
+        rem echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
 
         rem 7.4 version
-        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php7.4.16/php_win32std.dll
+        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
 
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php7.4.16/php_win32std.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
 
         echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"

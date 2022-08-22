@@ -5,9 +5,9 @@ From there is uses `win32std` to access a PHP file and run it from it's internal
 
 ## Limitations
 
-Currently, there is one *major* limitation: It does not embed PHP *completely*, rather it ouputs PHP into a DLL, as of now called php5ts.dll
+Currently, there is one *major* limitation: It does not embed PHP *completely*, rather it ouputs PHP into a DLL, as of now called php7ts.dll
 
-This is the same for extensions, shared ones must be loaded via `php-embed.ini`
+This is the same for extensions, shared ones must be loaded via `php.ini`
 
 ## Compiliation Requirements
 You'll need:
@@ -22,31 +22,8 @@ You'll need:
 3. Modify the projects includes/libs path to reflect your php source location (must be compilied with atleast `--enable-embed`)
 4. Run `make_embeder.cmd`
 
-## FAQ
-
-### How do I modify the includes/libs path?
-
-Includes: `Project > embeder Properties > Configuration Properties > VC++ Directories > Include Directories`
-
-Libraries: `Project > embeder Properties > Configuration Properties > VC++ Directories > Library Directories`
-
-### How do I add extensions?
-
-Modify `php-embed.ini`
-     
-    [PHP]
-    extensions_dir='./'
-    extension=php_someextension.dll
-
-### I get afxres.h not found!
-
-You're using an old version, `afxres.h` has been replaced by `winres.h`
-
-## Credits
-
+## Old Credits
 [Eric Colinet](mailto:e.colinet@laposte.net) - For the original concept & code!
-
 [Jared Allard](mailto:jaredallard@outlook.com) - Mantaining the project, improving the features, and more!
-
 @see http://wildphp.free.fr/wiki/doku.php?id=win32std:embeder
 
