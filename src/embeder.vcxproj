@@ -72,7 +72,7 @@
       <ProgramDataBaseFileName>.\Release_console\</ProgramDataBaseFileName>
     </ClCompile>
     <PostBuildEvent>
-      <Command>make_embeder.bat</Command>
+      <Command>make_embeder.cmd</Command>
     </PostBuildEvent>
     <Midl>
       <TypeLibraryName>.\Release_console\embeder.tlb</TypeLibraryName>
@@ -87,8 +87,6 @@
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <SubSystem>Console</SubSystem>
-      <OutputFile>out/console.exe</OutputFile>
       <AdditionalDependencies>C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
