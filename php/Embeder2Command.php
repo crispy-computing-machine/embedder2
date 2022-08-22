@@ -26,6 +26,7 @@ class Embeder2Command {
         'type' => ['change_type',      ['path', 'type'], 'Change EXE type.'],
         'list' => ['display_list',     ['path'], 'List contents of EXE'],
         'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content'],
+        'build' => ['build_dir',       ['path', 'main', 'directory'], 'Build EXE from folder content'],
     ];
 
 
@@ -89,7 +90,7 @@ class Embeder2Command {
      * @param $file - Full path and extension
      * @param string $type
      */
-    public function new_file($file, $type= 'console') {
+    public function new_file($file, $type = 'console') {
 
         // Relative path to stub file - should always be in: out/console.exe|window.exe
         $base_exe = $this->resource_include('out/' . $type . '.exe');
@@ -132,7 +133,7 @@ class Embeder2Command {
 
         $this->check_exe($exeFile);
         $md5 = md5($alias);
-        $this->message('Adding additional file ' . $newFile . ' to ' . $exeFile . ' as ' . $md5);
+        $this->message('Adding additional file ' . $newFile . ' to ' . $exeFile . ' as ' .$alias . ' [' . $md5 . ']');
         return $this->update_resource($exeFile, 'PHP', $md5, file_get_contents($newFile));
     }
 
@@ -260,6 +261,7 @@ class Embeder2Command {
         res_close($h);
     }
 
+
     /**
      * Display a resource from an EXE
      *
@@ -335,6 +337,97 @@ class Embeder2Command {
         $this->message("Unknown command '" . $this->argv[1] . "'", $error = true);
     }
 
+
+    /**
+     * @param $path - .\full\path\to\some.exe
+     * @param $main - .\full\path\to\main.php
+     * @param $rootDirectory - .\full\path\to\project\
+     * @return void
+     */
+    public function build_dir($path, $main, $rootDirectory){
+
+        #$this->new_file($path);
+
+        #$this->add_main($path, $main);
+
+        $buildFiles = $this->filesInDir($rootDirectory);
+        foreach($buildFiles as $file){
+            $originalFullPath = $file;
+            $relativePath = str_replace($rootDirectory, '', $originalFullPath);
+            $embedPath = $this->leadingSlash($this->linux_path($relativePath));
+            $this->add_file($path, $originalFullPath, $embedPath);
+        }
+
+    }
+
+    /**
+     * Helper: Memory safe directory/file iterator
+     * @param $directory
+     * @param $fileExtension
+     * @return \Generator
+     */
+    function filesInDir($directory, $fileExtension = 'php') {
+        $directory = realpath($directory);
+        $it = new \RecursiveDirectoryIterator($directory);
+        $it = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::LEAVES_ONLY);
+        $it = new \RegexIterator($it, '(\.' . preg_quote($fileExtension) . '$)');
+        foreach ($it as $file) {
+            $fileName = $file->getPathname();
+            yield $fileName;
+        }
+    }
+
+    /**
+     * Helper: Ensure path is a linux path
+     * @param $path
+     * @return string
+     */
+    function linux_path($path)
+    {
+        $path = str_replace($backslash = chr(92), $forwardSlash = chr(47), $path);
+        $path = str_replace($forwardSlash . $forwardSlash, $forwardSlash, $path); // remove doubles
+        return $path;
+    }
+
+    /**
+     * Helper: Add trailing slash to path if it doesn't have one
+     * @param string $path
+     * @return string
+     */
+    function leadingSlash(string $path)
+    {
+        return $forwardSlash = chr(47) . $this->unleadingSlash($path);
+    }
+
+    /**
+     * Helper: Add trailing slash to path if it doesn't have one
+     * @param string $path
+     * @return string
+     */
+    function trailingSlash(string $path)
+    {
+        return $this->untrailingslash($path) . $forwardSlash = chr(47);
+    }
+
+    /**
+     * Helper: Remove trailing slash from path
+     * @param string $path
+     * @return string
+     */
+    function untrailingSlash(string $path)
+    {
+        return rtrim($path, $forwardSlash = chr(47));
+    }
+
+    /**
+     * Helper: Remove trailing slash from path
+     * @param string $path
+     * @return string
+     */
+    function unleadingSlash(string $path)
+    {
+        return ltrim($path, $forwardSlash = chr(47));
+    }
 }
 
 // New command with arguments
