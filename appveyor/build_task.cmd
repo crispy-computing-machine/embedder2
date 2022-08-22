@@ -43,7 +43,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
 
-        MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Release console" /p:Platform="Win32"
+        MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="Debug console" /p:Platform="Win32"
 
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
@@ -62,13 +62,13 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
-        ls "%APPVEYOR_BUILD_FOLDER%\src\Release console\"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\Release console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\Release console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
+        ls "%APPVEYOR_BUILD_FOLDER%\src\Debug console\"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\Release console\embeder.exe" "out/console.exe"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\Debug console\embeder.exe" "out/console.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
         if %errorlevel% neq 0 exit /b 3
 
