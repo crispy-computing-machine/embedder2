@@ -8,7 +8,7 @@ call clean.cmd
 pushd "src"
 call vcvarsall.bat
 MSBuild.exe embeder.sln /p:Configuration="Release console" /p:Platform="Win32"
-copy "Debug console\embeder.exe" "../out/console.exe" || exit /b 1
+copy "Release console\embeder.exe" "../out/console.exe" || exit /b 1
 popd
 
 del /q /f ".\embeder2.exe" 2>nul
