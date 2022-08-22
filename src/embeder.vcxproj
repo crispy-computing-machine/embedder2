@@ -72,7 +72,7 @@
       <ProgramDataBaseFileName>.\Release_console\</ProgramDataBaseFileName>
     </ClCompile>
     <PostBuildEvent>
-      <Command>make_embeder.cmd</Command>
+      <Command></Command>
     </PostBuildEvent>
     <Midl>
       <TypeLibraryName>.\Release_console\embeder.tlb</TypeLibraryName>
