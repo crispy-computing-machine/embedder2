@@ -42,11 +42,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release console|Win32'">
-    <OutDir>.\Release_console\</OutDir>
-    <IntDir>.\Release_console\</IntDir>
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\..\php-src\main;..\..\php-src\TSRM;..\..\php-src\Zend;..\..\php-src\ext\standard;..\..\php-src\sapi\embed;..\..\php-src;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\php-src\Release_TS;$(LibraryPath)</LibraryPath>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <GenerateManifest>true</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug console|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -89,7 +89,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <SubSystem>Console</SubSystem>
       <OutputFile>out/console.exe</OutputFile>
-      <AdditionalDependencies>php7embed.lib;php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug console|Win32'">
