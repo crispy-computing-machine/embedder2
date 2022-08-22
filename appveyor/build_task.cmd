@@ -32,7 +32,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		if %errorlevel% neq 0 exit /b 3
 
-		cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% --disable-cgi --enable-embed=static --enable-cli-win32 --enable-bcmath=static --enable-calendar=static --enable-ctype=static --enable-filter=static --with-iconv=static --enable-json=static --with-mysqlnd=static --enable-pdo --enable-phar --with-readline=static --enable-session=static --enable-tokenizer=static --with-xml=static --enable-xmlreader=static --enable-xmlwriter=static --enable-zip=static --enable-zlib=static --with-sodium=static --with-sqlite3=static --enable-sysvshm=static --with-tidy=static --with-xsl=static --with-bz2=static  --with-dba=static --with-enchant=static --enable-exif=static --with-ffi=static --enable-fileinfo=shared --enable-ftp=static --with-gd --with-gettext=static --with-gmp=static --with-imap=static --enable-intl --with-ldap=static --enable-mbstring=static --with-mysqli=static --enable-odbc=static --enable-opcache --enable-shmop --with-snmp=static --enable-sockets
+		cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% --disable-cgi --enable-embed=static --enable-cli-win32 --enable-bcmath=static --enable-calendar=static --enable-ctype=static --enable-filter=static --with-iconv=static --enable-json=static --enable-pdo --enable-phar --with-readline=static --enable-session=static --enable-tokenizer=static --with-xml=static --enable-xmlreader=static --enable-xmlwriter=static --enable-zip=static --enable-zlib=static --with-sqlite3=static --with-tidy=static --with-xsl=static --with-bz2=static --with-enchant=static --enable-exif=static --with-ffi=static --enable-fileinfo=shared --with-gd --with-gettext=static --enable-mbstring=static --enable-opcache --enable-sockets
 
 		if %errorlevel% neq 0 exit /b 3
 
@@ -65,8 +65,8 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
-        ls "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\*" "%APPVEYOR_BUILD_FOLDER%\php\"
+
+        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\2embeder.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
