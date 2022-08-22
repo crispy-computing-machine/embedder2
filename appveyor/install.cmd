@@ -1,6 +1,6 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
-	cinst wget
+	cinst wget curl openssl sqlite
 
 	if not exist "%PHP_BUILD_CACHE_BASE_DIR%" (
 		echo Creating %PHP_BUILD_CACHE_BASE_DIR%
