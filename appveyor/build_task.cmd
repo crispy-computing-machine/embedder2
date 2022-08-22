@@ -66,7 +66,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Make embeder2.exe
 
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\2embeder.exe"
+        copy "%APPVEYOR_BUILD_FOLDER%\build\php.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
         rem %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" new "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
