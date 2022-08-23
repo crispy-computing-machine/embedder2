@@ -72,19 +72,21 @@ setlocal enableextensions enabledelayedexpansion
 
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
-        rem 7.2 version
-        rem echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-
-        rem 7.4 version
-        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-
+        rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
+        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+
+        echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
+
 
         echo Make ini reference to download res dll
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo zend_extension=php_opcache.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 

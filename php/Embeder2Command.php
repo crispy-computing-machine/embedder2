@@ -36,11 +36,6 @@ class Embeder2Command {
     public function __construct($argv)
     {
 
-        // Production/debugging
-        error_reporting(E_ALL);
-        ini_set('display_errors', 0);
-        ini_set('error_log', 'error.log');
-
         // Script args
         $this->argv = $argv;
 
