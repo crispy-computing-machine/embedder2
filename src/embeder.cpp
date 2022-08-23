@@ -22,7 +22,7 @@
 
 /* PHP Includes */
 #include <php_embed.h>
-
+#include "zend_smart_str.h"
 
 /* Main */
 int main(int argc, char** argv) {
@@ -43,19 +43,19 @@ int main(int argc, char** argv) {
 
     ini_name = zend_string_init("extension_dir", sizeof("extension_dir") - 1, 0);
     zend_alter_ini_entry(ini_name, zend_string_init(".\\ext", sizeof(".\\ext") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    zend_string_release_ex(ini_name, 0);
+    //zend_string_release_ex(ini_name, 0);
 
     ini_name = zend_string_init("display_errors", sizeof("display_errors") - 1, 0);
     zend_alter_ini_entry(ini_name, zend_string_init("Off", sizeof("Off") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    zend_string_release_ex(ini_name, 0);
+    //zend_string_release_ex(ini_name, 0);
 
     ini_name = zend_string_init("error_reporting", sizeof("error_reporting") - 1, 0);
     zend_alter_ini_entry(ini_name, zend_string_init("E_ALL", sizeof("E_ALL") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    zend_string_release_ex(ini_name, 0);
+    //zend_string_release_ex(ini_name, 0);
 
     ini_name = zend_string_init("error_log", sizeof("error_log") - 1, 0);
     zend_alter_ini_entry(ini_name, zend_string_init(".\\error.log", sizeof(".\\error.log") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    zend_string_release_ex(ini_name, 0);
+    //zend_string_release_ex(ini_name, 0);
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
