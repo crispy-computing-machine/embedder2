@@ -31,11 +31,19 @@ int main(int argc, char** argv) {
 
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC);
+
+    php_embed_module.php_ini_ignore = 0;
+    php_embed_module.php_ini_path_override = "./php.ini";
+    // zend_alter_ini_entry("extension_dir", 14, dir, strlen(dir), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    // zend_alter_ini_entry("error_reporting", 16, "0", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+
+
 	zend_first_try {
 		PG(during_request_startup) = 0;
-		
+
 		/* We are embeded */
 		zend_eval_string("define('EMBEDED', 1);", &ret_value, "main" TSRMLS_CC);
+        zend_eval_string("function embedded($file, $force = false) { return $force || defined('EMBEDDED') ? 'res:///PHP/' . md5($file) : $file; };", NULL, "main" TSRMLS_CC);
 
 		/* Execute */
 		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);

@@ -70,10 +70,10 @@ class Embeder2Command {
      * @param bool $error
      */
     public function message($message, $error = false) {
-        echo $message . PHP_EOL;
         if($error){
-            die();
+            $message = 'ERROR: ' . $message;
         }
+        echo $message . PHP_EOL;
     }
 
     /**
@@ -370,20 +370,19 @@ class Embeder2Command {
      * @return \Generator
      */
     function filesInDir($directory) {
-        $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
-        $it->rewind();
-        while($it->valid()) {
 
-            // Ignore parent, and .git/vcs files/folders
-            if ($it->isDot() || strpos($it->key(),'.') === 0) {
-                $it->next();
-            }
-            yield $it->key();
-            $it->next();
+        if ( ! is_dir($directory)) {
+            return;
         }
+
+        yield from new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
     }
 
     /**
+     *
      * Helper: Ensure path is a linux path
      * @param $path
      * @return string
