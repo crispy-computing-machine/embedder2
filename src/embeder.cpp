@@ -24,6 +24,17 @@
 #include <php_embed.h>
 #include "zend_smart_str.h"
 
+/* This callback is invoked as soon as the configuration hash table is
+ * allocated so any INI settings added via this callback will have the lowest
+ * precedence and will allow INI files to overwrite them.
+ */
+static void embeded_ini_defaults(HashTable *configuration_hash)
+{
+	zval ini_value;
+	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("Embed SAPI error:"), /* persistent */ 1));
+	zend_hash_str_update(configuration_hash, ZEND_STRL("error_prepend_string"), &ini_value);
+}
+
 /* Main */
 int main(int argc, char** argv) {
 	zval ret_value;
@@ -35,27 +46,7 @@ int main(int argc, char** argv) {
 	php_embed_init(argc, argv TSRMLS_CC);
     php_embed_module.php_ini_ignore = 0;
     php_embed_module.php_ini_path_override = "./php.ini";
-
-    //zend_alter_ini_entry("extension_dir", '".\\ext"', PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    //zend_alter_ini_entry("display_errors", "-1", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    //zend_alter_ini_entry("error_reporting", "E_ALL", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    //zend_alter_ini_entry("error_log", "error.log", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-
-    ini_name = zend_string_init("extension_dir", sizeof("extension_dir") - 1, 0);
-    zend_alter_ini_entry(ini_name, zend_string_init(".\\ext", sizeof(".\\ext") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    //zend_string_release_ex(ini_name, 0);
-
-    ini_name = zend_string_init("display_errors", sizeof("display_errors") - 1, 0);
-    zend_alter_ini_entry(ini_name, zend_string_init("Off", sizeof("Off") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    //zend_string_release_ex(ini_name, 0);
-
-    ini_name = zend_string_init("error_reporting", sizeof("error_reporting") - 1, 0);
-    zend_alter_ini_entry(ini_name, zend_string_init("E_ALL", sizeof("E_ALL") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    //zend_string_release_ex(ini_name, 0);
-
-    ini_name = zend_string_init("error_log", sizeof("error_log") - 1, 0);
-    zend_alter_ini_entry(ini_name, zend_string_init(".\\error.log", sizeof(".\\error.log") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
-    //zend_string_release_ex(ini_name, 0);
+    php_embed_module.ini_defaults = embeded_ini_defaults;
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
