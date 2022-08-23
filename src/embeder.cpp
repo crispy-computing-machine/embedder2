@@ -42,11 +42,13 @@ int main(int argc, char** argv) {
 	char *eval_string = "include 'res:///PHP/LIB';";
     zend_string *ini_name;
 
+	php_embed_module.ini_defaults = embeded_ini_defaults;
+    php_embed_module.php_ini_ignore = 0;
+    php_embed_module.php_ini_path_override = "./php.ini";
+
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC); // PHP_EMBED_START_BLOCK(argc, argv)
-    php_embed_module.php_ini_ignore = 0;
-    php_embed_module.ini_defaults = embeded_ini_defaults;
-    php_embed_module.php_ini_path_override = "./php.ini";
+
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
