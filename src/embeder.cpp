@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
     zend_string_release_ex(ini_name, 0);
 
     ini_name = zend_string_init("error_log", sizeof("error_log") - 1, 0);
-    result = zend_alter_ini_entry(ini_name, zend_string_init(".\\error.log", sizeof(".\\error.log") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
+    zend_alter_ini_entry(ini_name, zend_string_init(".\\error.log", sizeof(".\\error.log") - 1, 0), PHP_INI_USER, PHP_INI_STAGE_RUNTIME);
     zend_string_release_ex(ini_name, 0);
 
 	zend_first_try {
