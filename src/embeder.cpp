@@ -34,9 +34,10 @@ int main(int argc, char** argv) {
 
     php_embed_module.php_ini_ignore = 0;
     php_embed_module.php_ini_path_override = "./php.ini";
-    // zend_alter_ini_entry("extension_dir", 14, dir, strlen(dir), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    // zend_alter_ini_entry("error_reporting", 16, "0", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-
+    zend_alter_ini_entry("extension_dir", 14, '".\\ext"', strlen(".\\ext"), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    zend_alter_ini_entry("display_errors", 15, "-1", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    zend_alter_ini_entry("error_reporting", 16, "E_ALL", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    zend_alter_ini_entry("error_log", 10, "error.log", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
