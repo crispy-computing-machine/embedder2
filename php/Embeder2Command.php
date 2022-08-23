@@ -20,16 +20,18 @@ class Embeder2Command {
      * @var array
      */
     private $actions = [
-        'new'  => ['new_file',         ['path'], 'Create Base EXE'],
-        'main' => ['add_main',         ['path', 'file'], 'Add main PHP file to exe'],
-        'add'  => ['add_file',         ['path', 'file','alias'], 'Add file to exe'],
-        'type' => ['change_type',      ['path', 'type'], 'Change EXE type.'],
-        'list' => ['display_list',     ['path'], 'List contents of EXE'],
-        'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content'],
-        'build' => ['build_dir',       ['path', 'main', 'directory'], 'Build EXE from folder content'],
+        'new'  => ['new_file',         ['path'], 'Create Base EXE [path]'],
+        'main' => ['add_main',         ['path', 'file'], 'Add main PHP file to exe [path, file]'],
+        'add'  => ['add_file',         ['path', 'file','alias'], 'Add file to exe [path, file,alias]'],
+        'type' => ['change_type',      ['path', 'type'], 'Change EXE type. [path, type]'],
+        'list' => ['display_list',     ['path'], 'List contents of EXE [path]'],
+        'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content [path, section, value, lang]'],
+        'build' => ['build_dir',       ['path', 'main', 'directory'], 'Build EXE from folder content [path, main, directory]'],
     ];
 
-
+    /**
+     * @param $argv
+     */
     public function __construct($argv)
     {
 
@@ -133,7 +135,7 @@ class Embeder2Command {
 
         $this->check_exe($exeFile);
         $md5 = md5($alias);
-        $this->message('Adding additional file ' . $newFile . ' to ' . $exeFile . ' as ' .$alias . ' [' . $md5 . ']');
+        $this->message('Adding additional file ' . $newFile . ' to ' . $exeFile . ' as ' .$alias . ' [' . strtoupper($md5)  . ']');
         return $this->update_resource($exeFile, 'PHP', $md5, file_get_contents($newFile));
     }
 
@@ -346,17 +348,18 @@ class Embeder2Command {
      */
     public function build_dir($path, $main, $rootDirectory){
 
-        #$this->new_file($path);
-
-        #$this->add_main($path, $main);
+        $this->new_file($path);
+        $this->add_main($path, $main);
 
         $buildFiles = $this->filesInDir($rootDirectory);
         foreach($buildFiles as $file){
             $originalFullPath = $file;
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
-            $embedPath = $this->leadingSlash($this->linux_path($relativePath));
+            $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
             $this->add_file($path, $originalFullPath, $embedPath);
         }
+
+        $this->change_type($path, 'WINDOWS');
 
     }
 
@@ -366,14 +369,17 @@ class Embeder2Command {
      * @param $fileExtension
      * @return \Generator
      */
-    function filesInDir($directory, $fileExtension = 'php') {
-        $directory = realpath($directory);
-        $it = new \RecursiveDirectoryIterator($directory);
-        $it = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::LEAVES_ONLY);
-        $it = new \RegexIterator($it, '(\.' . preg_quote($fileExtension) . '$)');
-        foreach ($it as $file) {
-            $fileName = $file->getPathname();
-            yield $fileName;
+    function filesInDir($directory) {
+        $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
+        $it->rewind();
+        while($it->valid()) {
+
+            // Ignore parent, and .git/vcs files/folders
+            if ($it->isDot() || strpos($it->key(),'.') === 0) {
+                continue;
+            }
+            yield $it->key();
+            $it->next();
         }
     }
 
