@@ -43,8 +43,8 @@ int main(int argc, char** argv) {
     zend_string *ini_name;
 
 	php_embed_module.ini_defaults = embeded_ini_defaults;
-    php_embed_module.php_ini_ignore = 0;
-    php_embed_module.php_ini_path_override = "./php.ini";
+    //php_embed_module.php_ini_ignore = 0;
+    //php_embed_module.php_ini_path_override = "./php.ini";
 
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC); // PHP_EMBED_START_BLOCK(argc, argv)
