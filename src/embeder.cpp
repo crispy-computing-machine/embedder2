@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 	php_embed_init(argc, argv TSRMLS_CC);
     php_embed_module.php_ini_ignore = 0;
     php_embed_module.php_ini_path_override = "./php.ini";
-    php_embed_module.ini_defaults = example_ini_defaults;
+    php_embed_module.ini_defaults = ini_defaults;
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
