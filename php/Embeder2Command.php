@@ -376,7 +376,7 @@ class Embeder2Command {
 
             // Ignore parent, and .git/vcs files/folders
             if ($it->isDot() || strpos($it->key(),'.') === 0) {
-                continue;
+                $it->next();
             }
             yield $it->key();
             $it->next();
