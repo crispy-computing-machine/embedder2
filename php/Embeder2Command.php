@@ -27,6 +27,7 @@ class Embeder2Command {
         'list' => ['display_list',     ['path'], 'List contents of EXE [path]'],
         'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content [path, section, value, lang]'],
         'build' => ['build_dir',       ['path', 'main', 'directory'], 'Build EXE from folder content [path, main, directory]'],
+        'info' => ['info',             [], 'Show embeded php info'],
     ];
 
     /**
@@ -433,6 +434,17 @@ class Embeder2Command {
     {
         return ltrim($path, $forwardSlash = chr(47));
     }
+
+    /**
+     * Embeded info
+     * @return bool
+     */
+    public function info(){
+        /** @noinspection ForgottenDebugOutputInspection */
+        return phpinfo();
+    }
+
+
 }
 
 // New command with arguments
