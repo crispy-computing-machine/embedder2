@@ -87,7 +87,7 @@
     </Bscmake>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalDependencies>C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files (x86)\Windows Kits\10\Lib\ucrtd.lib;\C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug console|Win32'">
@@ -123,7 +123,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files (x86)\Windows Kits\10\Lib\ucrtd.lib;C:\obj\Release_TS\php7embed.lib;C:\obj\Release_TS\php7ts.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerbose</ShowProgress>
       <Version>
       </Version>
