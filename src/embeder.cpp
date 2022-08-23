@@ -33,6 +33,11 @@ static void embeder_ini_defaults(HashTable *configuration_hash)
 	zval ini_value;
 	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("'.\\ext'"), /* persistent */ 1));
 	zend_hash_str_update(configuration_hash, ZEND_STRL("extension_dir"), &ini_value);
+
+	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("Off"), /* persistent */ 1));
+	zend_hash_str_update(configuration_hash, ZEND_STRL("display_errors"), &ini_value);
+
+
 }
 
 /* Main */
