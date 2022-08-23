@@ -58,7 +58,6 @@ int main(int argc, char** argv) {
 
 		/* We are embeded */
 		zend_eval_string("define('EMBEDED', 1);", &ret_value, "main" TSRMLS_CC);
-        zend_eval_string("function embedded($file, $force = false) { return $force || defined('EMBEDDED') ? 'res:///PHP/' . md5($file) : $file; };", NULL, "main" TSRMLS_CC);
 
 		/* Execute */
 		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);
