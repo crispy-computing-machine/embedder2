@@ -28,16 +28,19 @@ int main(int argc, char** argv) {
 	zval ret_value;
 	int exit_status;
 	char *eval_string = "include 'res:///PHP/LIB';";
+	char buf[PATH_MAX];
+    char* dir = dirname(buf);
+
+    php_embed_module.php_ini_ignore = 0;
+    php_embed_module.php_ini_path_override = "./php.ini";
+    zend_alter_ini_entry("extension_dir", '".\\ext"', PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    zend_alter_ini_entry("display_errors", "-1", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    zend_alter_ini_entry("error_reporting", "E_ALL", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    zend_alter_ini_entry("error_log", "error.log", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
 
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC);
 
-    php_embed_module.php_ini_ignore = 0;
-    php_embed_module.php_ini_path_override = "./php.ini";
-    zend_alter_ini_entry("extension_dir", 14, '".\\ext"', strlen(".\\ext"), PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    zend_alter_ini_entry("display_errors", 15, "-1", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    zend_alter_ini_entry("error_reporting", 16, "E_ALL", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    zend_alter_ini_entry("error_log", 10, "error.log", 1, PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
