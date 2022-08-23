@@ -23,18 +23,30 @@
 /* PHP Includes */
 #include <php_embed.h>
 
+static void embeder_ini_defaults(HashTable *configuration_hash)
+{
+    // zend_alter_ini_entry("extension_dir", '".\\ext"', PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    // zend_alter_ini_entry("display_errors", "-1", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    // zend_alter_ini_entry("error_reporting", "E_ALL", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+    // zend_alter_ini_entry("error_log", "error.log", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
+
+	zval ini_value;
+	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("'.\\ext'"), /* persistent */ 1));
+	zend_hash_str_update(configuration_hash, ZEND_STRL("extension_dir"), &ini_value);
+}
+
 /* Main */
 int main(int argc, char** argv) {
 	zval ret_value;
 	int exit_status;
 	char *eval_string = "include 'res:///PHP/LIB';";
-
+    zend_string *ini_name;
 
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC);
     php_embed_module.php_ini_ignore = 0;
     php_embed_module.php_ini_path_override = "./php.ini";
-    php_embed_module.ini_defaults = ini_defaults;
+    php_embed_module.ini_defaults = embeder_ini_defaults;
 
 	zend_first_try {
 		PG(during_request_startup) = 0;
@@ -63,14 +75,4 @@ int main(int argc, char** argv) {
 	return exit_status;
 }
 
-static void ini_defaults(HashTable *configuration_hash)
-{
-    // zend_alter_ini_entry("extension_dir", '".\\ext"', PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    // zend_alter_ini_entry("display_errors", "-1", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    // zend_alter_ini_entry("error_reporting", "E_ALL", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
-    // zend_alter_ini_entry("error_log", "error.log", PHP_INI_ALL, PHP_INI_STAGE_ACTIVATE);
 
-	zval ini_value;
-	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("'.\\ext'"), /* persistent */ 1));
-	zend_hash_str_update(configuration_hash, ZEND_STRL("extension_dir"), &ini_value);
-}
