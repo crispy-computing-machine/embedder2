@@ -89,6 +89,7 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
