@@ -55,8 +55,8 @@ setlocal enableextensions enabledelayedexpansion
         echo Copying built files into build/asset dir
         rem C:\obj\Release_TS\
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        DIR "%PHP_BUILD_OBJ_DIR%\Release_TS"
-        COPY "%APPVEYOR_BUILD_FOLDER%\*" "%APPVEYOR_BUILD_FOLDER%\build\"
+        DIR "%PHP_BUILD_OBJ_DIR%\Release_TS\php-*-dev\"
+        COPY "%PHP_BUILD_OBJ_DIR%\Release_TS\php-*-dev\*" "%APPVEYOR_BUILD_FOLDER%\build\"
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
