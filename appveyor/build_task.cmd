@@ -52,19 +52,16 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
 
-        echo Copying built files into build/asset dir
-        rem C:\obj\Release_TS\
+        echo Copying built files into build/asset dir C:\obj\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip
+        xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\php.zip" /s /i
+        powershell -NoP -NonI -Command "Expand-Archive '%APPVEYOR_BUILD_FOLDER%\build\php.zip' '%APPVEYOR_BUILD_FOLDER%\build\'"
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        rem DIR "%PHP_BUILD_OBJ_DIR%\Release_TS\php-*-dev\"
-        rem COPY "%PHP_BUILD_OBJ_DIR%\Release_TS\php-*-dev\*" "%APPVEYOR_BUILD_FOLDER%\build\"
-        xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-*-dev*" "%APPVEYOR_BUILD_FOLDER%\build" /s /i
-
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-
+        rem Winbinder
         echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
 
