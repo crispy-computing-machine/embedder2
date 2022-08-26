@@ -20,28 +20,6 @@ setlocal enableextensions enabledelayedexpansion
 
     set BUILD_TYPE=Debug
 
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\cygwin >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\cygwin64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw-w64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\msys64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-Win32 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-Win64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-v11-Win32 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-v11-Win64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" del /f /q C:\Windows\System32\libcrypto-1_1-x64.dll >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" del /f /q C:\Windows\System32\libssl-1_1-x64.dll >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
 
 	for %%z in (%ZTS_STATES%) do (
 		set ZTS_STATE=%%z
@@ -57,6 +35,7 @@ setlocal enableextensions enabledelayedexpansion
 		cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% --enable-embed --enable-snapshot-build --disable-debug-pack --enable-com-dotnet=shared --without-analyzer --with-php-build=%DEPS_DIR% %ADD_CONF% --disable-test-ini  ^
 		--with-bz2=static ^
 		--with-dba=static
+		--with-openssl=c:\OpenSSL-Win32
 
 		if %errorlevel% neq 0 exit /b 3
 
