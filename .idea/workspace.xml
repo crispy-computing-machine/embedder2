@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2bed465e-2062-43fa-9153-c403fc5987c7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
+    <list default="true" id="23d302a9-46ff-4f9d-abfd-32febe7eed59" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,34 +16,35 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="25QZL40motudGU3PFfFhuWAm3JY" />
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Dt642kYEKN5c4IceGmk7RUdafm" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/dev/027e95115cf6ac1119126ca95379de1b/windows/embedder2",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embeder\php" />
-    </key>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2bed465e-2062-43fa-9153-c403fc5987c7" name="Changes" comment="" />
-      <created>1645461211927</created>
+      <changelist id="23d302a9-46ff-4f9d-abfd-32febe7eed59" name="Changes" comment="" />
+      <created>1661505838190</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1645461211927</updated>
-      <workItem from="1645461214249" duration="2959000" />
-      <workItem from="1647857910385" duration="388000" />
-      <workItem from="1661504977814" duration="307000" />
+      <updated>1661505838190</updated>
+      <workItem from="1661505840557" duration="307000" />
     </task>
     <servers />
   </component>
