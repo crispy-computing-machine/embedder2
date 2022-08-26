@@ -52,12 +52,12 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
 
-        echo Copying built fils into build/asset dir
+        echo Copying built files into build/asset dir
         rem C:\obj\Release_TS\
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        DIR "%APPVEYOR_BUILD_FOLDER%"
+        DIR "%PHP_BUILD_OBJ_DIR%\Release_TS"
         COPY "%APPVEYOR_BUILD_FOLDER%\*" "%APPVEYOR_BUILD_FOLDER%\build\"
-        DIR "%PHP_BUILD_OBJ_DIR%"
+
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
