@@ -52,7 +52,9 @@ setlocal enableextensions enabledelayedexpansion
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
 
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
+        rem C:\obj\Release_TS\
+        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
+        COPY "C:\obj\Release_TS\*" "%APPVEYOR_BUILD_FOLDER%\build\"
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
@@ -70,11 +72,9 @@ setlocal enableextensions enabledelayedexpansion
         echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
         rem all other exts that have to be compiled shared
-        echo extension=php_curl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_com_dotnet.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
+        rem echo extension=php_curl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        rem echo extension=php_com_dotnet.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
@@ -84,7 +84,7 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
-        if %errorlevel% neq 0 exit /b 3
+        rem if %errorlevel% neq 0 exit /b 3
 
         rem Quick cleanup
         rem del %APPVEYOR_BUILD_FOLDER%\build\php.exe
