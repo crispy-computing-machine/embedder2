@@ -54,7 +54,7 @@ setlocal enableextensions enabledelayedexpansion
 
         rem C:\obj\Release_TS\
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        COPY "C:\obj\Release_TS\*" "%APPVEYOR_BUILD_FOLDER%\build\"
+        COPY "C:\obj\Release_TS\php-7.4.*" "%APPVEYOR_BUILD_FOLDER%\build\"
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
@@ -86,15 +86,9 @@ setlocal enableextensions enabledelayedexpansion
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
         rem if %errorlevel% neq 0 exit /b 3
 
-        rem Quick cleanup
-        rem del %APPVEYOR_BUILD_FOLDER%\build\php.exe
-        rd /S /Q %APPVEYOR_BUILD_FOLDER%\build\SDK\
 
 		echo Zipping Assets...
-
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
-        rem @todo add win32std extension & directory
-
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
 endlocal
