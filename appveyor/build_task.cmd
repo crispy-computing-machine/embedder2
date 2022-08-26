@@ -56,7 +56,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% --enable-embed --enable-snapshot-build --disable-debug-pack --enable-com-dotnet=shared --without-analyzer --with-php-build=%DEPS_DIR% %ADD_CONF% --disable-test-ini  ^
 		--with-bz2=static ^
-		--with-curl=static
+		--with-dba=static
 
 		if %errorlevel% neq 0 exit /b 3
 
@@ -90,7 +90,11 @@ setlocal enableextensions enabledelayedexpansion
         echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+        rem all other exts that have to be compiled shared
+        echo extension=php_curl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=php_com_dotnet.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
