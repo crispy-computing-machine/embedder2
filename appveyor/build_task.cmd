@@ -54,7 +54,7 @@ setlocal enableextensions enabledelayedexpansion
 
         rem C:\obj\Release_TS\
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
-        COPY "C:\obj\Release_TS\php-7.4.*" "%APPVEYOR_BUILD_FOLDER%\build\"
+        COPY "C:\obj\" "%APPVEYOR_BUILD_FOLDER%\build\"
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
