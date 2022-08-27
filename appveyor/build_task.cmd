@@ -35,8 +35,18 @@ setlocal enableextensions enabledelayedexpansion
 		cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% --enable-embed --enable-snapshot-build --disable-debug-pack --enable-com-dotnet=shared --without-analyzer --with-php-build=%DEPS_DIR% %ADD_CONF% --disable-test-ini  ^
 		--with-bz2=static ^
 		--with-dba=static ^
-		--with-curl=static
+		--with-curl=static ^
+		--with-enchant=static ^
+		--with-exif=static ^
+		--with-ffi=static ^
+		--with-fileinfo=static ^
+		--with-filter=static ^
+		--with-ftp=static ^
+		--with-gd=static ^
+		--with-gettext=static ^
+		--with-gmp=static
 
+		
 		if %errorlevel% neq 0 exit /b 3
 
         rem Suppress logo output of nmake
