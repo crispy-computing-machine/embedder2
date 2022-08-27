@@ -58,7 +58,7 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-intl=static ^
 		--with-ldap=static ^
 		--with-mysqli=static ^
-		--with-odbc=static ^
+		--enable-odbc=static ^
 		--with-openssl=static ^
 		--with-pdo_firebird=static ^
 		--with-pdo_mysql=static ^
@@ -66,18 +66,18 @@ setlocal enableextensions enabledelayedexpansion
 		--with-pdo_pgsql=static ^
 		--with-pdo_sqlite=static ^
 		--with-pgsql=static ^
-		--with-phpdbg_webhelper=static ^
-		--with-shmop=static ^
+		--with-phpdbg_webhelper=no ^
+		--enable-shmop=static ^
 		--with-snmp=static ^
-		--with-soap=static ^
-		--with-sockets=static ^
+		--enable-soap=static ^
+		--enable-sockets=static ^
 		--with-sodium=static ^
 		--with-sqlite3=static ^
-		--with-sysvshm=static ^
+		--enable-sysvshm=static ^
 		--with-tidy=static ^
 		--with-xmlrpc=static ^
 		--with-xsl=static ^
-		--with-zend_test=static
+		--enable-zip=static
 
 		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
 
