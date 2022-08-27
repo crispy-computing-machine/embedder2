@@ -358,11 +358,16 @@ class Embeder2Command {
                 continue;
             }
 
+            // No git files
+            if(strpos($embedPath, '.git') !== FALSE){
+                continue;
+            }
+
             // Update resource
             $this->add_file($path, $originalFullPath, $embedPath);
         }
 
-        $this->change_type($path, 'WINDOWS');
+        #$this->change_type($path, 'WINDOWS');
 
     }
 
