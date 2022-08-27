@@ -40,7 +40,7 @@ setlocal enableextensions enabledelayedexpansion
 		--without-analyzer ^
 		--disable-test-ini ^
 		--disable-cgi ^
-		--enable-com-dotnet
+		--enable-com-dotnet ^
 		--with-bz2=static ^
 		--with-dba=static ^
 		--with-curl=static ^
