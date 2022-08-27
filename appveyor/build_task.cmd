@@ -74,7 +74,7 @@ setlocal enableextensions enabledelayedexpansion
 		--with-xsl=static ^
 		--enable-zip=static ^
 		--enable-shmop=static ^
-		--with-snmp=static ^
+		--with-snmp=no ^
 		--enable-soap=static ^
 		--enable-sysvshm=static ^
 		--enable-zend-test=no
@@ -120,8 +120,8 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         rem all other exts that have to be compiled shared
-        rem echo extension=php_curl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        rem echo extension=php_com_dotnet.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=intl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
@@ -133,6 +133,25 @@ setlocal enableextensions enabledelayedexpansion
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
         rem if %errorlevel% neq 0 exit /b 3
 
+		rem Cleanup
+		echo Cleanup....
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\license.txt"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\news.txt"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\php.ini-development"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\php.ini-production"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\php7embed.lib"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\phpdbg.exe"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\README.md"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\readme-redist-bins.txt"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\snapshot.txt"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\dev"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\extras"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\lib"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\sasl2"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\deplister.exe"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat"
+		rmdir /s /q "%APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll"
 
 		echo Zipping Assets...
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
