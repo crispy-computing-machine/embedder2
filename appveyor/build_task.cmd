@@ -77,7 +77,7 @@ setlocal enableextensions enabledelayedexpansion
 		--with-snmp=static ^
 		--enable-soap=static ^
 		--enable-sysvshm=static ^
-		--enable-zend_test=no
+		--enable-zend-test=no
 
 		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
 
