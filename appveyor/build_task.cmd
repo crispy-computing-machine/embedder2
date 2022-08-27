@@ -45,7 +45,7 @@ setlocal enableextensions enabledelayedexpansion
 		--with-dba=static ^
 		--with-curl=static ^
 		--with-enchant=static ^
-		--with-mbstring=static ^
+		--enable-mbstring=static ^
 		--enable-exif=static ^
 		--with-ffi=static ^
 		--enable-fileinfo=static ^
