@@ -53,10 +53,8 @@ setlocal enableextensions enabledelayedexpansion
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
 
         echo Copying built files into build/asset dir C:\obj\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip
-        xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\php.zip" /s /i /Y
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.zip" echo Error, PHP ZIP FILE NOT FOUND.
-
-        powershell -NoP -NonI -Command "Expand-Archive '%APPVEYOR_BUILD_FOLDER%\build\php.zip' '%APPVEYOR_BUILD_FOLDER%\build\'"
+        xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\" /s /i /Y
+        powershell -NoP -NonI -Command "Expand-Archive -Force -Path %APPVEYOR_BUILD_FOLDER%\build\php-7.*.*-dev-Win32-vc15-x86.zip -DestinationPath %APPVEYOR_BUILD_FOLDER%\build\"
         rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
 
         rem win32std
