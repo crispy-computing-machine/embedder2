@@ -41,6 +41,21 @@ setlocal enableextensions enabledelayedexpansion
 		--disable-test-ini ^
 		--disable-cgi ^
 		--enable-com-dotnet
+		--with-bz2=static ^
+		--with-dba=static ^
+		--with-curl=static
+		--with-curl=static ^
+		--with-enchant=static ^
+		--enable-exif=static ^
+		--with-ffi=static ^
+		--with-fileinfo=static ^
+		--with-filter=static ^
+		--with-ftp=static ^
+		--with-gd=static ^
+		--with-gettext=static ^
+		--with-gmp=static
+
+
 		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
 
 
