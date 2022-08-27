@@ -112,7 +112,7 @@ setlocal enableextensions enabledelayedexpansion
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
 
 
-        echo Make ini reference to download res dll
+        echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo zend_extension=php_opcache.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
@@ -120,8 +120,8 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         rem all other exts that have to be compiled shared
-        echo extension=fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=intl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=php_intl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
@@ -135,24 +135,24 @@ setlocal enableextensions enabledelayedexpansion
 
 		rem Cleanup
 		echo Cleanup....
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\license.txt
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\news.txt
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\php.ini-development
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\php.ini-production
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\php7embed.lib
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\phpdbg.exe
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\README.md
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\readme-redist-bins.txt
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\snapshot.txt
+		DEL /Q %APPVEYOR_BUILD_FOLDER%\build\license.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\news.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-development
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-production
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7embed.lib
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phpdbg.exe
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\README.md
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\readme-redist-bins.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\snapshot.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\deplister.exe
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\dev
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\extras
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\lib
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\sasl2
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\deplister.exe
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll
-
+		
 		echo Zipping Assets...
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
