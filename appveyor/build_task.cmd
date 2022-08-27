@@ -110,8 +110,8 @@ setlocal enableextensions enabledelayedexpansion
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
         rem BLENC
-        echo Downloading https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest/php_blenc.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest/php_blenc.dll
+        echo Downloading https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest-x86/php_blenc.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest-x86/php_blenc.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" echo Error, php_blenc not found. && exit /b 1
 
         echo Make ini reference to extension .DLL's
@@ -145,7 +145,7 @@ setlocal enableextensions enabledelayedexpansion
 		echo Make embeder2.exe
 		rem Copy MSBuild exe to build folder
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
+
 		rem Use built PHP to make Embeder2Command into an exe.
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
