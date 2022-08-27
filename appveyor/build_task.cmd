@@ -38,7 +38,7 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-embed ^
 		--disable-debug-pack ^
 		--enable-com-dotnet=shared ^
-		--without-analyzer
+		--without-analyzer ^
 		--disable-test-ini  ^
 		--config-cache ^
 		--disable-cgi ^
