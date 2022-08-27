@@ -45,6 +45,7 @@ setlocal enableextensions enabledelayedexpansion
 		--with-dba=static ^
 		--with-curl=static ^
 		--with-enchant=static ^
+		--with-mbstring=static ^
 		--enable-exif=static ^
 		--with-ffi=static ^
 		--enable-fileinfo=static ^
@@ -56,7 +57,6 @@ setlocal enableextensions enabledelayedexpansion
 		--with-imap=static ^
 		--with-intl=static ^
 		--with-ldap=static ^
-		--with-mbstring=static ^
 		--with-mysqli=static ^
 		--with-odbc=static ^
 		--with-openssl=static ^
