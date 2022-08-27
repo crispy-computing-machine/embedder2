@@ -48,7 +48,7 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-exif=static ^
 		--with-ffi=static ^
 		--enable-fileinfo=static ^
-		--with-filter=static ^
+		--enable-filter=static ^
 		--with-ftp=static ^
 		--with-gd=static ^
 		--with-gettext=static ^
