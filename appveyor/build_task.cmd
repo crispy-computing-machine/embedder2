@@ -62,13 +62,22 @@ setlocal enableextensions enabledelayedexpansion
 		--with-openssl=static ^
 		--with-pdo-mysql=static ^
 		--with-pdo-sqlite=static ^
+		--with-pdo-firebird=static ^
+		--with-pdo-odbc=static ^
+		--with-pdo-pgsql=static ^
+		--with-pgsql=static ^
 		--enable-sockets=static ^
 		--with-sodium=static ^
 		--with-sqlite3=static ^
 		--with-tidy=static ^
 		--with-xmlrpc=static ^
 		--with-xsl=static ^
-		--enable-zip=static
+		--enable-zip=static ^
+		--enable-shmop=static ^
+		--with-snmp=static ^
+		--with-soap=static ^
+		--enable-sysvshm=static ^
+		--disable-zend_test
 
 		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
 
