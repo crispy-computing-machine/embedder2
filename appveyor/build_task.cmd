@@ -135,8 +135,8 @@ setlocal enableextensions enabledelayedexpansion
 		rem BLENC
         echo extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
-        Set /a _rand=(%RANDOM%*500/32768)
-        echo %_rand% >> "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
+        SET subkey1=%random%%random%%random%%random%%random%%random%
+        echo "%subkey1%" >> "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
         echo blenc.key_file = ".\blenc.key" >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         Rem display
