@@ -43,7 +43,6 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-com-dotnet
 		--with-bz2=static ^
 		--with-dba=static ^
-		--with-curl=static
 		--with-curl=static ^
 		--with-enchant=static ^
 		--enable-exif=static ^
