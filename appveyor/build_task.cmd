@@ -38,8 +38,7 @@ setlocal enableextensions enabledelayedexpansion
 		--disable-debug-pack ^
 		--enable-com-dotnet=shared ^
 		--without-analyzer ^
-		--disable-test-ini  ^
-		--config-cache ^
+		--disable-test-ini ^
 		--disable-cgi ^
 		--enable-com-dotnet
 		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
