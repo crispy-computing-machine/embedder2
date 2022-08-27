@@ -75,7 +75,7 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-zip=static ^
 		--enable-shmop=static ^
 		--with-snmp=static ^
-		--with-soap=static ^
+		--enable-soap=static ^
 		--enable-sysvshm=static ^
 		--disable-zend_test
 
