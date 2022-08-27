@@ -62,7 +62,7 @@ setlocal enableextensions enabledelayedexpansion
 		--with-openssl=static ^
 		--with-pdo-mysql=static ^
 		--with-pdo-sqlite=static ^
-		--with-pdo-firebird=static ^
+		--with-pdo-firebird=no ^
 		--with-pdo-odbc=static ^
 		--with-pdo-pgsql=static ^
 		--with-pgsql=static ^
