@@ -352,6 +352,13 @@ class Embeder2Command {
             $originalFullPath = $file;
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
+
+            // No hidden files
+            if(strpos($embedPath, '.') === 0){
+                continue;
+            }
+
+            // Update resource
             $this->add_file($path, $originalFullPath, $embedPath);
         }
 
