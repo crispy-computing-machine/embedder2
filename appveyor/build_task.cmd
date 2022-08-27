@@ -20,7 +20,6 @@ setlocal enableextensions enabledelayedexpansion
 
     set BUILD_TYPE=Debug
 
-
 	for %%z in (%ZTS_STATES%) do (
 		set ZTS_STATE=%%z
 		if "!ZTS_STATE!"=="enable" set ZTS_SHORT=ts
@@ -29,7 +28,6 @@ setlocal enableextensions enabledelayedexpansion
 		cd /d C:\projects\php-src
 
 		cmd /c buildconf.bat --force
-
 		if %errorlevel% neq 0 exit /b 3
 
 		 cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% ^
@@ -79,62 +77,72 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-sysvshm=static ^
 		--enable-zend-test=no
 
-		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
-
-
 		if %errorlevel% neq 0 exit /b 3
 
         rem Suppress logo output of nmake
 		nmake /NOLOGO
-
 		if %errorlevel% neq 0 exit /b 3
 
         nmake snap
 		rem nmake install
-
 		if %errorlevel% neq 0 exit /b 3
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
+        if %errorlevel% neq 0 exit /b 3
 
         echo Copying built files into build/asset dir C:\obj\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip
         rem xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\" /s /i /Y
         powershell -NoP -NonI -Command "Expand-Archive -Force -Path '%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip' -DestinationPath '%APPVEYOR_BUILD_FOLDER%\build\'"
-        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php-win.exe" echo Error, PHP not found. && exit /b 1
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
+
         rem Winbinder
         echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
-
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
         echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo zend_extension=php_opcache.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        rem all other exts that have to be compiled shared
+
+        rem Forced shared extensions
         echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_intl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+        rem Zend Extensions
+        echo zend_extension=php_opcache.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+        rem Winbinder/Win32Std
+        echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo winbinder.debug_level = 0>> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo winbinder.low_level_functions = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+        Rem display
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
+		rem Copy MSBuild exe to build folder
+        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
+
+		rem Use built PHP to make Embeder2Command into an exe.
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\build\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\build\Embeder2Command.php"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\build\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
-        rem if %errorlevel% neq 0 exit /b 3
+        %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\info.html
+        if %errorlevel% neq 0 exit /b 3
 
 		rem Cleanup
-		echo Cleanup....
+		echo Cleanup files....
 		DEL /Q %APPVEYOR_BUILD_FOLDER%\build\license.txt
 		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\news.txt
 		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-development
@@ -148,11 +156,15 @@ setlocal enableextensions enabledelayedexpansion
 		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar
 		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat
 		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7apache2_4.dll
+        DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7phpdbg.dll
+
+        echo Cleanup DIRS
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\dev
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\extras
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\lib
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\sasl2
-		
+
 		echo Zipping Assets...
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
