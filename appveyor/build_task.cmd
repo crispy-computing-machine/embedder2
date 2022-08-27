@@ -49,7 +49,7 @@ setlocal enableextensions enabledelayedexpansion
 		--with-ffi=static ^
 		--enable-fileinfo=static ^
 		--enable-filter=static ^
-		--with-ftp=static ^
+		--enable-ftp=static ^
 		--with-gd=static ^
 		--with-gettext=static ^
 		--with-gmp=static
