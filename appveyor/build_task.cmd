@@ -52,8 +52,32 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-ftp=static ^
 		--with-gd=static ^
 		--with-gettext=static ^
-		--with-gmp=static
-
+		--with-gmp=static ^
+		--with-imap=static ^
+		--with-intl=static ^
+		--with-ldap=static ^
+		--with-mbstring=static ^
+		--with-mysqli=static ^
+		--with-odbc=static ^
+		--with-openssl=static ^
+		--with-pdo_firebird=static ^
+		--with-pdo_mysql=static ^
+		--with-pdo_odbc=static ^
+		--with-pdo_pgsql=static ^
+		--with-pdo_sqlite=static ^
+		--with-pgsql=static ^
+		--with-phpdbg_webhelper=static ^
+		--with-shmop=static ^
+		--with-snmp=static ^
+		--with-soap=static ^
+		--with-sockets=static ^
+		--with-sodium=static ^
+		--with-sqlite3=static ^
+		--with-sysvshm=static ^
+		--with-tidy=static ^
+		--with-xmlrpc=static ^
+		--with-xsl=static ^
+		--with-zend_test=static
 
 		rem --with-parallel --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
 
