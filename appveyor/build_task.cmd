@@ -60,8 +60,8 @@ setlocal enableextensions enabledelayedexpansion
 		--with-mysqli=static ^
 		--enable-odbc=static ^
 		--with-openssl=static ^
-		--with-pdo_mysql=static ^
-		--with-pdo_sqlite=static ^
+		--with-pdo-mysql=static ^
+		--with-pdo-sqlite=static ^
 		--enable-sockets=static ^
 		--with-sodium=static ^
 		--with-sqlite3=static ^
