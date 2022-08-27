@@ -77,6 +77,7 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-sysvshm=static ^
 		--enable-zend-test=no
 
+		rem --with-parallel=static --with-extra-libs=c:\build-cache\pthreads\lib --with-extra-includes=c:\build-cache\pthreads\include
 		if %errorlevel% neq 0 exit /b 3
 
         rem Suppress logo output of nmake
@@ -108,6 +109,11 @@ setlocal enableextensions enabledelayedexpansion
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
+        rem BLENC
+        echo Downloading https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest/php_blenc.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest/php_blenc.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" echo Error, php_blenc not found. && exit /b 1
+
         echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
@@ -122,9 +128,16 @@ setlocal enableextensions enabledelayedexpansion
 
         rem Winbinder/Win32Std
         echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo winbinder.debug_level = 0>> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo winbinder.debug_level = 0 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo winbinder.low_level_functions = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+		rem BLENC
+        echo extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        type nul > "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
+        Set /a _rand=(%RANDOM%*500/32768)+1
+        echo %_rand% >> "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
+        echo blenc.key_file = ".\blenc.key" >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         Rem display
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
@@ -133,10 +146,9 @@ setlocal enableextensions enabledelayedexpansion
 		rem Copy MSBuild exe to build folder
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
-
 		rem Use built PHP to make Embeder2Command into an exe.
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\build\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\build\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\build\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\info.html
         if %errorlevel% neq 0 exit /b 3
