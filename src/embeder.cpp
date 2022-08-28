@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 		PG(during_request_startup) = 0;
 
 		/* We are embeded */
-		zend_eval_string(" define('EMBEDED', 1); function embeded($file, $force = false) { $file = $force || defined('EMBEDED') ? 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $file)) : $file; echo 'embeded: Including file ' . $file . ' -> ' . strlen(@(int)file_get_contents($file)) . PHP_EOL; return $file;}", &ret_value, "main" TSRMLS_CC);
+		zend_eval_string(" define('EMBEDED', 1); function embeded($file, $force = false) { $originalFile = $file; $file = $force || defined('EMBEDED') ? 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $file)) : $file; echo 'embeded(' . $file . ') Including file ' . $originalFile . ' = ' . strlen(@(int)file_get_contents($file)) . PHP_EOL; return $file; }", &ret_value, "main" TSRMLS_CC);
 
 		/* Execute */
 		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);

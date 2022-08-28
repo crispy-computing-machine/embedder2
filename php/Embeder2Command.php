@@ -27,6 +27,7 @@ class Embeder2Command {
         'list' => ['display_list',     ['path'], 'List contents of EXE [path]'],
         'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content [path, section, value, lang]'],
         'build' => ['build_dir',       ['path', 'main', 'directory', 'type'], 'Build EXE from folder content [path, main, directory, type]'],
+        'validate' => ['validate',       ['path', 'main', 'directory', 'type'], 'Validate EXE from folder content [path, main, directory, type]'],
         'info' => ['info',             [], 'Show embeded php info'],
     ];
 
@@ -207,8 +208,9 @@ class Embeder2Command {
         if(!$reset) {
             $this->message("update_resource: Can't update " . $res, $error = true);
         }
-
         $this->message("update_resource: '" . $exeFile . "' -> '" . $res . "' (" . strlen($data) . ' bytes)');
+        #usleep(500000);
+        usleep(1000000);
         return $reset;
     }
 
@@ -360,8 +362,8 @@ class Embeder2Command {
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
-            // No hidden files, No git files, No directories
-            if(strpos($embedPath, '.') === 0 || strpos($embedPath, '.git') !== FALSE || is_dir($embedPath)){
+            // No hidden files, No git files, No directories // @todo pass as arguments to embedder
+            if(strpos($embedPath, '.') === 0 || strpos($embedPath, '.git') !== FALSE || strpos($embedPath, 'php7') !== FALSE || is_dir($originalFullPath)){
                 continue;
             }
 
@@ -377,10 +379,74 @@ class Embeder2Command {
         }
 
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
-
         $this->change_type($path, $type);
 
         $this->message('build_dir: Build complete!');
+
+    }
+
+    /**
+     * // @todo validate exe and add any missing resources
+     * @param $path
+     * @param $main
+     * @param $rootDirectory
+     * @param $type
+     * @return void
+     */
+    public function validate($path, $main, $rootDirectory, $type = 'CONSOLE'){
+
+        $this->message('build_dir: ' . $path . ' Validating...');
+
+        // Check Main
+        // Check and Add missing resource @todo corrupts exe, use temp?
+        $missingTmpFile = str_replace('.exe', '-missing.exe', $path);
+        copy($path, $missingTmpFile);
+        $h = res_open( $missingTmpFile );
+
+        // Check PHP RES
+        $buildFiles = $this->filesInDir($rootDirectory);
+        $missingFiles = [];
+        foreach($buildFiles as $file) {
+
+            $originalFullPath = $file;
+            $relativePath = str_replace($rootDirectory, '', $originalFullPath);
+            $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
+
+            // No hidden files, No git files, No directories
+            if(strpos($embedPath, '.') === 0 || strpos($embedPath, '.git') !== FALSE || strpos($embedPath, 'php7') !== FALSE || is_dir($originalFullPath)){
+                continue;
+            }
+
+            // Check and Add missing resource to array to process after.
+            // Using temp file as to not lock up original file for updates or currupt it
+            // Res_get is the best way to determine if a resource exists
+            $res = strlen(res_get( $h, 'PHP', md5($embedPath)));
+            $this->message('build_dir: ' . $path . ' Validating ' . $embedPath . ' -> ' . $res);
+
+            if($res === 0){
+                $this->message('build_dir: ' . $path . ' Missing, Adding ' . $embedPath . ' -> ' . $res);
+
+                // Can't add to it if its open, so we are reading from a temp file instead
+                $this->add_file($path, $originalFullPath, $embedPath);
+                $missingFiles[] = [$path, $originalFullPath, $embedPath];
+            }
+        }
+
+        // Missing files array to process
+        $numberOfMissingFiles = count($missingFiles);
+        $this->message('build_dir: ' . $path . ' Missing files ' . $numberOfMissingFiles);
+        $missingAdded = 0;
+        foreach($missingFiles as $file){
+            [$path, $originalFullPath, $embedPath] = $file;
+            $missingAdded += $this->add_file($path, $originalFullPath,$embedPath);
+        }
+
+        // Clear up temp file/handles
+        unlink($missingTmpFile);
+        #$closed = @res_close($h); // segfault? Use temp file so we don't care
+        #$this->message('build_dir: ' . $path . ' Resource closed ' . var_export($closed, true));
+
+        $this->message('build_dir: ' . $path . ' Validation complete! ' . $missingAdded . '/' . $numberOfMissingFiles . ' missing resources added!');
 
     }
 
@@ -407,7 +473,8 @@ class Embeder2Command {
      *          embeded function might need to normalise more paths
      * @return string
      */
-    private function composerFileCheck($fileName, $fileContents){
+    function composerFileCheck($fileName, $fileContents){
+
         if(strpos($fileName, 'autoload_real.php') !== FALSE || strpos($fileName, 'autoload.php') !== FALSE){
             $fileContents = str_replace("require __DIR__ . '/ClassLoader.php';", "require embeded('vendor/composer/ClassLoader.php');", $fileContents);
             $fileContents = str_replace("require __DIR__ . '/platform_check.php';", "require embeded('vendor/composer/platform_check.php');", $fileContents);
@@ -415,13 +482,18 @@ class Embeder2Command {
             $fileContents = str_replace("\$map = require __DIR__ . '/autoload_namespaces.php';", "\$map = require embeded('vendor/composer/autoload_namespaces.php');", $fileContents);
             $fileContents = str_replace("\$map = require __DIR__ . '/autoload_psr4.php';", "\$map = require embeded('vendor/composer/autoload_psr4.php');", $fileContents);
             $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require embeded('vendor/composer/autoload_classmap.php');", $fileContents);
-            $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require embeded('vendor/composer/autoload_classmap.php)';", $fileContents);
-            $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require embeded('vendor/composer/autoload_files.php)';", $fileContents);
+            $fileContents = str_replace("require_once __DIR__ . '/composer/autoload_real.php';", "require_once embeded('vendor/composer/autoload_real.php');", $fileContents);
+            $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require embeded('vendor/composer/autoload_files.php');", $fileContents);
             $fileContents = str_replace("require \$file;", "require embeded(\$file);", $fileContents);
         }
 
         if(strpos($fileName, 'ClassLoader.php') !== FALSE){
             $fileContents = str_replace("include \$file;", "include embeded(\$file);", $fileContents);
+        }
+
+        if(strpos($fileName, 'autoload_static.php') !== FALSE){
+            $fileContents = str_replace("__DIR__ . '/../..' . '/", "'", $fileContents);
+            $fileContents = str_replace("__DIR__ . '/..' . '/", "'", $fileContents);
         }
 
         return $fileContents;
