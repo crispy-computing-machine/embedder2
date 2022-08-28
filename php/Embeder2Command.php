@@ -26,7 +26,7 @@ class Embeder2Command {
         'type' => ['change_type',      ['path', 'type'], 'Change EXE type. [path, type]'],
         'list' => ['display_list',     ['path'], 'List contents of EXE [path]'],
         'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content [path, section, value, lang]'],
-        'build' => ['build_dir',       ['path', 'main', 'directory'], 'Build EXE from folder content [path, main, directory]'],
+        'build' => ['build_dir',       ['path', 'main', 'directory', 'type'], 'Build EXE from folder content [path, main, directory, type]'],
         'info' => ['info',             [], 'Show embeded php info'],
     ];
 
@@ -98,9 +98,9 @@ class Embeder2Command {
 
         // Copy base exe to current working directory
         if(!copy($base_exe, $file)){
-            $this->message("Can't create '$file'", $error = true);
+            $this->message("new_file: Can't create '$file'", $error = true);
         }
-        $this->message("'$file' created");
+        $this->message("new_file: '$file' created");
     }
 
     /**
@@ -115,7 +115,7 @@ class Embeder2Command {
         // if it doesnt exist fail
         $this->check_exe($exeFile, false);
 
-        $this->message('Adding main file ' . $newFile . ' to ' . $exeFile);
+        $this->message('add_main: ' . $newFile . ' to ' . $exeFile);
         return $this->update_resource($exeFile, 'PHP', 'RUN', file_get_contents($newFile), 1036);
     }
 
@@ -131,8 +131,9 @@ class Embeder2Command {
 
         $this->check_exe($exeFile);
         $md5 = md5($alias);
-        $this->message('Adding additional file ' . $newFile . ' to ' . $exeFile . ' as ' .$alias . ' [' . strtoupper($md5)  . ']');
-        return $this->update_resource($exeFile, 'PHP', $md5, file_get_contents($newFile));
+        $resourceContents = $this->composerFileCheck($alias, file_get_contents($newFile));
+        $this->message('add_file: ' . $newFile . ' to ' . $exeFile . ' as ' .$alias . ' [' . strtoupper($md5)  . ']');
+        return $this->update_resource($exeFile, 'PHP', $md5, $resourceContents);
     }
 
     /**
@@ -150,7 +151,7 @@ class Embeder2Command {
 
         // Check TYPE paramater
         if(!in_array($new_format = strtoupper($type), $types)) {
-            $this->message('Type not supported', $error = true);
+            $this->message('change_type: Type not supported', $error = true);
         }
 
         // Open file handle in r+b mode
@@ -159,31 +160,31 @@ class Embeder2Command {
         // Change EXE type
         $type_record = unpack('Smagic/x58/Loffset', fread($f, 32*4));
         if($type_record['magic'] != 0x5a4d ) {
-            $this->message('Not an MSDOS executable file', $error = true);
+            $this->message('change_type: Not an MSDOS executable file', $error = true);
         }
         if(fseek($f, $type_record['offset'], SEEK_SET) != 0) {
-            $this->message("Seeking error (+{$type_record['offset']})", $error = true);
+            $this->message("change_type: Seeking error (+{$type_record['offset']})", $error = true);
         }
 
         // PE Record
         $pe_record = unpack('Lmagic/x16/Ssize', fread($f, 24));
         if($pe_record['magic'] != 0x4550 ) {
-            $this->message('PE header not found', $error = true);
+            $this->message('change_type: PE header not found', $error = true);
         }
         if($pe_record['size'] != 224 ) {
-            $this->message('Optional header not in NT32 format', $error = true);
+            $this->message('change_type: Optional header not in NT32 format', $error = true);
         }
         if(fseek($f, $type_record['offset'] + 24 + 68, SEEK_SET) != 0) {
-            $this->message("Seeking error (+{$type_record['offset']})", $error = true);
+            $this->message("change_type: Seeking error (+{$type_record['offset']})", $error = true);
         }
         if(fwrite($f, pack('S', $new_format === 'CONSOLE' ? 3:2 )) === false) {
-            $this->message('Write error', $error = true);
+            $this->message('change_type: Write error', $error = true);
         }
 
         // Close file handle
         fclose($f);
 
-        $this->message("File type changed too '".$new_format."'");
+        $this->message("change_type: File type changed too '".$new_format."'");
     }
 
     /**
@@ -204,10 +205,10 @@ class Embeder2Command {
         // Set resource
         $reset = res_set($exeFile, $section, $name, $data, $lang);
         if(!$reset) {
-            $this->message("Can't update " . $res, $error = true);
+            $this->message("update_resource: Can't update " . $res, $error = true);
         }
 
-        $this->message("Updated '" . $exeFile . "' -> '" . $res . "' (" . strlen($data) . ' bytes)');
+        $this->message("update_resource: '" . $exeFile . "' -> '" . $res . "' (" . strlen($data) . ' bytes)');
         return $reset;
     }
 
@@ -220,11 +221,11 @@ class Embeder2Command {
     public function check_exe($exe, $exists=false) {
         if($exists) {
             if(file_exists($exe)) {
-                $this->message("'$exe' already exists.", $error = true);
+                $this->message("check_exe: '$exe' already exists.", $error = true);
             }
         } else {
             if(!file_exists($exe)) {
-                $this->message("'$exe' doesn't exist.", $error = true);
+                $this->message("check_exe: '$exe' doesn't exist.", $error = true);
             }
         }
     }
@@ -240,13 +241,13 @@ class Embeder2Command {
 
         $h = res_open($exeFile);
         if(!$h) {
-            $this->message("can't open '$exeFile'", $error = true);
+            $this->message("display_list: can't open '$exeFile'", $error = true);
         }
 
-        $this->message( "Res list of '$exeFile': ");
+        $this->message( "display_list: Res list of '$exeFile': ");
         $list = res_list_type($h, true);
         if( $list === FALSE ){
-            $this->message( "Can't list type", $error = true);
+            $this->message( "display_list: Can't list type", $error = true);
         }
 
         foreach ($list as $i => $iValue) {
@@ -272,7 +273,7 @@ class Embeder2Command {
 
         $this->check_exe($exeFile);
         $res= "res:///{$section}/{$value}" . ($lang ?? ('/'.$lang));
-        $this->message(str_repeat('-', 10) . ' Displaying:' . $res . ' ' . str_repeat('-', 10));
+        $this->message(str_repeat('-', 10) . ' display_resource:' . $res . ' ' . str_repeat('-', 10));
         $this->message(file_get_contents($res));
         $this->message(str_repeat('-', 10) . ' End ' . str_repeat('-', 10));
     }
@@ -286,7 +287,7 @@ class Embeder2Command {
         if (!isset($this->argv[1])) {
             $this->banner();
 
-            $this->message("Usage: {$this->argv[0]} action [params...]");
+            $this->message("Usage: {$this->argv[0]} action [parameters...]");
             $this->message('Available commands:');
 
             // Print out num args, command, desc with formatting
@@ -342,10 +343,16 @@ class Embeder2Command {
      * @param $rootDirectory - .\full\path\to\project\
      * @return void
      */
-    public function build_dir($path, $main, $rootDirectory){
+    public function build_dir($path, $main, $rootDirectory, $type = 'CONSOLE'){
 
+        $this->message('build_dir: Creating new exe ' . $path . ' from  directory ' . $rootDirectory . ', Main file: ' . $main . ' (Type:'.$type.')');
         $this->new_file($path);
         $this->add_main($path, $main);
+
+        // Stats
+        $totalFiles = 0;
+        $filesAdded = 0;
+        $failedFiles = 0;
 
         $buildFiles = $this->filesInDir($rootDirectory);
         foreach($buildFiles as $file){
@@ -353,21 +360,27 @@ class Embeder2Command {
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
-            // No hidden files
-            if(strpos($embedPath, '.') === 0){
-                continue;
-            }
-
-            // No git files
-            if(strpos($embedPath, '.git') !== FALSE){
+            // No hidden files, No git files, No directories
+            if(strpos($embedPath, '.') === 0 || strpos($embedPath, '.git') !== FALSE || is_dir($embedPath)){
                 continue;
             }
 
             // Update resource
-            $this->add_file($path, $originalFullPath, $embedPath);
+            $added = $this->add_file($path, $originalFullPath, $embedPath);
+            $filesAdded += $added;
+            $failedFiles += !$added;
+            $totalFiles++;
+            if($totalFiles % 100 === 0){
+                $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
+            }
+
         }
 
-        #$this->change_type($path, 'WINDOWS');
+        $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
+
+        $this->change_type($path, $type);
+
+        $this->message('build_dir: Build complete!');
 
     }
 
@@ -387,6 +400,32 @@ class Embeder2Command {
             new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST
         );
+    }
+
+    /**
+     * @todo PHPParser or find/replace on composer files
+     *          embeded function might need to normalise more paths
+     * @return string
+     */
+    private function composerFileCheck($fileName, $fileContents){
+        if(strpos($fileName, 'autoload_real.php') !== FALSE || strpos($fileName, 'autoload.php') !== FALSE){
+            $fileContents = str_replace("require __DIR__ . '/ClassLoader.php';", "require embeded('vendor/composer/ClassLoader.php');", $fileContents);
+            $fileContents = str_replace("require __DIR__ . '/platform_check.php';", "require embeded('vendor/composer/platform_check.php');", $fileContents);
+            $fileContents = str_replace("require __DIR__ . '/autoload_static.php';", "require embeded('vendor/composer/autoload_static.php');", $fileContents);
+            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_namespaces.php';", "\$map = require embeded('vendor/composer/autoload_namespaces.php');", $fileContents);
+            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_psr4.php';", "\$map = require embeded('vendor/composer/autoload_psr4.php');", $fileContents);
+            $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require embeded('vendor/composer/autoload_classmap.php');", $fileContents);
+            $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require embeded('vendor/composer/autoload_classmap.php)';", $fileContents);
+            $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require embeded('vendor/composer/autoload_files.php)';", $fileContents);
+            $fileContents = str_replace("require \$file;", "require embeded(\$file);", $fileContents);
+        }
+
+        if(strpos($fileName, 'ClassLoader.php') !== FALSE){
+            $fileContents = str_replace("include \$file;", "include embeded(\$file);", $fileContents);
+        }
+
+        return $fileContents;
+
     }
 
     /**

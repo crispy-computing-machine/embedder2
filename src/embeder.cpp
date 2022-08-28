@@ -70,17 +70,15 @@ int main(int argc, char** argv) {
 		PG(during_request_startup) = 0;
 
 		/* We are embeded */
-		zend_eval_string(" define('EMBEDED', 1); function embeded($file, $force = false) { return $force || defined('EMBEDED') ? 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $file)) : $file; }", &ret_value, "main" TSRMLS_CC);
+		zend_eval_string(" define('EMBEDED', 1); function embeded($file, $force = false) { $file = $force || defined('EMBEDED') ? 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $file)) : $file; echo 'embeded: Including file ' . $file . ' -> ' . strlen(@(int)file_get_contents($file)) . PHP_EOL; return $file;}", &ret_value, "main" TSRMLS_CC);
 
 		/* Execute */
 		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);
 
 		/* Get Exit Status */
-		exit_status= Z_LVAL(ret_value);
-	}
-
-	/* Catch Exit status */
-	zend_catch {
+		exit_status = Z_LVAL(ret_value);
+	} zend_catch {
+	    /* Catch Exit status */
 		exit_status = EG(exit_status);
 	}
 	zend_end_try();
