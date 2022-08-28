@@ -117,6 +117,11 @@ setlocal enableextensions enabledelayedexpansion
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
+        rem Debug
+        echo error_reporting=E_ALL > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo display_errors=On > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo log_errors=On > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
         rem Forced shared extensions
         echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_intl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
