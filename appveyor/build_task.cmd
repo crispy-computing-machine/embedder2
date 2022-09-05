@@ -115,7 +115,7 @@ setlocal enableextensions enabledelayedexpansion
 
         echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension_dir=.\ext > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         rem Debug
         echo error_reporting=E_ALL > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
