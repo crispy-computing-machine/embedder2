@@ -137,11 +137,11 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		rem BLENC
-        echo extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo ;extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
         SET subkey1=%random%%random%%random%%random%%random%%random%
         echo %subkey1% >> "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
-        echo blenc.key_file = .\blenc.key >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo ;blenc.key_file = .\blenc.key >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         Rem display
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"

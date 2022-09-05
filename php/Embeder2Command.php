@@ -398,10 +398,9 @@ class Embeder2Command {
         $this->message('build_dir: ' . $path . ' Validating...');
 
         // Check Main
-        // Check and Add missing resource @todo corrupts exe, use temp?
+        // Check and Add missing resource (res_open() corrupts exe, and cant update exe while checking.... use temp!)
         $missingTmpFile = str_replace('.exe', '-missing.exe', $path);
         copy($path, $missingTmpFile);
-        $h = res_open( $missingTmpFile );
 
         // Check PHP RES
         $buildFiles = $this->filesInDir($rootDirectory);
@@ -418,11 +417,9 @@ class Embeder2Command {
             }
 
             // Check and Add missing resource to array to process after.
-            // Using temp file as to not lock up original file for updates or currupt it
-            // Res_get is the best way to determine if a resource exists
-            $res = strlen(res_get( $h, 'PHP', md5($embedPath)));
+            #$res = strlen(res_get( $h, 'PHP', md5($embedPath)));
+            $res = strlen(file_get_contents( 'res://'.$path.'/PHP/' . md5($embedPath)));
             $this->message('build_dir: ' . $path . ' Validating ' . $embedPath . ' -> ' . $res);
-
             if($res === 0){
                 $this->message('build_dir: ' . $path . ' Missing, Adding ' . $embedPath . ' -> ' . $res);
 
@@ -443,8 +440,6 @@ class Embeder2Command {
 
         // Clear up temp file/handles
         unlink($missingTmpFile);
-        #$closed = @res_close($h); // segfault? Use temp file so we don't care
-        #$this->message('build_dir: ' . $path . ' Resource closed ' . var_export($closed, true));
 
         $this->message('build_dir: ' . $path . ' Validation complete! ' . $missingAdded . '/' . $numberOfMissingFiles . ' missing resources added!');
 
