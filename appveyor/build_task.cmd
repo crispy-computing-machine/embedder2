@@ -108,11 +108,6 @@ setlocal enableextensions enabledelayedexpansion
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
-        rem BLENC
-        echo Downloading https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest-x86/php_blenc.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" https://github.com/crispy-computing-machine/pecl-php-blenc/releases/download/latest-x86/php_blenc.dll
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" echo Error, php_blenc not found. && exit /b 1
-
         echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
@@ -136,12 +131,6 @@ setlocal enableextensions enabledelayedexpansion
         echo winbinder.debug_level = 0 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo winbinder.low_level_functions = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-		rem BLENC
-        echo extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        type nul > "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\blenc.key" https://www.random.org/strings/?num=1&len=20&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new
-        echo blenc.key_file = .\blenc.key >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         Rem display
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
