@@ -115,12 +115,13 @@ setlocal enableextensions enabledelayedexpansion
 
         echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension_dir=.\ext > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+        echo extension_dir=.\ext >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         rem Debug
-        echo error_reporting=E_ALL > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo display_errors=On > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo log_errors=On > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo error_reporting=E_ALL >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo display_errors=On >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo log_errors=On >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         rem Forced shared extensions
         echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
@@ -137,11 +138,10 @@ setlocal enableextensions enabledelayedexpansion
         echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		rem BLENC
-        echo ;extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo extension=php_blenc.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
-        SET subkey1=%random%%random%%random%%random%%random%%random%
-        echo %subkey1% >> "%APPVEYOR_BUILD_FOLDER%\build\blenc.key"
-        echo ;blenc.key_file = .\blenc.key >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\blenc.key" https://www.random.org/strings/?num=1&len=20&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new
+        echo blenc.key_file = .\blenc.key >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         Rem display
         type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
