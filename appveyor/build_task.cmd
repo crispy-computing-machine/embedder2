@@ -110,7 +110,7 @@ setlocal enableextensions enabledelayedexpansion
 
         rem freeimage
         echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
 
