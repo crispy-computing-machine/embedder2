@@ -108,19 +108,21 @@ setlocal enableextensions enabledelayedexpansion
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
-        rem BLENC
+        rem freeimage
         echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_blenc.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
+
         echo Make ini reference to extension .DLL's
         type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+
+        echo extension_dir=.\ext >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         rem Debug
-        echo error_reporting=E_ALL > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo display_errors=On > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo log_errors=On > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo error_reporting=E_ALL >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo display_errors=On >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        echo log_errors=On >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
         rem Forced shared extensions
         echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
