@@ -46,9 +46,6 @@ static void embeded_ini_defaults(HashTable *configuration_hash)
 	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("error.log"), /* persistent */ 1));
 	zend_hash_str_update(configuration_hash, ZEND_STRL("error_log"), &ini_value);
 
-
-
-
 }
 
 /* Main */

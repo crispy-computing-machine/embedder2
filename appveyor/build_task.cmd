@@ -108,38 +108,18 @@ setlocal enableextensions enabledelayedexpansion
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
+        rem win32ps
+        echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
+
         rem freeimage
         echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
-
         echo Make ini reference to extension .DLL's
-        type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-        echo extension_dir=.\ext >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-        rem Debug
-        echo error_reporting=E_ALL >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo display_errors=On >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo log_errors=On >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-        rem Forced shared extensions
-        echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_intl.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-        rem Zend Extensions
-        echo zend_extension=php_opcache.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-        rem Winbinder/Win32Std
-        echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo winbinder.debug_level = 0 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo winbinder.low_level_functions = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-
-        Rem display
-        type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
 		rem Copy MSBuild exe to build folder
@@ -148,7 +128,7 @@ setlocal enableextensions enabledelayedexpansion
 		rem Use built PHP to make Embeder2Command into an exe.
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
-        %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\info.html
+        %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
 		rem Cleanup

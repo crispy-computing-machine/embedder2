@@ -2,6 +2,12 @@
 
 define('EMBEDED', TRUE);
 
+/**
+ * include/require replacement function
+ * @param $file
+ * @param $force
+ * @return mixed|string
+ */
 function embeded($file, $force = false)
 {
     $originalFile = $file;
@@ -16,6 +22,11 @@ function embeded($file, $force = false)
     return $file;
 }
 
+/**
+ * Embedded equivalent of file_exists()
+ * @param $file
+ * @return bool
+ */
 function embeded_file_exists($file)
 {
     return file_get_contents(embeded($file)) !== false;
