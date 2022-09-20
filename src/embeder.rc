@@ -28,6 +28,9 @@ LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
 
 RUN                     PHP     DISCARDABLE     "..\\php\\run.php"
 LIB                     PHP     DISCARDABLE     "..\\php\\lib.php"
+INC_FILTER              PHP     DISCARDABLE     "..\\php\\intercept\\FileFilter.php"
+INC_INTERCEPT           PHP     DISCARDABLE     "..\\php\\intercept\\Interceptor.php"
+INC_STREAM              PHP     DISCARDABLE     "..\\php\\intercept\\Stream.php"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
