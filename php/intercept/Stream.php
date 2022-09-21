@@ -73,58 +73,6 @@ class Stream {
     }
 
     /**
-     * Check if the path is relative to the file that included it.
-     */
-    private function fixPath(string $path, array $backtrace): string {
-        if ($path[0] === '/') {
-            return $path;
-        }
-        $callerDir = dirname($this->getCallingFile($backtrace));
-        $pathFromCallerContext = $callerDir . '/' . $path;
-        if (file_exists($pathFromCallerContext)) {
-            return $pathFromCallerContext;
-        }
-
-        return $path;
-    }
-
-    /**
-     * For res:// streams the realpath() operation is not supported, so manually
-     * resolve ./ and ../ segments, so that filtering code doesn't have to deal
-     * with it.
-     *
-     * Returns null if the file does not exist.
-     */
-    private function realpath(string $path): ?string {
-        if (($realPath = realpath($path)) !== false) {
-            return $realPath;
-        }
-
-        // Implementation based on https://github.com/UnionOfRAD/lithium/blob/master/core/Libraries.php.
-        if (!preg_match('%^res://(.+\.res(?:\.gz)?)(.+)%', $path, $pathComponents)) {
-            return null;
-        }
-        
-        [, $relativePath, $resPath] = $pathComponents;
-
-        $resPath = implode('/', array_reduce(explode('/', $resPath), function ($parts, $value) {
-            if ($value === '..') {
-                array_pop($parts);
-            } elseif ($value !== '.') {
-                $parts[] = $value;
-            }
-            return $parts;
-        }));
-
-        if (($resolvedPath = realpath($relativePath)) !== false) {
-            if (file_exists($realPath = "res://{$resolvedPath}{$resPath}")) {
-                return $realPath;
-            }
-        }
-        return null;
-    }
-
-    /**
      * @param $path
      * @param $mode
      * @param $options
@@ -134,15 +82,11 @@ class Stream {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         return $this->runUnwrapped(function (Interceptor $interceptor) use ($path, $mode, $options, $backtrace) {
 
-            $path = $this->fixPath($path, $backtrace);
             $including = (bool)($options & self::STREAM_OPEN_FOR_INCLUDE);
             if ($including) {
-                $realPath = $this->realpath($path);
-                if ($realPath !== null) {
-                    $this->resource = $interceptor->intercept($realPath);
-                    if ($this->resource !== null) {
-                        return true;
-                    }
+                $this->resource = $interceptor->intercept($path);
+                if ($this->resource !== null) {
+                    return true;
                 }
             }
 

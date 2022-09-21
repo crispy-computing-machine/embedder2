@@ -20,7 +20,7 @@ class Interceptor {
      * The hook can return null to skip interception for this file,
      * or a string, to specify the transformed file contents.
      */
-    public function __construct(callable $hook, array $protocols = ['file']) {
+    public function __construct(callable $hook, array $protocols = ['file','res']) {
         $this->hook = $hook;
         $this->protocols = $protocols;
     }
