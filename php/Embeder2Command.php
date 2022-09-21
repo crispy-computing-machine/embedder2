@@ -486,22 +486,25 @@ class Embeder2Command
     function composerFileCheck($fileName, $fileContents)
     {
 
+        // composer specific includes
         if (strpos($fileName, 'autoload_real.php') !== FALSE || strpos($fileName, 'autoload.php') !== FALSE) {
-            $fileContents = str_replace("require __DIR__ . '/ClassLoader.php';", "require embeded('vendor/composer/ClassLoader.php');", $fileContents);
-            $fileContents = str_replace("require __DIR__ . '/platform_check.php';", "require embeded('vendor/composer/platform_check.php');", $fileContents);
-            $fileContents = str_replace("require __DIR__ . '/autoload_static.php';", "require embeded('vendor/composer/autoload_static.php');", $fileContents);
-            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_namespaces.php';", "\$map = require embeded('vendor/composer/autoload_namespaces.php');", $fileContents);
-            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_psr4.php';", "\$map = require embeded('vendor/composer/autoload_psr4.php');", $fileContents);
-            $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require embeded('vendor/composer/autoload_classmap.php');", $fileContents);
-            $fileContents = str_replace("require_once __DIR__ . '/composer/autoload_real.php';", "require_once embeded('vendor/composer/autoload_real.php');", $fileContents);
-            $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require embeded('vendor/composer/autoload_files.php');", $fileContents);
+            $fileContents = str_replace("require __DIR__ . '/ClassLoader.php';", "require 'vendor/composer/ClassLoader.php';", $fileContents);
+            $fileContents = str_replace("require __DIR__ . '/platform_check.php';", "require 'vendor/composer/platform_check.php';", $fileContents);
+            $fileContents = str_replace("require __DIR__ . '/autoload_static.php';", "require 'vendor/composer/autoload_static.php';", $fileContents);
+            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_namespaces.php';", "\$map = require 'vendor/composer/autoload_namespaces.php';", $fileContents);
+            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_psr4.php';", "\$map = require 'vendor/composer/autoload_psr4.php';", $fileContents);
+            $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require 'vendor/composer/autoload_classmap.php';", $fileContents);
+            $fileContents = str_replace("require_once __DIR__ . '/composer/autoload_real.php';", "require_once 'vendor/composer/autoload_real.php';", $fileContents);
+            $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require 'vendor/composer/autoload_files.php';", $fileContents);
             $fileContents = str_replace("require \$file;", "require embeded(\$file);", $fileContents);
         }
 
-        if (strpos($fileName, 'ClassLoader.php') !== FALSE) {
-            $fileContents = str_replace("include \$file;", "include embeded(\$file);", $fileContents);
-        }
+        // Main include function for compose
+        #if (strpos($fileName, 'ClassLoader.php') !== FALSE) {
+        #    $fileContents = str_replace("include \$file;", "include \$file;", $fileContents);
+        #}
 
+        // Replace dunder path constants
         if (strpos($fileName, 'autoload_static.php') !== FALSE) {
             $fileContents = str_replace("__DIR__ . '/../..' . '/", "'", $fileContents);
             $fileContents = str_replace("__DIR__ . '/..' . '/", "'", $fileContents);

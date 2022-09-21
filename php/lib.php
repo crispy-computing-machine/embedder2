@@ -36,8 +36,8 @@ $interceptor = new Interceptor(function(string $path) {
 
     $originalFile = $path;
 
-    if(strpos($path, 'RUN') === false && strpos($path, 'LIB') === false &&
-        strpos($path, 'INC_INTERCEPT') === false && strpos($path, 'INC_STREAM') === false){
+    if(stripos($path, 'RUN') === false && stripos($path, 'LIB') === false &&
+        stripos($path, 'INC_INTERCEPT') === false && stripos($path, 'INC_STREAM') === false){
         $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
 
     }
