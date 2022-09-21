@@ -35,13 +35,18 @@ require 'res:///PHP/INC_STREAM';
 $interceptor = new Interceptor(function(string $path) {
 
     $originalFile = $path;
-    $file = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
-    echo 'Intercepting: ' . $path . '('.$file.')' . PHP_EOL;
+
+    if(strpos($path, 'RUN') === false && strpos($path, 'LIB') === false &&
+        strpos($path, 'INC_INTERCEPT') === false && strpos($path, 'INC_STREAM') === false){
+        $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
+
+    }
+    echo 'Intercepting: ' . $originalFile . '('.$path.')' . PHP_EOL;
     if (in_array(pathinfo($originalFile, PATHINFO_EXTENSION), ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'ico', 'wav', 'midi', 'cur'])) {
-        copy($file, $tempFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . pathinfo($originalFile, PATHINFO_BASENAME));
+        copy($path, $tempFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . pathinfo($originalFile, PATHINFO_BASENAME));
         return file_get_contents($tempFilename);
     }
-    return file_get_contents($file);
+    return file_get_contents($path);
 
 
 });
