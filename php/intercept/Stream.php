@@ -208,22 +208,14 @@ class Stream {
     }
 
     /**
+     * Does not work with
      * @param $path
      * @param $flags
      * @return mixed
      */
-    public function url_stat($path, $flags) {
+    public function url_stat($path, $flags = STREAM_URL_STAT_QUIET) {
         return $this->runUnwrapped(function () use ($path, $flags) {
-            if ($flags & STREAM_URL_STAT_QUIET) {
-                set_error_handler(function () {
-                    return false;
-                });
-            }
-            $result = stat($path);
-            if ($flags & STREAM_URL_STAT_QUIET) {
-                restore_error_handler();
-            }
-            return $result;
+            return @stat($path);
         });
     }
 
