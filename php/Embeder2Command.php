@@ -21,15 +21,15 @@ class Embeder2Command
      * @var array
      */
     private $actions = [
-        'new' => ['new_file', ['path'], 'Create Base EXE [path]'],
-        'main' => ['add_main', ['path', 'file'], 'Add main PHP file to exe [path, file]'],
-        'add' => ['add_file', ['path', 'file', 'alias'], 'Add file to exe [path, file,alias]'],
-        'type' => ['change_type', ['path', 'type'], 'Change EXE type. [path, type]'],
-        'list' => ['display_list', ['path'], 'List contents of EXE [path]'],
-        'view' => ['display_resource', ['path', 'section', 'value', 'lang'], 'View EXE file content [path, section, value, lang]'],
-        'build' => ['build_dir', ['path', 'main', 'directory', 'type'], 'Build EXE from folder content [path, main, directory, type]'],
-        'validate' => ['validate', ['path', 'main', 'directory', 'type'], 'Validate EXE from folder content [path, main, directory, type]'],
-        'info' => ['info', [], 'Show embeded php info'],
+        'new' => ['new_file', ['path'], '[path] - Create Base EXE.'],
+        'main' => ['add_main', ['path', 'file'], '[path, file] - Add main PHP file to exe.'],
+        'add' => ['add_file', ['path', 'file', 'alias'], '[path, file,alias] - Add file to exe.'],
+        'type' => ['change_type', ['path', 'type'], '[path, type] Change EXE type.'],
+        'list' => ['display_list', ['path'], '[path] List contents of EXE.'],
+        'view' => ['display_resource', ['path', 'section', 'value', 'lang'], '[path, section, value, lang] - View EXE file content.'],
+        'build' => ['build_dir', ['path', 'main', 'directory', 'type'], '[path, main, directory, type] - Build EXE from folder content.'],
+        'validate' => ['validate', ['path', 'main', 'directory', 'type'], '[path, main, directory, type] - Validate EXE from folder content.'],
+        'info' => ['info', [], 'Show embeded php info [.\\' . PHP_BINARY . ' info > info.html]']
     ];
 
     /**
@@ -218,8 +218,11 @@ class Embeder2Command
             $this->message("update_resource: Can't update " . $res, $error = true);
         }
         $this->message("update_resource: '" . $exeFile . "' -> '" . $res . "' (" . strlen($data) . ' bytes)');
+
+        // @todo debug timing of adding resources? based on load of CPU/DISK?
         #usleep(500000);
         usleep(1000000);
+
         return $reset;
     }
 
