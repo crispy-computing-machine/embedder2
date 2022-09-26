@@ -12,7 +12,7 @@ use Embeder\FileFilter;
 */
 
 define('EMBEDED', TRUE);
-define('EMBEDED_DEBUG', parse_ini_file(PHP_CONFIG_FILE_PATH . '.php.ini', true, INI_SCANNER_TYPED)['embeded_debug']);
+define('EMBEDED_DEBUG', parse_ini_file(getcwd() . DIRECTORY_SEPARATOR . 'php.ini', true, INI_SCANNER_TYPED)['embeded_debug']);
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +37,8 @@ $interceptor = new Interceptor(function(string $path) {
 
     $originalFile = $path;
 
-    // Protected files from file interception (Intercept library)
-    $protectedFile = count(array_map(function($path, $file){ return strpos($path, $file) !== false; },[[$path, $path, $path, $path], 'RUN', 'LIB', 'INC_INTERCEPT', 'INC_STREAM'])) === 0;
+    // Protected files from file interception (Intercept library) to be ignored
+    $protectedFile = in_array($originalFile, ['res:///PHP/RUN', 'res:///PHP/LIB', 'res:///PHP/INC_INTERCEPT', 'res:///PHP/INC_STREAM']);
     if(!$protectedFile){
         $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
     }
