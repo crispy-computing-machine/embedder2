@@ -20,29 +20,6 @@ setlocal enableextensions enabledelayedexpansion
 
     set BUILD_TYPE=Debug
 
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\cygwin >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\cygwin64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\mingw-w64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q C:\msys64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-Win32 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-Win64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-v11-Win32 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" rmdir /s /q c:\OpenSSL-v11-Win64 >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" del /f /q C:\Windows\System32\libcrypto-1_1-x64.dll >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-    if "%APPVEYOR%" equ "True" del /f /q C:\Windows\System32\libssl-1_1-x64.dll >NUL 2>NUL
-    if %errorlevel% neq 0 exit /b 3
-
 	for %%z in (%ZTS_STATES%) do (
 		set ZTS_STATE=%%z
 		if "!ZTS_STATE!"=="enable" set ZTS_SHORT=ts
@@ -51,68 +28,135 @@ setlocal enableextensions enabledelayedexpansion
 		cd /d C:\projects\php-src
 
 		cmd /c buildconf.bat --force
+		if %errorlevel% neq 0 exit /b 3
+
+		 cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% ^
+		--enable-snapshot-build ^
+		--enable-embed ^
+		--disable-debug-pack ^
+		--enable-com-dotnet=shared ^
+		--without-analyzer ^
+		--disable-test-ini ^
+		--disable-cgi ^
+		--enable-com-dotnet ^
+		--with-bz2=static ^
+		--with-dba=static ^
+		--with-curl=static ^
+		--with-enchant=static ^
+		--enable-mbstring=static ^
+		--enable-exif=static ^
+		--with-ffi=static ^
+		--enable-fileinfo=static ^
+		--enable-filter=static ^
+		--enable-ftp=static ^
+		--with-gd=static ^
+		--with-gettext=static ^
+		--with-gmp=static ^
+		--with-imap=static ^
+		--enable-intl=static ^
+		--with-ldap=no ^
+		--with-mysqli=static ^
+		--enable-odbc=static ^
+		--with-openssl=static ^
+		--with-pdo-mysql=static ^
+		--with-pdo-sqlite=static ^
+		--with-pdo-firebird=no ^
+		--with-pdo-odbc=static ^
+		--with-pdo-pgsql=static ^
+		--with-pgsql=static ^
+		--enable-sockets=static ^
+		--with-sodium=static ^
+		--with-sqlite3=static ^
+		--with-tidy=static ^
+		--with-xmlrpc=static ^
+		--with-xsl=static ^
+		--enable-zip=static ^
+		--enable-shmop=static ^
+		--with-snmp=no ^
+		--enable-soap=static ^
+		--enable-sysvshm=static ^
+		--enable-zend-test=no ^
 
 		if %errorlevel% neq 0 exit /b 3
 
-		cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% --disable-cgi --enable-embed=static --enable-cli-win32 --enable-bcmath=static --enable-calendar=static --enable-ctype=static --enable-filter=static --with-iconv=static --enable-json=static --enable-pdo --enable-phar --with-readline=static --enable-session=static --enable-tokenizer=static --with-xml=static --enable-xmlreader=static --enable-xmlwriter=static --enable-zip=static --enable-zlib=static --with-sqlite3=static --with-tidy=static --with-xsl=static --with-bz2=static --with-enchant=static --enable-exif=static --with-ffi=static --enable-fileinfo=shared --with-gd --with-gettext=static --enable-mbstring=static --enable-opcache --enable-sockets
-
-		if %errorlevel% neq 0 exit /b 3
-
+        rem Suppress logo output of nmake
 		nmake /NOLOGO
-
 		if %errorlevel% neq 0 exit /b 3
 
-		nmake install
-
+        nmake snap
+		rem nmake install
 		if %errorlevel% neq 0 exit /b 3
 
 		cd /d %APPVEYOR_BUILD_FOLDER%
 
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
+        if %errorlevel% neq 0 exit /b 3
 
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php.exe" echo Error, PHP not found. && exit /b 1
+        echo Copying built files into build/asset dir C:\obj\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip
+        rem xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\" /s /i /Y
+        powershell -NoP -NonI -Command "Expand-Archive -Force -Path '%PHP_BUILD_OBJ_DIR%\Release_TS\php-7.*.*-dev-Win32-vc15-x86.zip' -DestinationPath '%APPVEYOR_BUILD_FOLDER%\build\'"
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php-win.exe" echo Error, PHP not found. && exit /b 1
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
 
+        rem Winbinder
         echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
+        rem win32ps
+        echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
 
-        echo Make ini reference to download res dll
-        type nul > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension_dir=".\ext" > "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo zend_extension=php_opcache.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo opcache.enable_cli = 1 >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_winbinder.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_win32std.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo extension=php_fileinfo.dll >> "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        type "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        rem freeimage
+        echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
+
+        echo Make ini reference to extension .DLL's
+        copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\php\stub.exe"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -v
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
-        copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
+		rem Copy MSBuild exe to build folder
+        copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+
+		rem Use built PHP to make Embeder2Command into an exe.
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
+        %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
-        echo Make app.exe
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe "%APPVEYOR_BUILD_FOLDER%\output\build.php" "%APPVEYOR_BUILD_FOLDER%\output\app.php"
-        call "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
+		rem Cleanup
+		echo Cleanup files....
+		DEL /Q %APPVEYOR_BUILD_FOLDER%\build\license.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\news.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-development
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-production
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7embed.lib
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phpdbg.exe
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\README.md
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\readme-redist-bins.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\snapshot.txt
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\deplister.exe
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7apache2_4.dll
+        DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7phpdbg.dll
 
-        rem Quick cleanup
-        rem del %APPVEYOR_BUILD_FOLDER%\build\php.exe
-        rd /S /Q %APPVEYOR_BUILD_FOLDER%\build\SDK\
+        echo Cleanup DIRS
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\dev
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\extras
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\lib
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\sasl2
 
 		echo Zipping Assets...
-
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
-        rem @todo add win32std extension & directory
-
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
 	)
 endlocal

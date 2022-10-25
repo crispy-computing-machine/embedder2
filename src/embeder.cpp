@@ -46,9 +46,6 @@ static void embeded_ini_defaults(HashTable *configuration_hash)
 	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("error.log"), /* persistent */ 1));
 	zend_hash_str_update(configuration_hash, ZEND_STRL("error_log"), &ini_value);
 
-
-
-
 }
 
 /* Main */
@@ -65,22 +62,16 @@ int main(int argc, char** argv) {
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC); // PHP_EMBED_START_BLOCK(argc, argv)
 
-
 	zend_first_try {
 		PG(during_request_startup) = 0;
-
-		/* We are embeded */
-		zend_eval_string("define('EMBEDED', 1);", &ret_value, "main" TSRMLS_CC);
 
 		/* Execute */
 		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);
 
 		/* Get Exit Status */
-		exit_status= Z_LVAL(ret_value);
-	}
-
-	/* Catch Exit status */
-	zend_catch {
+		exit_status = Z_LVAL(ret_value);
+	} zend_catch {
+	    /* Catch Exit status */
 		exit_status = EG(exit_status);
 	}
 	zend_end_try();
