@@ -100,6 +100,10 @@ setlocal enableextensions enabledelayedexpansion
         copy "%APPVEYOR_BUILD_FOLDER%\php\embeder2.exe" %APPVEYOR_BUILD_FOLDER%\build\
         if %errorlevel% neq 0 exit /b 3
 
+        echo Make app.exe
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe "%APPVEYOR_BUILD_FOLDER%\output\build.php"
+        call "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
+
         rem Quick cleanup
         rem del %APPVEYOR_BUILD_FOLDER%\build\php.exe
         rd /S /Q %APPVEYOR_BUILD_FOLDER%\build\SDK\

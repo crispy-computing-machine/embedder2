@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2bed465e-2062-43fa-9153-c403fc5987c7" name="Changes" comment="" />
+    <list default="true" id="3008b80f-f12c-4f54-bb36-5fbb91716525" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,37 +12,98 @@
   <component name="ComposerSettings">
     <execution />
   </component>
-  <component name="ProjectId" id="25QZL40motudGU3PFfFhuWAm3JY" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="file-intercept" />
+                    <option name="lastUsedInstant" value="1663684187" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="snap" />
+                    <option name="lastUsedInstant" value="1663684186" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ELstYsourmKRG15gZTEAl7F2vf" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../win32std" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/dev/027e95115cf6ac1119126ca95379de1b/windows/embedder2",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embeder\php" />
+      <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embedder2\php" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2bed465e-2062-43fa-9153-c403fc5987c7" name="Changes" comment="" />
-      <created>1645461211927</created>
+      <changelist id="3008b80f-f12c-4f54-bb36-5fbb91716525" name="Changes" comment="" />
+      <created>1662386413788</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1645461211927</updated>
-      <workItem from="1645461214249" duration="2959000" />
-      <workItem from="1647857910385" duration="388000" />
+      <updated>1662386413788</updated>
+      <workItem from="1662386416298" duration="3370000" />
+      <workItem from="1662447934349" duration="3672000" />
+      <workItem from="1662469524757" duration="2569000" />
+      <workItem from="1662535386267" duration="2005000" />
+      <workItem from="1662546924937" duration="3165000" />
+      <workItem from="1663683965972" duration="2923000" />
+      <workItem from="1663750110460" duration="9062000" />
+      <workItem from="1664179461436" duration="6318000" />
+      <workItem from="1664204019022" duration="1192000" />
+      <workItem from="1664208591635" duration="416000" />
+      <workItem from="1664261890210" duration="24000" />
+      <workItem from="1665568552460" duration="948000" />
+      <workItem from="1666610766201" duration="1929000" />
+      <workItem from="1666617568291" duration="3362000" />
+      <workItem from="1666681140107" duration="633000" />
+      <workItem from="1666684829266" duration="4416000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
