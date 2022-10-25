@@ -119,16 +119,7 @@ int main(int argc, char** argv) {
 
 function make_bat_file($DIR, $VC_VER)
 {
-
-    $BATFILE = '@echo off
-
-cd %~dp0
-
-if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio ' . $VC_VER . '.0\VC\vcvarsall.bat"
-
-cl myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main ' . $DIR . '\lib\php7embed.lib ' . $DIR . '\lib\php7.lib /Feoutput.exe
-';
-
+    $BATFILE = 'cl myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main ' . $DIR . '\lib\php7embed.lib ' . $DIR . '\lib\php7.lib /Feoutput.exe';
     return $BATFILE;
 }
 

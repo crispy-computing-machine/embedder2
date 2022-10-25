@@ -133,6 +133,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Make app.exe
         %APPVEYOR_BUILD_FOLDER%\build\php.exe "%APPVEYOR_BUILD_FOLDER%\output\build.php" "%APPVEYOR_BUILD_FOLDER%\output\app.php"
+        echo "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
         call "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
 
 		rem Cleanup

@@ -18,6 +18,7 @@
   </component>
   <component name="ProjectId" id="2GcchBfI5CYmmhumqI5Ou8gcWCw" />
   <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
@@ -39,7 +40,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666691429847</updated>
-      <workItem from="1666691432130" duration="787000" />
+      <workItem from="1666691432130" duration="1731000" />
     </task>
     <servers />
   </component>
