@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
 function make_bat_file($DIR, $VC_VER)
 {
     // /Fe is file output EXE
-    $BATFILE = 'cl '.dirname($DIR) . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main ' . $DIR . '\lib\php7embed.lib ' . $DIR . '\lib\php7.lib /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
+    $BATFILE = 'cl '.dirname($DIR) . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main ' . $DIR . '\lib\php7embed.lib /I ' . $DIR . '\include\sapi\embed /I' . $DIR . '\lib\php7.lib /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
     return $BATFILE;
 }
 
