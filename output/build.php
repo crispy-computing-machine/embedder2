@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
 
 function make_bat_file($DIR, $VC_VER)
 {
-    $BATFILE = 'cl myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main ' . $DIR . '\lib\php7embed.lib ' . $DIR . '\lib\php7.lib /Feoutput.exe';
+    $BATFILE = 'cl '.dirname($DIR) . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main ' . $DIR . '\lib\php7embed.lib ' . $DIR . '\lib\php7.lib /F'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
     return $BATFILE;
 }
 
@@ -172,7 +172,7 @@ function process($PHPVER, $BODY, $force_create_dir, $output_dir, $VC_VER, $shoul
     $key = make_key();
 
     $CFILE = make_c_file($BODY, $key);
-    file_put_contents($output_dir . '/myapp.c', $CFILE);
+    file_put_contents($output_dir.DIRECTORY_SEPARATOR . 'myapp.c', $CFILE);
 
     // Temporary bat file
 
