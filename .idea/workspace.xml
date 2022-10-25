@@ -88,12 +88,15 @@
       <workItem from="1666610766201" duration="1929000" />
       <workItem from="1666617568291" duration="3362000" />
       <workItem from="1666681140107" duration="633000" />
-      <workItem from="1666684829266" duration="4416000" />
+      <workItem from="1666684829266" duration="4832000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.cmd" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

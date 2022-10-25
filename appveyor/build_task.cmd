@@ -101,7 +101,7 @@ setlocal enableextensions enabledelayedexpansion
         if %errorlevel% neq 0 exit /b 3
 
         echo Make app.exe
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe "%APPVEYOR_BUILD_FOLDER%\output\build.php"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe "%APPVEYOR_BUILD_FOLDER%\output\build.php" "%APPVEYOR_BUILD_FOLDER%\output\app.php"
         call "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
 
         rem Quick cleanup
