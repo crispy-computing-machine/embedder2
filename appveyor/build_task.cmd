@@ -131,6 +131,10 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
+		echo Make app.exe
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe "%APPVEYOR_BUILD_FOLDER%\output\build.php" "%APPVEYOR_BUILD_FOLDER%\output\app.php"
+        call "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
+
 		rem Cleanup
 		echo Cleanup files....
 		DEL /Q %APPVEYOR_BUILD_FOLDER%\build\license.txt
