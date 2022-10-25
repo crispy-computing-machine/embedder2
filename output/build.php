@@ -65,7 +65,7 @@ function make_c_file($BODY, $key)
     $CFILE = '
 typedef unsigned int uid_t;
 typedef unsigned int gid_t;
-#include <sapi\embed\php_embed.h>
+#include <include\sapi\embed\php_embed.h>
 void rc4_encode_inplace(char* str, size_t str_len, char* key) {
 
 	unsigned char i = 0;
