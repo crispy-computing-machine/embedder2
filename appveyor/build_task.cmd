@@ -135,8 +135,8 @@ setlocal enableextensions enabledelayedexpansion
 		copy "%APPVEYOR_BUILD_FOLDER%\output\build.php" C:\obj\Release_TS\build.php
 		copy "%APPVEYOR_BUILD_FOLDER%\output\app.php" C:\obj\Release_TS\app.php
         %APPVEYOR_BUILD_FOLDER%\build\php.exe C:\obj\Release_TS\build.php C:\obj\Release_TS\app.php
-        echo "C:\projects\php-src\vsbuild.cmd"
-        call "C:\projects\php-src\vsbuild.cmd"
+        echo "C:\obj\Release_TS\vsbuild.cmd"
+        call "C:\obj\Release_TS\vsbuild.cmd"
 
 		rem Cleanup
 		echo Cleanup files....
