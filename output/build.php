@@ -64,7 +64,7 @@ function make_c_file($BODY, $key)
 
     $CFILE = '
 /* PHP Includes */
-#include "sapi/embed/php_embed.h"
+#include <sapi/embed/php_embed.h>
 #include "ext/standard/php_standard.h"
 #include "zend_smart_str.h"
 
