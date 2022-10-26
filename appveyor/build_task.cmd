@@ -131,10 +131,10 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
-		echo Make app.exe
-		copy "%APPVEYOR_BUILD_FOLDER%\output\build.php" C:\projects\php-src\build.php
-		copy "%APPVEYOR_BUILD_FOLDER%\output\app.php" C:\projects\php-src\app.php
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe C:\projects\php-src\build.php C:\projects\php-src\app.php
+		echo Make app.exe -- C:\obj\Release_TS\
+		copy "%APPVEYOR_BUILD_FOLDER%\output\build.php" C:\obj\Release_TS\build.php
+		copy "%APPVEYOR_BUILD_FOLDER%\output\app.php" C:\obj\Release_TS\app.php
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe C:\obj\Release_TS\build.php C:\obj\Release_TS\app.php
         echo "C:\projects\php-src\vsbuild.cmd"
         call "C:\projects\php-src\vsbuild.cmd"
 

@@ -135,70 +135,24 @@ function make_bat_file($DIR, $VC_VER)
     return $BATFILE;
 }
 
-function process($PHPVER, $BODY, $force_create_dir, $output_dir, $VC_VER, $should_cleanup)
+function process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup)
 {
 
-    if (!is_dir($output_dir) && !$force_create_dir) {
-        die($output_dir . ' already exists, use --force');
-    } elseif(!is_dir($output_dir)) {
-        mkdir($output_dir);
-    }
-
-    // https://windows.php.net/downloads/releases/php-7.4.32-Win32-vc15-x64.zip
-    $URL_MAIN = 'https://windows.php.net/downloads/releases/php-' . $PHPVER . '-Win32-vc15-x86.zip';
-    $ZIP_MAIN = 'php-' . $PHPVER . '.zip';
-
-    // https://windows.php.net/downloads/releases/php-devel-pack-7.4.32-Win32-vc15-x86.zip
-    $URL_DEVEL = 'https://windows.php.net/downloads/releases/php-devel-pack-' . $PHPVER . '-Win32-vc15-x86.zip';
-    $ZIP_DEVEL = 'php-devel-pack-' . $PHPVER . '.zip';
-
-    $main = file_put_contents($output_dir . DIRECTORY_SEPARATOR . $ZIP_MAIN, get($URL_MAIN));
-    $dev = file_put_contents($output_dir . DIRECTORY_SEPARATOR . $ZIP_DEVEL, get($URL_DEVEL));
-
-    // Unzip
-    $zip = new \ZipArchive;
-    if (!$zip->open($output_dir . DIRECTORY_SEPARATOR . $ZIP_DEVEL)) {
-        die("FATAL: Couldn't open zip file '$ZIP_DEVEL'\n");
-    }
-
-    $firstEntry = $zip->statIndex(0)['name'];
-    $DIR = substr($firstEntry, 0, strrpos($firstEntry, '/'));
-
-    $zip->extractTo($output_dir);
-    $zip->close();
-
-    $zip = new \ZipArchive;
-    if (!$zip->open($output_dir . DIRECTORY_SEPARATOR . $ZIP_MAIN)) {
-        die("FATAL: Couldn't open zip file '$ZIP_MAIN'\n");
-    }
-    $zip->extractTo($output_dir . '/' . $DIR . '/lib/', 'php7embed.lib');
-    $zip->extractTo($output_dir, 'php7ts.dll');
-
-    // Patch
-
-    copy("$output_dir/$DIR/include/Zend/zend_config.w32.h", "$output_dir/$DIR/include/Zend/zend_config.h");
-    copy("$output_dir/$DIR/include/main/config.w32.h", "$output_dir/$DIR/include/php_config.h");
-
     // Temporary C file
-
     $key = make_key();
-
     $CFILE = make_c_file($BODY, $key);
     file_put_contents($output_dir.DIRECTORY_SEPARATOR . 'myapp.c', $CFILE);
 
     // Temporary bat file
-
-    $BATFILE = make_bat_file($output_dir . DIRECTORY_SEPARATOR. 'php-devel-pack-' . $PHPVER . '-Win32-vc15-x86', $VC_VER);
+    $BATFILE = make_bat_file($output_dir, $VC_VER);
     file_put_contents($output_dir.DIRECTORY_SEPARATOR. 'vsbuild.cmd', $BATFILE);
 
     // Run bat file
-
     passthru($output_dir . DIRECTORY_SEPARATOR . 'vsbuild.cmd');
 
     // Clean up
-
     if ($should_cleanup) {
-        delTree($output_dir . '/' . $DIR);
+        delTree($output_dir . '/');
         unlink($output_dir . '/myapp.c');
         unlink($output_dir . '/myapp.obj');
         unlink($output_dir . '/vsbuild.cmd');
@@ -251,7 +205,6 @@ function main($argv)
 {
 
     $filename = null;
-    $force_create_dir = true;
     $output_dir = __DIR__;
     $PHPVER = '7.4.32';
     $VC_VER = '15';
@@ -262,9 +215,6 @@ function main($argv)
 
         if ($arg == '--help') {
             usage();
-
-        } elseif ($arg == '--force') {
-            $force_create_dir = true;
 
         } elseif ($arg == '--output') {
             $output_dir = $argv[++$i];
@@ -304,7 +254,7 @@ function main($argv)
         die();
     }
 
-    process($PHPVER, $BODY, $force_create_dir, $output_dir, $VC_VER, $should_cleanup);
+    process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup);
 }
 
 main(array_splice($argv, 1));
