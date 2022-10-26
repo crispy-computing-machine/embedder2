@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +48,7 @@
       <option name="presentableId" value="Default" />
       <updated>1666691429847</updated>
       <workItem from="1666691432130" duration="8382000" />
-      <workItem from="1666767402693" duration="385000" />
+      <workItem from="1666767402693" duration="1157000" />
     </task>
     <servers />
   </component>

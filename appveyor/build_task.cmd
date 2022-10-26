@@ -134,7 +134,7 @@ setlocal enableextensions enabledelayedexpansion
 		echo Make app.exe
 		copy "%APPVEYOR_BUILD_FOLDER%\output\build.php" C:\projects\php-src\build.php
 		copy "%APPVEYOR_BUILD_FOLDER%\output\app.php" C:\projects\php-src\app.php
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe C:\projects\php-src\build.php C:\projects\php-src\app.php --output="%APPVEYOR_BUILD_FOLDER%\output"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe C:\projects\php-src\build.php --output="%APPVEYOR_BUILD_FOLDER%\output\app.php"
         echo "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
         call "%APPVEYOR_BUILD_FOLDER%\output\vsbuild.cmd"
 
