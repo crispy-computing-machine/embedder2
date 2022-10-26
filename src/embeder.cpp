@@ -21,8 +21,15 @@
 #endif
 
 /* PHP Includes */
-#include <php_embed.h>
+#include "php_embed.h"
+#include "ext/standard/php_standard.h"
 #include "zend_smart_str.h"
+
+#ifdef PHP_WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif
+
 
 /* This callback is invoked as soon as the configuration hash table is
  * allocated so any INI settings added via this callback will have the lowest

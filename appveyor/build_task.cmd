@@ -32,7 +32,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		 cmd /c configure.bat --!ZTS_STATE!-zts --enable-object-out-dir=%PHP_BUILD_OBJ_DIR% --with-config-file-scan-dir=%APPVEYOR_BUILD_FOLDER%\build\modules.d --with-prefix=%APPVEYOR_BUILD_FOLDER%\build --with-php-build=%DEPS_DIR% ^
 		--enable-snapshot-build ^
-		--enable-embed ^
+		--enable-embed=static ^
 		--disable-debug-pack ^
 		--enable-com-dotnet=shared ^
 		--without-analyzer ^
