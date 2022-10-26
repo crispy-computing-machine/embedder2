@@ -131,7 +131,7 @@ function make_bat_file($DIR, $VC_VER)
     // /Fe is file output EXE
     $BATFILE = '
     if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio ' . $VC_VER . '.0\VC\vcvarsall.bat"
-    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I ' . $DIR . '\include /I ' . $DIR . '\include\Zend /I ' . $DIR . '\include\TSRM /I ' . $DIR . '\include\main /I ' . $DIR . '\main ' . $DIR . '\lib\php7embed.lib /I ' . $DIR . '\include\sapi\embed /I' . $DIR . '\lib\php7.lib /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
+    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I ..\..\php-src\main /I ..\..\php-src\TSRM /I  ..\..\php-src\Zend /I ..\..\php-src\ext\standard /I ..\..\php-src\sapi\embed /I ..\..\php-src /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
     return $BATFILE;
 }
 
