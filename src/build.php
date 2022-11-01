@@ -124,16 +124,16 @@ int main(int argc, char** argv) {
     return $CFILE;
 }
 
-function make_bat_file($DIR, $VC_VER, $inc)
+function make_bat_file($DIR, $inc)
 {
     // /Fe is file output EXE
     $BATFILE = '
-    if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio ' . $VC_VER . '.0\VC\vcvarsall.bat"
+    if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio 15.0\VC\vcvarsall.bat"
     cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I '.$inc.'main /I '.$inc.'TSRM /I  '.$inc.'Zend /I '.$inc.'ext\standard /I '.$inc.'sapi\embed /I '.$inc.' /I '.$inc.'\Release_TS '.$DIR.'\lib\php7embed.lib '.$DIR.'\lib\php7ts.lib  /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
     return $BATFILE;
 }
 
-function process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup, $inc)
+function process($BODY, $output_dir, $inc)
 {
 
     // Temporary C file
@@ -142,44 +142,14 @@ function process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup, $inc)
     file_put_contents($output_dir.DIRECTORY_SEPARATOR . 'myapp.c', $CFILE);
 
     // Temporary bat file
-    $BATFILE = make_bat_file($output_dir, $VC_VER, $inc);
+    $BATFILE = make_bat_file($output_dir, $inc);
     file_put_contents($output_dir.DIRECTORY_SEPARATOR. 'vsbuild.cmd', $BATFILE);
 
     // Run bat file
-    passthru($output_dir . DIRECTORY_SEPARATOR . 'vsbuild.cmd');
-
-    // Clean up
-    if ($should_cleanup) {
-        delTree($output_dir . '/');
-        unlink($output_dir . '/myapp.c');
-        unlink($output_dir . '/myapp.obj');
-        unlink($output_dir . '/vsbuild.cmd');
-    }
+    #passthru($output_dir . DIRECTORY_SEPARATOR . 'vsbuild.cmd');
 
 }
 
-/**
- * @param $url
- * @return bool|string
- */
-function get($url){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'User-Agent: PHP Script'
-    ));        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-
-    $output = curl_exec($ch);
-    $err = curl_error($ch);
-    if(trim($err)){
-        die($err);
-    }
-
-    curl_close($ch);
-    return $output;
-}
 
 function usage()
 {
@@ -188,14 +158,8 @@ Usage:
   php2exe [options] file.php
   
 Options:
-  --force                          Delete target directory if it exists
-  --help                           Display usage
-  --cleanup                        Remove temporary files
-  --output {directory}             Set target directory (default 'output')
-  --vc-ver {number}                Set target VS version (default '12' ie 2013)
-  --inc {number}                   Include path
-  --version {string}               Set target PHP runtime
-                                    (default '7.4.32-nts-Win32-VC11-x86')
+  File to build                          PHP File to build into exe
+  Lib Directory                          PHP src .h files etc
 EOD;
     die();
 }
@@ -203,47 +167,9 @@ EOD;
 function main($argv)
 {
 
-    $filename = null;
+    $filename = $argv[0];
+    $inc = $argv[1];
     $output_dir = __DIR__;
-    $PHPVER = '7.4.32';
-    $VC_VER = '15';
-    $should_cleanup = false;
-    $inc = __DIR__;
-
-    for ($i = 0, $e = count($argv); $i !== $e; ++$i) {
-        $arg = $argv[$i];
-
-        if ($arg == '--help') {
-            usage();
-
-        } elseif ($arg == '--output') {
-            $output_dir = $argv[++$i];
-
-        } elseif ($arg == '--vc-ver') {
-            $VC_VER = $argv[++$i];
-
-        } elseif ($arg == '--inc') {
-            $inc = $argv[++$i];
-
-        } elseif ($arg == '--version') {
-            $PHPVER = $argv[++$i];
-
-        } elseif ($arg == '--cleanup') {
-            $should_cleanup = true;
-
-        } else {
-            $filename = $arg;
-            if (!is_file($filename)) {
-                echo "FATAL: Invalid file '$filename'\n";
-                die();
-            }
-        }
-    }
-
-    if (is_null($filename)) {
-        echo "FATAL: No file selected\n";
-        usage();
-    }
 
     $BODY = @file_get_contents($filename);
     if (!is_string($BODY)) {
@@ -251,7 +177,7 @@ function main($argv)
         die();
     }
 
-    process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup, $inc);
+    process($BODY, $output_dir, $inc);
 }
 
 main(array_splice($argv, 1));
