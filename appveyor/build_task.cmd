@@ -113,6 +113,7 @@ setlocal enableextensions enabledelayedexpansion
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
 
+
         rem freeimage
         echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
         wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
