@@ -132,11 +132,9 @@ setlocal enableextensions enabledelayedexpansion
         if %errorlevel% neq 0 exit /b 3
 
 		echo Make app.exe -- C:\obj\Release_TS\
-		copy "%APPVEYOR_BUILD_FOLDER%\output\build.php" C:\obj\Release_TS\build.php
-		copy "%APPVEYOR_BUILD_FOLDER%\output\app.php" C:\obj\Release_TS\app.php
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe C:\obj\Release_TS\build.php C:\obj\Release_TS\app.php
-        echo "C:\obj\Release_TS\vsbuild.cmd"
-        call "C:\obj\Release_TS\vsbuild.cmd"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\build.php %APPVEYOR_BUILD_FOLDER%\src\build.php
+        echo "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
+        call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
 
 		rem Cleanup
 		echo Cleanup files....
