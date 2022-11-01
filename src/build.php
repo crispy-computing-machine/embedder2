@@ -124,16 +124,16 @@ int main(int argc, char** argv) {
     return $CFILE;
 }
 
-function make_bat_file($DIR, $VC_VER)
+function make_bat_file($DIR, $VC_VER, $inc)
 {
     // /Fe is file output EXE
     $BATFILE = '
     if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio ' . $VC_VER . '.0\VC\vcvarsall.bat"
-    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I ..\..\php-src\main /I ..\..\php-src\TSRM /I  ..\..\php-src\Zend /I ..\..\php-src\ext\standard /I ..\..\php-src\sapi\embed /I ..\..\php-src /I ..\..\php-src\Release_TS '.$DIR.'\lib\php7embed.lib '.$DIR.'\lib\php7ts.lib  /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
+    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I '.$inc.'main /I '.$inc.'TSRM /I  '.$inc.'Zend /I '.$inc.'ext\standard /I '.$inc.'sapi\embed /I '.$inc.' /I '.$inc.'\Release_TS '.$DIR.'\lib\php7embed.lib '.$DIR.'\lib\php7ts.lib  /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
     return $BATFILE;
 }
 
-function process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup)
+function process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup, $inc)
 {
 
     // Temporary C file
@@ -142,7 +142,7 @@ function process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup)
     file_put_contents($output_dir.DIRECTORY_SEPARATOR . 'myapp.c', $CFILE);
 
     // Temporary bat file
-    $BATFILE = make_bat_file($output_dir, $VC_VER);
+    $BATFILE = make_bat_file($output_dir, $VC_VER, $inc);
     file_put_contents($output_dir.DIRECTORY_SEPARATOR. 'vsbuild.cmd', $BATFILE);
 
     // Run bat file
@@ -193,6 +193,7 @@ Options:
   --cleanup                        Remove temporary files
   --output {directory}             Set target directory (default 'output')
   --vc-ver {number}                Set target VS version (default '12' ie 2013)
+  --inc {number}                   Include path
   --version {string}               Set target PHP runtime
                                     (default '7.4.32-nts-Win32-VC11-x86')
 EOD;
@@ -207,6 +208,7 @@ function main($argv)
     $PHPVER = '7.4.32';
     $VC_VER = '15';
     $should_cleanup = false;
+    $inc = __DIR__;
 
     for ($i = 0, $e = count($argv); $i !== $e; ++$i) {
         $arg = $argv[$i];
@@ -219,6 +221,9 @@ function main($argv)
 
         } elseif ($arg == '--vc-ver') {
             $VC_VER = $argv[++$i];
+
+        } elseif ($arg == '--inc') {
+            $inc = $argv[++$i];
 
         } elseif ($arg == '--version') {
             $PHPVER = $argv[++$i];
@@ -252,7 +257,7 @@ function main($argv)
         die();
     }
 
-    process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup);
+    process($PHPVER, $BODY, $output_dir, $VC_VER, $should_cleanup, $inc);
 }
 
 main(array_splice($argv, 1));
