@@ -60,7 +60,6 @@ int main(int argc, char** argv) {
 	zval ret_value;
 	int exit_status;
 	char *eval_string = "include 'res:///PHP/LIB';";
-    zend_string *ini_name;
 
 	php_embed_module.ini_defaults = embeded_ini_defaults;
     //php_embed_module.php_ini_ignore = 0;
