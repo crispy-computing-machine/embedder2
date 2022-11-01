@@ -133,7 +133,7 @@ setlocal enableextensions enabledelayedexpansion
         if %errorlevel% neq 0 exit /b 3
 
 		echo Make app.exe -- [FILE TO BUILD], [C LIB PATH - PHP-DEV]
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\build.php %APPVEYOR_BUILD_FOLDER%\src\app.php C:\projects\php-src\
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\build.php %APPVEYOR_BUILD_FOLDER%\src\helloworld.php C:\projects\php-src\
         echo "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
         call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
 
