@@ -136,7 +136,7 @@ function make_bat_file($DIR, $inc)
     // /Fe is file output EXE
     $BATFILE = '
     if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio 15.0\VC\vcvarsall.bat"
-    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I '.$inc.'main /I '.$inc.'TSRM /I  '.$inc.'Zend /I '.$inc.'ext\standard /I '.$inc.'sapi\embed /I '.$inc.' /I '.$inc.'\Release_TS C:\obj\Release_TS\php7embed.lib C:\obj\Release_TS\php7ts.lib /Fe'.$DIR . DIRECTORY_SEPARATOR.'myapp.exe;
+    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I '.$inc.'main /I '.$inc.'TSRM /I  '.$inc.'Zend /I '.$inc.'ext\standard /I '.$inc.'sapi\embed /I '.$inc.' /I '.$inc.'\Release_TS C:\obj\Release_TS\php7embed.lib C:\obj\Release_TS\php7ts.lib /Fe'.$DIR . DIRECTORY_SEPARATOR.'myapp.exe';
     return $BATFILE;
 }
 

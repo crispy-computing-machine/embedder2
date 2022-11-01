@@ -12,7 +12,10 @@ use Embeder\FileFilter;
 */
 
 define('EMBEDED', TRUE);
-define('EMBEDED_DEBUG', parse_ini_file(getcwd() . DIRECTORY_SEPARATOR . 'php.ini', true, INI_SCANNER_TYPED)['embeded_debug']);
+$iniFile = getcwd() . DIRECTORY_SEPARATOR . 'php.ini';
+$iniExists = file_exists($iniFile);
+$iniValue = parse_ini_file($iniFile, true, INI_SCANNER_TYPED)['embeded_debug'];
+define('EMBEDED_DEBUG', $iniExists && $iniValue);
 
 /*
 |--------------------------------------------------------------------------

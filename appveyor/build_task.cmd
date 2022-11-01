@@ -121,6 +121,7 @@ setlocal enableextensions enabledelayedexpansion
 
         echo Make ini reference to extension .DLL's
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
+        copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
 
 		echo Make embeder2.exe
 		rem Copy MSBuild exe to build folder
