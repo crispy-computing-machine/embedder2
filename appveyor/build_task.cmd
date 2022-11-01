@@ -134,7 +134,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Make app.exe -- [FILE TO BUILD], [C LIB PATH - PHP-DEV]
         %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\build.php %APPVEYOR_BUILD_FOLDER%\src\helloworld.php C:\projects\php-src\
-        echo "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
+        echo %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
         call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
 
 		rem Cleanup
@@ -164,5 +164,7 @@ setlocal enableextensions enabledelayedexpansion
 		echo Zipping Assets...
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
+
+
 	)
 endlocal
