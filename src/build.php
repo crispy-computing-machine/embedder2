@@ -63,12 +63,6 @@ function make_c_file($BODY, $key)
 {
 
     $CFILE = '
-/* PHP Includes */
-#ifdef PHP_WIN32
-#include <io.h>
-#include <fcntl.h>
-#endif
-
 #include <sapi/embed/php_embed.h>
 
 typedef unsigned int uid_t;
