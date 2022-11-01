@@ -63,8 +63,22 @@ function make_c_file($BODY, $key)
 {
 
     $CFILE = '
-#include <sapi/embed/php_embed.h>
+    
+/* PHP Conf */
+#ifndef ZEND_WIN32
+#define ZEND_WIN32
+#endif
+#ifndef PHP_WIN32
+#define PHP_WIN32
+#endif
+#ifndef ZTS
+#define ZTS 1
+#endif
+#ifndef ZEND_DEBUG
+#define ZEND_DEBUG 0
+#endif
 
+#include <sapi/embed/php_embed.h>
 typedef unsigned int uid_t;
 typedef unsigned int gid_t;
 void rc4_encode_inplace(char* str, size_t str_len, char* key) {
