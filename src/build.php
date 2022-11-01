@@ -232,17 +232,11 @@ function main($argv)
             $should_cleanup = true;
 
         } else {
-            if (!is_null($filename)) {
-                echo "FATAL: Multiple files specified ('$filename' and '$arg')\n";
-                die();
-            }
-
             $filename = $arg;
             if (!is_file($filename)) {
                 echo "FATAL: Invalid file '$filename'\n";
                 die();
             }
-
         }
     }
 
