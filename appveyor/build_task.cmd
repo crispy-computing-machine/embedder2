@@ -136,6 +136,7 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\build.php %APPVEYOR_BUILD_FOLDER%\src\helloworld.php C:\projects\php-src\
         echo %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
         call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\myapp.exe" "%APPVEYOR_BUILD_FOLDER%\build\myapp.exe"
 
 		rem Cleanup
 		echo Cleanup files....
@@ -161,10 +162,14 @@ setlocal enableextensions enabledelayedexpansion
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\lib
 		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\sasl2
 
+
+		rem echo Zipping Debug packages...
+        rem 7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
+		rem appveyor PushArtifact embedder.zip -FileName embedder.zip
+
 		echo Zipping Assets...
         7z a embedder.zip %APPVEYOR_BUILD_FOLDER%\build\*
 		appveyor PushArtifact embedder.zip -FileName embedder.zip
-
 
 	)
 endlocal

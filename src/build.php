@@ -66,21 +66,20 @@ function make_c_file($BODY, $key)
     
 /* PHP Conf */
 #ifndef ZEND_WIN32
-#define ZEND_WIN32
+    #define ZEND_WIN32
 #endif
 #ifndef PHP_WIN32
-#define PHP_WIN32
+    #define PHP_WIN32
 #endif
 #ifndef ZTS
-#define ZTS 1
+    #define ZTS 1
 #endif
 #ifndef ZEND_DEBUG
-#define ZEND_DEBUG 0
+    #define ZEND_DEBUG 0
 #endif
 
 #include <sapi/embed/php_embed.h>
-typedef unsigned int uid_t;
-typedef unsigned int gid_t;
+
 void rc4_encode_inplace(char* str, size_t str_len, char* key) {
 
 	unsigned char i = 0;
@@ -137,7 +136,7 @@ function make_bat_file($DIR, $inc)
     // /Fe is file output EXE
     $BATFILE = '
     if not defined VisualStudioVersion call "C:\Program Files (x86)\Microsoft Visual Studio 15.0\VC\vcvarsall.bat"
-    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I '.$inc.'main /I '.$inc.'TSRM /I  '.$inc.'Zend /I '.$inc.'ext\standard /I '.$inc.'sapi\embed /I '.$inc.' /I '.$inc.'\Release_TS C:\obj\Release_TS\php7embed.lib C:\obj\Release_TS\php7ts.lib /Fe'.dirname($DIR) . DIRECTORY_SEPARATOR.'output.exe';
+    cl '.$DIR . DIRECTORY_SEPARATOR.'myapp.c /MD /nologo /I '.$inc.'main /I '.$inc.'TSRM /I  '.$inc.'Zend /I '.$inc.'ext\standard /I '.$inc.'sapi\embed /I '.$inc.' /I '.$inc.'\Release_TS C:\obj\Release_TS\php7embed.lib C:\obj\Release_TS\php7ts.lib /Fe'.$DIR . DIRECTORY_SEPARATOR.'myapp.exe;
     return $BATFILE;
 }
 
