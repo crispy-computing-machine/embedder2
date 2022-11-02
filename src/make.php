@@ -10,71 +10,16 @@
 function make_c_file($BODY, $key)
 {
 
-    $CFILE = '
-    
-/* PHP Conf */
-#ifndef ZEND_WIN32
-    #define ZEND_WIN32
-#endif
-#ifndef PHP_WIN32
-    #define PHP_WIN32
-#endif
-#ifndef ZTS
-    #define ZTS 1
-#endif
-#ifndef ZEND_DEBUG
-    #define ZEND_DEBUG 0
-#endif
+    // Key to encrypt with
+    $key .= c_escape($key);
 
-#include <sapi/embed/php_embed.h>
+    // Body of app to encrypt/embed
+    $BODY = c_escape(rc4_encode('?>' . $BODY, $key));
 
-void rc4_encode_inplace(char* str, size_t str_len, char* key) {
+    // C file with template tags to replace
+    $CFILE = file_get_contents(__DIR__ . 'main.c');
+    $CFILE = str_replace(['{KEY}', '{BODY}'], [$key, $BODY], $CFILE);
 
-	unsigned char i = 0;
-	unsigned char j = 0;
-	size_t p = 0;
-	
-	for (p = 0; p != str_len; ++p) {
-	
-		i = i + 1;
-		j = j + key[i];
-		
-		unsigned char tmp = key[i];
-		key[i] = key[j];
-		key[j] = tmp;
-	
-		unsigned char z = key[ (unsigned char)( key[i] + key[j] ) ];
-	
-		str[p] = str[p] ^ z;
-	}
-	 
-}
-
-int main(int argc, char** argv) {
-	
-	int ret = 0;
-	
-	char key[256] = ';
-    $CFILE .= c_escape($key);
-    $CFILE .= ';
-	
-	char application_source[] = ';
-
-    $CFILE .= c_escape(rc4_encode('?>' . $BODY, $key));
-
-    $CFILE .= ';
-
-	rc4_encode_inplace(application_source, sizeof(application_source)-1, key);
-
-	PHP_EMBED_START_BLOCK(argc, argv)
-
-		ret = zend_eval_string((char*)application_source, NULL, (char*)"" TSRMLS_CC);
-	
-	PHP_EMBED_END_BLOCK()
-	
-	return ret;
-}
-';
 
     return $CFILE;
 }
@@ -100,6 +45,7 @@ function makeBuildBatFile($DIR, $inc)
  * @param $output_dir
  * @param $inc
  * @return void
+ * @throws Exception
  */
 function process($BODY, $output_dir, $inc)
 {
@@ -112,9 +58,6 @@ function process($BODY, $output_dir, $inc)
     // Temporary bat file
     $BATFILE = makeBuildBatFile($output_dir, $inc);
     file_put_contents($output_dir.DIRECTORY_SEPARATOR. 'vsbuild.cmd', $BATFILE);
-
-    // Run bat file
-    #passthru($output_dir . DIRECTORY_SEPARATOR . 'vsbuild.cmd');
 
 }
 

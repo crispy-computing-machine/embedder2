@@ -133,11 +133,12 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
-		echo Make app.exe -- [FILE TO BUILD], [C LIB PATH - PHP-DEV]
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\build.php %APPVEYOR_BUILD_FOLDER%\src\helloworld.php C:\projects\php-src\
+		echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\make.php %APPVEYOR_BUILD_FOLDER%\src\main.php C:\projects\php-src\
         echo %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
         call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\myapp.exe" "%APPVEYOR_BUILD_FOLDER%\build\myapp.exe"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
+        if %errorlevel% neq 0 exit /b 3
 
 		rem Cleanup
 		echo Cleanup files....
