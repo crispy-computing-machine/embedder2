@@ -4,6 +4,8 @@
     <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/embeder.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.vcxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/make.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/make.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +19,31 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="64bit" />
+                    <option name="lastUsedInstant" value="1667831009" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1667828732" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -26,21 +53,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/027e95115cf6ac1119126ca95379de1b/web/eshop&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/dev/027e95115cf6ac1119126ca95379de1b/windows/embedder2",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TEXT&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embedder2\src" />
@@ -59,6 +86,7 @@
       <workItem from="1666767402693" duration="1157000" />
       <workItem from="1667289904163" duration="17056000" />
       <workItem from="1667375946246" duration="1863000" />
+      <workItem from="1667828330326" duration="3552000" />
     </task>
     <servers />
   </component>

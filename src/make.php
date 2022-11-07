@@ -17,7 +17,7 @@ function make_c_file($BODY, $key)
     $BODY = c_escape(rc4_encode('?>' . $BODY, $key));
 
     // C file with template tags to replace
-    $CFILE = file_get_contents(__DIR__ . 'main.c');
+    $CFILE = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'main.c');
     $CFILE = str_replace(['{KEY}', '{BODY}'], [$key, $BODY], $CFILE);
 
 
