@@ -120,7 +120,7 @@ setlocal enableextensions enabledelayedexpansion
 
         echo Make ini reference to extension .DLL's
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
-        echo %APPVEYOR_BUILD_FOLDER%\build\php.ini
+        type %APPVEYOR_BUILD_FOLDER%\build\php.ini
 
 		echo Make embeder2.exe
 		rem Copy MSBuild exe to build folder
@@ -134,8 +134,8 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
         %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\make.php %APPVEYOR_BUILD_FOLDER%\src\main.php C:\projects\php-src\
-        echo "%APPVEYOR_BUILD_FOLDER%\src\app.c"
-        echo %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
+        type C:\projects\embedder2\src\app.c
+        type %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
         call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
         copy "%APPVEYOR_BUILD_FOLDER%\src\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
         if %errorlevel% neq 0 exit /b 3

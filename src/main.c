@@ -39,6 +39,7 @@ void rc4_encode_inplace(char* str, size_t str_len, char* key) {
 int main(int argc, char** argv) {
 
 	zval ret_value;
+    int exit_status;
 
 	char key[256] = {KEY};
 	char application_source[] = {BODY};

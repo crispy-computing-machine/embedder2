@@ -20,7 +20,6 @@ function make_c_file($BODY, $key)
     $CFILE = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'main.c');
     $CFILE = str_replace(['{KEY}', '{BODY}'], [$key, $BODY], $CFILE);
 
-
     return $CFILE;
 }
 

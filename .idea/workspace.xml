@@ -5,7 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/embeder.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.vcxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/make.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/make.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +86,7 @@
       <workItem from="1666767402693" duration="1157000" />
       <workItem from="1667289904163" duration="17056000" />
       <workItem from="1667375946246" duration="1863000" />
-      <workItem from="1667828330326" duration="5763000" />
+      <workItem from="1667828330326" duration="7217000" />
     </task>
     <servers />
   </component>
