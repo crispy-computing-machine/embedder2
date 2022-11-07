@@ -134,6 +134,7 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
         %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\make.php %APPVEYOR_BUILD_FOLDER%\src\main.php C:\projects\php-src\
+        echo "%APPVEYOR_BUILD_FOLDER%\src\app.c"
         echo %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
         call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
         copy "%APPVEYOR_BUILD_FOLDER%\src\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"

@@ -11,7 +11,7 @@ function make_c_file($BODY, $key)
 {
 
     // Key to encrypt with
-    $key .= c_escape($key);
+    $key = c_escape($key);
 
     // Body of app to encrypt/embed
     $BODY = c_escape(rc4_encode('?>' . $BODY, $key));
