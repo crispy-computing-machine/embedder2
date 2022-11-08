@@ -14,7 +14,7 @@ function make_c_file($BODY, $key)
     $key = c_escape($key);
 
     // Body of app to encrypt/embed
-    $BODY = c_escape(rc4_encode('?>' . $BODY, $key));
+    $BODY = c_escape(rc4_encode($BODY, $key));
 
     // C file with template tags to replace
     $CFILE = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'main.c');
