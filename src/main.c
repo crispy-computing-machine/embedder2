@@ -44,7 +44,9 @@ int main(int argc, char** argv) {
 	char key[256] = {KEY};
 	char application_source[] = {BODY};
 
+    printf("Before: %s\n", application_source);
 	rc4_encode_inplace(application_source, sizeof(application_source)-1, key);
+    printf("After: %s\n", application_source);
 
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC); // PHP_EMBED_START_BLOCK(argc, argv)
