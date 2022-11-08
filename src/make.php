@@ -10,15 +10,12 @@
 function make_c_file($BODY, $key)
 {
 
-    // Key to encrypt with
-    $key = c_escape($key);
-
     // Body of app to encrypt/embed
     $BODY = c_escape(rc4_encode($BODY, $key));
 
     // C file with template tags to replace
     $CFILE = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'main.c');
-    $CFILE = str_replace(['{KEY}', '{BODY}'], [$key, $BODY], $CFILE);
+    $CFILE = str_replace(['{KEY}', '{BODY}'], [c_escape($key), $BODY], $CFILE);
 
     return $CFILE;
 }
