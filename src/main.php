@@ -1,5 +1,3 @@
-<?php
-
 echo $argv[1] . PHP_EOL;
 if(file_exists($argv[1])){
     include $argv[1];
