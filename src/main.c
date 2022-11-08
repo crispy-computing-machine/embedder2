@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     int exit_status;
 
 	char key[256] = {KEY};
-	char application_source[] = {BODY};
+	char *application_source[] = {BODY};
 
     printf("Before: %s\n", application_source);
 	rc4_encode_inplace(application_source, sizeof(application_source)-1, key);
