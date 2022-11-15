@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
 	/* Start PHP embed */
 	php_embed_init(argc, argv TSRMLS_CC); // PHP_EMBED_START_BLOCK(argc, argv)
-
+ 
 	zend_first_try {
 		PG(during_request_startup) = 0;
 

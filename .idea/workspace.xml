@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/make.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/make.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/embeder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,21 +50,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/dev/027e95115cf6ac1119126ca95379de1b/windows/embedder2",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/027e95115cf6ac1119126ca95379de1b/windows/embedder2&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embedder2\src" />
@@ -88,6 +84,7 @@
       <workItem from="1667289904163" duration="17056000" />
       <workItem from="1667375946246" duration="1863000" />
       <workItem from="1667828330326" duration="8416000" />
+      <workItem from="1667991338801" duration="2000" />
     </task>
     <servers />
   </component>
