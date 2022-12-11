@@ -131,37 +131,40 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
+		echo Hack the manifest to make it look like modern windows
+		%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe -open "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" -save "%APPVEYOR_BUILD_FOLDER%\build\embeder2-win.exe" -action addoverwrite -res "%APPVEYOR_BUILD_FOLDER%\php\php.exe.manifest" -mask 1,MANIFEST,1033
+
 		echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\make.php %APPVEYOR_BUILD_FOLDER%\src\main.php C:\projects\php-src\
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\make.php %APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\main.php C:\projects\php-src\
         type C:\projects\embedder2\src\app.c
-        type %APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd
-        call "%APPVEYOR_BUILD_FOLDER%\src\vsbuild.cmd"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
+        type %APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\vsbuild.cmd
+        call "%APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\vsbuild.cmd"
+        copy "%APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
         if %errorlevel% neq 0 exit /b 3
 
 		rem Cleanup
 		echo Cleanup files....
-		DEL /Q %APPVEYOR_BUILD_FOLDER%\build\license.txt
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\news.txt
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-development
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-production
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7embed.lib
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phpdbg.exe
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\README.md
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\readme-redist-bins.txt
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\snapshot.txt
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\deplister.exe
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll
-		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7apache2_4.dll
-        DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php7phpdbg.dll
+		DEL /Q %APPVEYOR_BUILD_FOLDER%\build\license.txt >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\news.txt >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-development >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php.ini-production >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php8embed.lib >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phpdbg.exe >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\README.md >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\readme-redist-bins.txt >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\snapshot.txt >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\deplister.exe >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\pharcommand.phar >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\phar.phar.bat >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\ext\php_phpdbg_webhelper.dll >NUL 2>NUL
+		DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php8apache2_4.dll >NUL 2>NUL
+        DEL /Q  %APPVEYOR_BUILD_FOLDER%\build\php8phpdbg.dll >NUL 2>NUL
 
         echo Cleanup DIRS
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\dev
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\extras
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\lib
-		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\sasl2
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\dev >NUL 2>NUL
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\extras >NUL 2>NUL
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\lib >NUL 2>NUL
+		rmdir /s /q %APPVEYOR_BUILD_FOLDER%\build\sasl2 >NUL 2>NUL
 
 
 		rem echo Zipping Debug packages...
