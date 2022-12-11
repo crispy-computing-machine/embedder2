@@ -108,9 +108,9 @@ setlocal enableextensions enabledelayedexpansion
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
         rem win32ps
-        rem echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
-        rem wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
-        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
+        echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
 
         rem freeimage
         echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
