@@ -4,7 +4,7 @@ setlocal enableextensions enabledelayedexpansion
 	cd /D %APPVEYOR_BUILD_FOLDER%
 	if %errorlevel% neq 0 exit /b 3
 
-	set STABILITY=staging
+	set STABILITY=stable
 	set DEPS_DIR=%PHP_BUILD_CACHE_BASE_DIR%\deps-%PHP_REL%-%PHP_SDK_VC%-%PHP_SDK_ARCH%
 	rem SDK is cached, deps info is cached as well
 	echo Updating dependencies in %DEPS_DIR%
