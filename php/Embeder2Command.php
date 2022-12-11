@@ -206,7 +206,7 @@ class Embeder2Command
      * @param null $lang
      * @return bool
      */
-    public function update_resource($exeFile, $section, $name, $data, $lang = null)
+    public function update_resource($exeFile, $section, $name, $data, $lang = 0)
     {
 
         // Path to resource
