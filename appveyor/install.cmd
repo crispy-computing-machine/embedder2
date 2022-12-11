@@ -15,7 +15,7 @@ setlocal enableextensions enabledelayedexpansion
 	if not exist "%PHP_BUILD_CACHE_SDK_DIR%" (
 		echo Cloning remote SDK repository
 		rem git clone -q --depth=1 --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%" 2>&1
-		git clone -v --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%" 2>&1
+		git clone -v --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%"
 	) else (
 		echo Fetching remote SDK repository
 		git --git-dir="%PHP_BUILD_CACHE_SDK_DIR%\.git" --work-tree="%PHP_BUILD_CACHE_SDK_DIR%" fetch --prune origin 2>&1

@@ -15,7 +15,7 @@ environment:
 
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      PHP_BUILD_CRT: vc16
+      PHP_BUILD_CRT: vs16
       PHP_REL: 8.2.0
       ARCHITECTURES: x86
       ZTS_STATES: enable
