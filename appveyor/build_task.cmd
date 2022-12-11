@@ -68,7 +68,6 @@ setlocal enableextensions enabledelayedexpansion
 		--with-sodium=static ^
 		--with-sqlite3=static ^
 		--with-tidy=static ^
-		--with-xmlrpc=static ^
 		--with-xsl=static ^
 		--enable-zip=static ^
 		--enable-shmop=static ^
