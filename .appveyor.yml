@@ -14,7 +14,7 @@ environment:
   SDK_BRANCH: php-sdk-2.2.0
 
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2016
       PHP_BUILD_CRT: vs16
       PHP_REL: 8.2.0
       ARCHITECTURES: x86
