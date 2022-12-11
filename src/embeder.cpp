@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
 		PG(during_request_startup) = 0;
 
 		/* Execute */
-		if (zend_eval_stringl(eval_string, &ret_value, "main") == FAILURE) {
+		if (zend_eval_string(eval_string, &ret_value, "main") == FAILURE) {
 			php_printf("Failed to eval.\n");
 		}
 
