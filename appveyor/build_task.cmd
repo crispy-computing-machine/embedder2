@@ -91,9 +91,9 @@ setlocal enableextensions enabledelayedexpansion
         MSBuild.exe %APPVEYOR_BUILD_FOLDER%\src\embeder.sln /p:Configuration="%BUILD_TYPE% console" /p:Platform="Win32"
         if %errorlevel% neq 0 exit /b 3
 
-        echo Copying built files into build/asset dir C:\obj\Release_TS\php-8.*.*-dev-Win32-vc16-x86.zip
-        rem xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-8.*.*-dev-Win32-vc16-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\" /s /i /Y
-        powershell -NoP -NonI -Command "Expand-Archive -Force -Path '%PHP_BUILD_OBJ_DIR%\Release_TS\php-8.*.*-dev-Win32-vc16-x86.zip' -DestinationPath '%APPVEYOR_BUILD_FOLDER%\build\'"
+        echo Copying built files into build/asset dir C:\obj\Release_TS\php-8.*.*-dev-Win32-vs16-x86.zip
+        rem xcopy "%PHP_BUILD_OBJ_DIR%\Release_TS\php-8.*.*-dev-Win32-vs16-x86.zip" "%APPVEYOR_BUILD_FOLDER%\build\" /s /i /Y
+        powershell -NoP -NonI -Command "Expand-Archive -Force -Path '%PHP_BUILD_OBJ_DIR%\Release_TS\php-8.*.*-dev-Win32-vs16-x86.zip' -DestinationPath '%APPVEYOR_BUILD_FOLDER%\build\'"
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php-win.exe" echo Error, PHP not found. && exit /b 1
 
         rem win32std
