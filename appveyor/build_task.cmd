@@ -135,11 +135,11 @@ setlocal enableextensions enabledelayedexpansion
 		%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe -open "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" -save "%APPVEYOR_BUILD_FOLDER%\build\embeder2-win.exe" -action addoverwrite -res "%APPVEYOR_BUILD_FOLDER%\php\php.exe.manifest" -mask 1,MANIFEST,1033
 
 		echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\make.php %APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\main.php C:\projects\php-src\
-        type C:\projects\embedder2\src\app.c
-        type %APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\vsbuild.cmd
-        call "%APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\vsbuild.cmd"
-        copy "%APPVEYOR_BUILD_FOLDER%\src\make_encoded_exe\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\make.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\main.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\
+        type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.c
+        type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd
+        call "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd"
+        copy "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
         if %errorlevel% neq 0 exit /b 3
 
 		rem Cleanup
