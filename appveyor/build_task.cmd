@@ -99,7 +99,7 @@ setlocal enableextensions enabledelayedexpansion
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dllhttps://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dll
+        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php-8/php_win32std.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
 
         rem Winbinder
@@ -131,16 +131,15 @@ setlocal enableextensions enabledelayedexpansion
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
 
-		echo Hack the manifest to make it look like modern windows
-		%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe -open "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" -save "%APPVEYOR_BUILD_FOLDER%\build\embeder2-win.exe" -action addoverwrite -res "%APPVEYOR_BUILD_FOLDER%\php\php.exe.manifest" -mask 1,MANIFEST,1033
-
-		echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\make.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\main.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\
-        type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.c
-        type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd
-        call "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd"
-        copy "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
-        if %errorlevel% neq 0 exit /b 3
+		@REM echo Hack the manifest to make it look like modern windows
+		@REM %APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe -open "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" -save "%APPVEYOR_BUILD_FOLDER%\build\embeder2-win.exe" -action addoverwrite -res "%APPVEYOR_BUILD_FOLDER%\php\php.exe.manifest" -mask 1,MANIFEST,1033
+		@REM echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
+        @REM %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\make.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\main.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\
+        @REM type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.c
+        @REM type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd
+        @REM call "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd"
+        @REM copy "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
+        @REM if %errorlevel% neq 0 exit /b 3
 
 		rem Cleanup
 		echo Cleanup files....
