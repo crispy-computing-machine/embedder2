@@ -483,8 +483,7 @@ class Embeder2Command
 
     /**
      * @return string
-     * @todo PHPParser or find/replace on composer files
-     *          embeded function might need to normalise more paths
+     * @todo Override composer autoloader class/methods to "embed" https://github.com/ircmaxell/PhpGenerics/blob/master/lib/PhpGenerics/Autoloader.php
      */
     function composerFileCheck($fileName, $fileContents)
     {
