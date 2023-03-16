@@ -96,26 +96,27 @@ setlocal enableextensions enabledelayedexpansion
         powershell -NoP -NonI -Command "Expand-Archive -Force -Path '%PHP_BUILD_OBJ_DIR%\Release_TS\php-8.*.*-dev-Win32-vs16-x64.zip' -DestinationPath '%APPVEYOR_BUILD_FOLDER%\build\'"
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\php-win.exe" echo Error, PHP not found. && exit /b 1
 
+        rem  @todo compile the x64 versions of below into php8ts.dll
         rem win32std
-        mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dllhttps://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php-8/php_win32std.dll
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
-
-        rem Winbinder
-        echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/php-8/php_winbinder.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/php-8/php_winbinder.dll
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
-
-        rem win32ps
-        echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
-
-        rem freeimage
-        echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
-        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
+        rem mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
+        rem echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dllhttps://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        rem wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php-8/php_win32std.dll
+        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
+ 
+        rem rem Winbinder
+        rem echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/php-8/php_winbinder.dll
+        rem wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/php-8/php_winbinder.dll
+        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
+ 
+        rem rem win32ps
+        rem echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
+        rem wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
+        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
+ 
+        rem rem freeimage
+        rem echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
+        rem wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
+        rem IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
         echo Make ini reference to extension .DLL's
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
