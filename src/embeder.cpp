@@ -56,9 +56,9 @@ static void embeded_ini_defaults(HashTable *configuration_hash)
 }
 
 /* Main */
-int main(int argc, char** argv) {
+long main(int argc, char** argv) {
 	zval ret_value;
-	int exit_status;
+	long exit_status;
 	char *eval_string = "include 'res:///PHP/LIB';";
 
 	php_embed_module.ini_defaults = embeded_ini_defaults;
