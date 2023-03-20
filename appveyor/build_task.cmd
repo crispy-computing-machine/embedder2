@@ -98,7 +98,7 @@ setlocal enableextensions enabledelayedexpansion
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dllhttps://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dll
         wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php-8/php_win32std.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
 
