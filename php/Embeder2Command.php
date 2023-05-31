@@ -206,7 +206,7 @@ class Embeder2Command
      * @param null $lang
      * @return bool
      */
-    public function update_resource($exeFile, $section, $name, $data, $lang = null)
+    public function update_resource($exeFile, $section, $name, $data, $lang = 0)
     {
 
         // Path to resource
@@ -483,8 +483,7 @@ class Embeder2Command
 
     /**
      * @return string
-     * @todo PHPParser or find/replace on composer files
-     *          embeded function might need to normalise more paths
+     * @todo Override composer autoloader class/methods to "embed" https://github.com/ircmaxell/PhpGenerics/blob/master/lib/PhpGenerics/Autoloader.php
      */
     function composerFileCheck($fileName, $fileContents)
     {

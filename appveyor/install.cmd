@@ -15,7 +15,7 @@ setlocal enableextensions enabledelayedexpansion
 	if not exist "%PHP_BUILD_CACHE_SDK_DIR%" (
 		echo Cloning remote SDK repository
 		rem git clone -q --depth=1 --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%" 2>&1
-		git clone --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%" 2>&1
+		git clone -v --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%"
 	) else (
 		echo Fetching remote SDK repository
 		git --git-dir="%PHP_BUILD_CACHE_SDK_DIR%\.git" --work-tree="%PHP_BUILD_CACHE_SDK_DIR%" fetch --prune origin 2>&1
@@ -24,11 +24,11 @@ setlocal enableextensions enabledelayedexpansion
 	)
 
 	if "%PHP_REL%"=="master" (
-		echo git clone -q --depth=1 --branch=%PHP_REL% https://github.com/php/php-src C:\projects\php-src
-		git clone -q --depth=1 --branch=%PHP_REL% https://github.com/php/php-src C:\projects\php-src
+		echo git clone -v --depth=1 --branch=%PHP_REL% https://github.com/php/php-src C:\projects\php-src
+		git clone -v --depth=1 --branch=%PHP_REL% https://github.com/php/php-src C:\projects\php-src
 	) else (
-		echo git clone -q --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
-		git clone -q --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
+		echo git clone -v --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
+		git clone -v --depth=1 --branch=PHP-%PHP_REL% https://github.com/php/php-src C:\projects\php-src
 	)
 
 	xcopy %APPVEYOR_BUILD_FOLDER% C:\projects\php-src\embeder\ /s /e /y /f

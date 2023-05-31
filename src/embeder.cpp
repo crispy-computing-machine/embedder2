@@ -56,9 +56,9 @@ static void embeded_ini_defaults(HashTable *configuration_hash)
 }
 
 /* Main */
-int main(int argc, char** argv) {
+long main(int argc, char** argv) {
 	zval ret_value;
-	int exit_status;
+	long exit_status;
 	char *eval_string = "include 'res:///PHP/LIB';";
 
 	php_embed_module.ini_defaults = embeded_ini_defaults;
@@ -66,13 +66,15 @@ int main(int argc, char** argv) {
     //php_embed_module.php_ini_path_override = "./php.ini";
 
 	/* Start PHP embed */
-	php_embed_init(argc, argv TSRMLS_CC); // PHP_EMBED_START_BLOCK(argc, argv)
+	PHP_EMBED_START_BLOCK(argc, argv); // PHP_EMBED_START_BLOCK(argc, argv)
  
 	zend_first_try {
 		PG(during_request_startup) = 0;
 
 		/* Execute */
-		zend_eval_string(eval_string, &ret_value, "main" TSRMLS_CC);
+		if (zend_eval_string(eval_string, &ret_value, "main") == FAILURE) {
+			php_printf("Failed to eval.\n");
+		}
 
 		/* Get Exit Status */
 		exit_status = Z_LVAL(ret_value);
@@ -83,7 +85,7 @@ int main(int argc, char** argv) {
 	zend_end_try();
 
 	/* Stop PHP embed */
-	php_embed_shutdown(TSRMLS_C); // PHP_EMBED_END_BLOCK()
+	PHP_EMBED_END_BLOCK(); // PHP_EMBED_END_BLOCK()
 
 	/* Return exit status */
 	return exit_status;
