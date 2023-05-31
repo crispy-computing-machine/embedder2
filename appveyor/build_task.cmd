@@ -127,6 +127,8 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Make embeder2.exe
 		rem Copy MSBuild exe to build folder
+		echo "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\"
+		dir "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\"
         copy "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
 
 		rem Use built PHP to make Embeder2Command into an exe.
