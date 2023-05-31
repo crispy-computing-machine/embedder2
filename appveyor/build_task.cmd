@@ -75,6 +75,10 @@ setlocal enableextensions enabledelayedexpansion
 		--enable-soap=static ^
 		--enable-sysvshm=static ^
 		--enable-zend-test=no ^
+		--enable-phpdbg=no ^
+		--enable-phpdbgs=no ^
+		--enable-apache2-4handler=no
+
 
 		if %errorlevel% neq 0 exit /b 3
 
@@ -98,23 +102,23 @@ setlocal enableextensions enabledelayedexpansion
 
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
-        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/php8/php_win32std.dll
-        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/php-8/php_win32std.dll
+        echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
 
         rem Winbinder
-        echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/php-8/php_winbinder.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/php-8/php_winbinder.dll
+        echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
         rem win32ps
-        echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/php-8/php_win32ps.dll
+        echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
 
         rem freeimage
-        echo Downloading https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/blob/main/freeimage.dll
+        echo Downloading https://github.com/crispy-computing-machine/freeimage/releases/download/latest/FreeImage.dll
+        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/releases/download/latest/FreeImage.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
         echo Make ini reference to extension .DLL's
@@ -132,14 +136,10 @@ setlocal enableextensions enabledelayedexpansion
         if %errorlevel% neq 0 exit /b 3
 
 		@REM echo Hack the manifest to make it look like modern windows
-		@REM %APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe -open "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" -save "%APPVEYOR_BUILD_FOLDER%\build\embeder2-win.exe" -action addoverwrite -res "%APPVEYOR_BUILD_FOLDER%\php\php.exe.manifest" -mask 1,MANIFEST,1033
-		@REM echo Making app.exe [ENCRYPTED].... -- [FILE TO BUILD], [C LIBPATH]
-        @REM %APPVEYOR_BUILD_FOLDER%\build\php.exe %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\make.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\main.php %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\
-        @REM type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.c
-        @REM type %APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd
-        @REM call "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\vsbuild.cmd"
-        @REM copy "%APPVEYOR_BUILD_FOLDER%\make_encoded_exe\app.exe" "%APPVEYOR_BUILD_FOLDER%\build\app.exe"
-        @REM if %errorlevel% neq 0 exit /b 3
+		@REM %APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe
+		
+		rem Add new look manifest
+		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open %php_dir%\php-win.exe -resource %php_dir%\php.exe.manifest -action addoverwrite -mask 24, 1,1033, -save %php_dir%\php-win.exe
 
 		rem Cleanup
 		echo Cleanup files....
