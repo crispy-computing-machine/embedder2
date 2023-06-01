@@ -125,10 +125,10 @@ setlocal enableextensions enabledelayedexpansion
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type %APPVEYOR_BUILD_FOLDER%\build\php.ini
 
-		echo Copy MSBuild exe to build folder and update manifest
+		echo Update manifest then copy MSBuild exe to build folder 
+		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" -resource %php_dir%\php.exe.manifest -action addoverwrite -mask 24, 1,1033, -save "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe"
         copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
 		copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\debug.exe"
-		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" -resource %php_dir%\php.exe.manifest -action addoverwrite -mask 24, 1,1033, -save "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe"
 
 		if %errorlevel% neq 0 exit /b 3
 
