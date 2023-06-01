@@ -125,22 +125,17 @@ setlocal enableextensions enabledelayedexpansion
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type %APPVEYOR_BUILD_FOLDER%\build\php.ini
 
-		echo Make embeder2.exe
-		rem Copy MSBuild exe to build folder
-		echo "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\"
-		dir "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\"
+		echo Copy MSBuild exe to build folder
         copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+		if %errorlevel% neq 0 exit /b 3
 
-		rem Use built PHP to make Embeder2Command into an exe.
+		echo Use built PHP to make Embeder2Command into an exe.
         %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" main "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php"
-        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
+        %APPVEYOR_BUILD_FOLDER%\build\php.exe -c "%APPVEYOR_BUILD_FOLDER%\build\php.ini" "%APPVEYOR_BUILD_FOLDER%\php\Embeder2Command.php" add "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe" "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "out/console.exe"
         %APPVEYOR_BUILD_FOLDER%\build\embeder2.exe info > %APPVEYOR_BUILD_FOLDER%\build\embeder2-info.html
         if %errorlevel% neq 0 exit /b 3
-
-		@REM echo Hack the manifest to make it look like modern windows
-		@REM %APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe
 		
-		rem Add new look manifest + elphant logo
+		echo Add new look manifest + elphant logo (Res hacker tweaks)
 		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open %php_dir%\php-win.exe -resource %php_dir%\php.exe.manifest -action addoverwrite -mask 24, 1,1033, -save %php_dir%\php-win.exe
 		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open %php_dir%\php-win.exe -resource %APPVEYOR_BUILD_FOLDER%\src\res\php.ico -action addoverwrite -mask ICONGROUP,0, -save %php_dir%\php-win.exe
 		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open %php_dir%\php-win.exe -resource %APPVEYOR_BUILD_FOLDER%\src\res\php.ico -action addoverwrite -mask ICONGROUP,MAINICON, -save %php_dir%\php-win.exe
