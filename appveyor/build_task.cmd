@@ -125,11 +125,13 @@ setlocal enableextensions enabledelayedexpansion
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type %APPVEYOR_BUILD_FOLDER%\build\php.ini
 
-		echo Update manifest then copy MSBuild exe to build folder 
+		echo Update manifest
 		"%APPVEYOR_BUILD_FOLDER%\php\ResourceHacker.exe" -open "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" -resource %php_dir%\php.exe.manifest -action addoverwrite -mask 24, 1,1033, -save "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe"
+		if %errorlevel% neq 0 exit /b 3
+
+		echo Copy MSBuild exe to build folder 
         copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
 		copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\debug.exe"
-
 		if %errorlevel% neq 0 exit /b 3
 
 		echo Use built PHP to make Embeder2Command into an exe.
