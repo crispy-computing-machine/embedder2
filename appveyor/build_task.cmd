@@ -103,22 +103,22 @@ setlocal enableextensions enabledelayedexpansion
         rem win32std
         mkdir "%APPVEYOR_BUILD_FOLDER%\build\ext\"
         echo Downloading https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
-        wget -O  "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
+        wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" https://github.com/crispy-computing-machine/win32std/releases/download/latest/php_win32std.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32std.dll" echo Error, php_win32std not found. && exit /b 1
 
         rem Winbinder
         echo Downloading https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
+        wget  -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
         rem win32ps
         echo Downloading https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
+        wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
 
         rem freeimage
         echo Downloading https://github.com/crispy-computing-machine/freeimage/releases/download/latest/FreeImage.dll
-        wget -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/releases/download/latest/FreeImage.dll
+        wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/releases/download/latest/FreeImage.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
         echo Make ini reference to extension .DLL's
@@ -127,6 +127,8 @@ setlocal enableextensions enabledelayedexpansion
 
 		echo Copy MSBuild exe to build folder
         copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
+		copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\debug.exe"
+
 		if %errorlevel% neq 0 exit /b 3
 
 		echo Use built PHP to make Embeder2Command into an exe.
