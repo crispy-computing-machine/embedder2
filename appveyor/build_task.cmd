@@ -121,13 +121,20 @@ setlocal enableextensions enabledelayedexpansion
         wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" https://github.com/crispy-computing-machine/freeimage/releases/download/latest/FreeImage.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\freeimage.dll" echo Error, freeimage not found. && exit /b 1
 
+        rem CACERT
+        echo Downloading https://curl.se/ca/cacert.pem
+        wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\cacert.pem" https://curl.se/ca/cacert.pem
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\cacert.pem" echo Error, cacert.pem not found. && exit /b 1
+
+
+
         echo Make ini reference to extension .DLL's
         copy %APPVEYOR_BUILD_FOLDER%\php\php.ini "%APPVEYOR_BUILD_FOLDER%\build\php.ini"
         type %APPVEYOR_BUILD_FOLDER%\build\php.ini
 
 		echo Copy MSBuild exe to build folder 
         copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\embeder2.exe"
-		copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\debug.exe"
+		copy "%APPVEYOR_BUILD_FOLDER%\src\x64\%BUILD_TYPE% console\embeder.exe" "%APPVEYOR_BUILD_FOLDER%\build\stub.exe"
 		if %errorlevel% neq 0 exit /b 3
 
 		echo Use built PHP to make Embeder2Command into an exe.
