@@ -25,7 +25,6 @@
       <change beforePath="$PROJECT_DIR$/src/embeder.sln" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.sln" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/embeder.vcxproj.filters" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.vcxproj.filters" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/embeder.vcxproj.user" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.vcxproj.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resource.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/resource.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +112,7 @@
       <workItem from="1667375946246" duration="1863000" />
       <workItem from="1667828330326" duration="8416000" />
       <workItem from="1667991338801" duration="2000" />
-      <workItem from="1695196869620" duration="5530000" />
+      <workItem from="1695196869620" duration="7488000" />
     </task>
     <servers />
   </component>

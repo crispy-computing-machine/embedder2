@@ -363,6 +363,7 @@ class Embeder2Command
     public function build_dir($path, $main, $rootDirectory, $type = 'CONSOLE')
     {
 
+        file_put_contents('manifest.json', '');
         $this->message('build_dir: Creating new exe ' . $path . ' from  directory ' . $rootDirectory . ', Main file: ' . $main . ' (Type:' . $type . ')');
         $this->new_file($path);
         $this->add_main($path, $main);
@@ -371,7 +372,7 @@ class Embeder2Command
         $totalFiles = 0;
         $filesAdded = 0;
         $failedFiles = 0;
-
+        $manifestFiles = [];
         $buildFiles = $this->filesInDir($rootDirectory);
         foreach ($buildFiles as $file) {
             $originalFullPath = $file;
@@ -388,11 +389,15 @@ class Embeder2Command
             $filesAdded += $added;
             $failedFiles += !$added;
             $totalFiles++;
+            $manifestFiles[] = [$originalFullPath, $embedPath];
             if ($totalFiles % 100 === 0) {
                 $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
             }
 
         }
+
+        // update manifest
+        file_put_contents('manifest.json', json_encode($manifestFiles));
 
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
         $this->change_type($path, $type);
