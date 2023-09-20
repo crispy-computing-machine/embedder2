@@ -363,7 +363,7 @@ class Embeder2Command
     public function build_dir($path, $main, $rootDirectory, $type = 'CONSOLE')
     {
 
-        file_put_contents('manifest.json', '');
+        file_put_contents(dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', '');
         $this->message('build_dir: Creating new exe ' . $path . ' from  directory ' . $rootDirectory . ', Main file: ' . $main . ' (Type:' . $type . ')');
         $this->new_file($path);
         $this->add_main($path, $main);
@@ -380,16 +380,19 @@ class Embeder2Command
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
             // No hidden files, No git files, No directories // @todo pass as arguments to embedder
-            if (strpos($embedPath, '.') === 0 || strpos($embedPath, '.git') !== FALSE || strpos($embedPath, 'php7') !== FALSE || is_dir($originalFullPath)) {
+            if (strpos($embedPath, '.') === 0 ||
+                strpos($embedPath, 'php7') !== FALSE ||
+                strpos($embedPath, 'manifest.json') !== FALSE ||
+                is_dir($originalFullPath)) {
                 continue;
             }
 
             // Update resource
-            $added = $this->add_file($path, $originalFullPath, $embedPath);
+            $added = $this->add_file($path, $file, $embedPath);
             $filesAdded += $added;
             $failedFiles += !$added;
             $totalFiles++;
-            $manifestFiles[] = [$originalFullPath, $embedPath];
+            $manifestFiles[] = [$originalFullPath => $embedPath];
             if ($totalFiles % 100 === 0) {
                 $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
             }
@@ -397,7 +400,7 @@ class Embeder2Command
         }
 
         // update manifest
-        file_put_contents('manifest.json', json_encode($manifestFiles));
+        file_put_contents(dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', json_encode($manifestFiles));
 
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
         $this->change_type($path, $type);
@@ -439,13 +442,10 @@ class Embeder2Command
             }
 
             // see if file is in "mising" tmp file, if not, add it to original exe...
-            $res = strlen(file_get_contents('res://' . $missingTmpFile . '/PHP/' . md5($embedPath)));
+            $res = strlen(@file_get_contents('res://' . $missingTmpFile . '/PHP/' . md5($embedPath)));
             $this->message('build_dir: ' . $path . ' Validating ' . $embedPath . ' -> ' . $res);
             if ($res === 0) {
                 $this->message('build_dir: ' . $path . ' Missing, Adding ' . $embedPath . ' -> ' . $res);
-
-                // Can't add to it if its open, so we are reading from a temp file instead
-                $this->add_file($path, $originalFullPath, $embedPath);
                 $missingFiles[] = [$path, $originalFullPath, $embedPath];
             }
         }
