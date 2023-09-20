@@ -433,9 +433,8 @@ class Embeder2Command
                 continue;
             }
 
-            // Check and Add missing resource to array to process after.
-            #$res = strlen(res_get( $h, 'PHP', md5($embedPath)));
-            $res = strlen(file_get_contents('res://' . $path . '/PHP/' . md5($embedPath)));
+            // see if file is in "mising" tmp file, if not, add it to original exe...
+            $res = strlen(file_get_contents('res://' . $missingTmpFile . '/PHP/' . md5($embedPath)));
             $this->message('build_dir: ' . $path . ' Validating ' . $embedPath . ' -> ' . $res);
             if ($res === 0) {
                 $this->message('build_dir: ' . $path . ' Missing, Adding ' . $embedPath . ' -> ' . $res);
@@ -498,7 +497,6 @@ class Embeder2Command
             $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require 'vendor/composer/autoload_classmap.php';", $fileContents);
             $fileContents = str_replace("require_once __DIR__ . '/composer/autoload_real.php';", "require_once 'vendor/composer/autoload_real.php';", $fileContents);
             $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require 'vendor/composer/autoload_files.php';", $fileContents);
-            $fileContents = str_replace("require \$file;", "require embeded(\$file);", $fileContents);
         }
 
         // Main include function for compose
