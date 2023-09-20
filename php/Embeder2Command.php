@@ -380,10 +380,20 @@ class Embeder2Command
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
             // No hidden files, No git files, No directories // @todo pass as arguments to embedder
-            if (strpos($embedPath, '.') === 0 ||
-                strpos($embedPath, 'php7') !== FALSE ||
-                strpos($embedPath, 'manifest.json') !== FALSE ||
-                is_dir($originalFullPath)) {
+            if (strpos($embedPath, '.git') !== FALSE) {
+                echo 'Skipping GIT: ' . $embedPath . PHP_EOL;
+                continue;
+            }
+            if (strpos($embedPath, '.idea') !== FALSE) {
+                echo 'Skipping IDEA: ' . $embedPath . PHP_EOL;
+                continue;
+            }
+            if (basename($embedPath) === 'manifest.json') {
+                echo 'Skipping MANIFEST: ' . $embedPath . PHP_EOL;
+                continue;
+            }
+            if (is_dir($originalFullPath)) {
+                echo 'Skipping DIRECTORY: ' . $embedPath . PHP_EOL;
                 continue;
             }
 
