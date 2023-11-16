@@ -147,18 +147,17 @@ class Embeder2Command
     /**
      * Change between console and windows type program
      *
-     * @param $exeFile - Full path and extension
-     * @param $type
+     * @param string $exeFile - Full path and extension
+     * @param string $type
      */
     public function change_type($exeFile, $type)
     {
-
         $types = array('CONSOLE', 'WINDOWS');
 
         // Check if EXE exists
         $this->check_exe($exeFile, false);
 
-        // Check TYPE paramater
+        // Check TYPE parameter
         if (!in_array($new_format = strtoupper($type), $types)) {
             $this->message('change_type: Type not supported', $error = true);
         }
@@ -180,12 +179,22 @@ class Embeder2Command
         if ($pe_record['magic'] != 0x4550) {
             $this->message('change_type: PE header not found', $error = true);
         }
-        if ($pe_record['size'] != 224) {
-            $this->message('change_type: Optional header not in NT32 format', $error = true);
+
+        // Check for 32-bit or 64-bit PE header
+        if ($pe_record['size'] == 224) {
+            // 32-bit PE header
+            $optional_header_offset = 68;
+        } elseif ($pe_record['size'] == 240) {
+            // 64-bit PE header
+            $optional_header_offset = 84;
+        } else {
+            $this->message('change_type: Unsupported PE header size', $error = true);
         }
-        if (fseek($f, $type_record['offset'] + 24 + 68, SEEK_SET) != 0) {
+
+        if (fseek($f, $type_record['offset'] + 24 + $optional_header_offset, SEEK_SET) != 0) {
             $this->message("change_type: Seeking error (+{$type_record['offset']})", $error = true);
         }
+
         if (fwrite($f, pack('S', $new_format === 'CONSOLE' ? 3 : 2)) === false) {
             $this->message('change_type: Write error', $error = true);
         }
@@ -193,7 +202,7 @@ class Embeder2Command
         // Close file handle
         fclose($f);
 
-        $this->message("change_type: File type changed too '" . $new_format . "'");
+        $this->message("change_type: File type changed to '{$new_format}'");
     }
 
     /**
@@ -221,7 +230,7 @@ class Embeder2Command
 
         // @todo debug timing of adding resources? based on load of CPU/DISK?
         #usleep(500000);
-        usleep(1000000);
+        #usleep(1000000);
 
         return $reset;
     }
@@ -363,7 +372,7 @@ class Embeder2Command
     public function build_dir($path, $main, $rootDirectory, $type = 'CONSOLE')
     {
 
-        file_put_contents(dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', '');
+        file_put_contents($manifestFile = dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', '');
         $this->message('build_dir: Creating new exe ' . $path . ' from  directory ' . $rootDirectory . ', Main file: ' . $main . ' (Type:' . $type . ')');
         $this->new_file($path);
         $this->add_main($path, $main);
@@ -375,7 +384,7 @@ class Embeder2Command
         $manifestFiles = [];
         $buildFiles = $this->filesInDir($rootDirectory);
         foreach ($buildFiles as $file) {
-            $originalFullPath = $file;
+            $originalFullPath = $file->getRealpath();
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
@@ -402,7 +411,7 @@ class Embeder2Command
             $filesAdded += $added;
             $failedFiles += !$added;
             $totalFiles++;
-            $manifestFiles[] = [$originalFullPath => $embedPath];
+            $manifestFiles[] = [md5($embedPath) => $embedPath];
             if ($totalFiles % 100 === 0) {
                 $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
             }
@@ -410,7 +419,7 @@ class Embeder2Command
         }
 
         // update manifest
-        file_put_contents(dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', json_encode($manifestFiles));
+        file_put_contents($manifestFile, json_encode($manifestFiles));
 
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
         $this->change_type($path, $type);
