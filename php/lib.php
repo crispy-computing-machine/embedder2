@@ -52,7 +52,7 @@ $interceptor = new Interceptor(function (string $path) {
     if ($isMediaFile) {
         $copied = copy($path, $tempFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . pathinfo($originalFile, PATHINFO_BASENAME));
         echo EMBEDED_DEBUG ? (('Intercepting: Media file ' . $originalFile . ' copied to ' . $tempFilename . ' (' . $path . ') -> ') . ($copied ? 'Success' : 'Failed') . PHP_EOL) : null;
-        return file_get_contents($tempFilename);
+        return $tempFilename; // return path
     }
     return file_get_contents($path);
 

@@ -451,7 +451,7 @@ class Embeder2Command
         $missingFiles = [];
         foreach ($buildFiles as $file) {
 
-            $originalFullPath = $file;
+            $originalFullPath = $file->getRealpath();
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
@@ -531,7 +531,7 @@ class Embeder2Command
         // Replace dunder path constants
         if (strpos($fileName, 'autoload_static.php') !== FALSE) {
             $fileContents = str_replace("__DIR__ . '/../..' . '/", "'", $fileContents);
-            $fileContents = str_replace("__DIR__ . '/..' . '/", "'", $fileContents);
+            $fileContents = str_replace("__DIR__ . '/..' . '/", "'vendor/", $fileContents);
         }
 
         return $fileContents;
