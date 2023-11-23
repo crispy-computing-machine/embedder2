@@ -147,62 +147,35 @@ class Embeder2Command
     /**
      * Change between console and windows type program
      *
-     * @param string $exeFile - Full path and extension
+     * @param string $file - Full path and extension
      * @param string $type
      */
-    public function change_type($exeFile, $type)
+    public function change_type($file)
     {
-        $types = array('CONSOLE', 'WINDOWS');
-
-        // Check if EXE exists
-        $this->check_exe($exeFile, false);
-
-        // Check TYPE parameter
-        if (!in_array($new_format = strtoupper($type), $types)) {
-            $this->message('change_type: Type not supported', $error = true);
+        $fh = fopen($file, "rw+b");
+        $doshead = unpack(DOS_HEADER, fread($fh, DOS_HEADER_SIZE));
+    
+        if ($doshead["Id"] != "MZ" || $doshead["WinHeader"] < 0x40) {
+            fclose($fh);
+            $this->message('change_type: Invalid exe header!');
+            return false;
         }
-
-        // Open file handle in r+b mode
-        $f = fopen($exeFile, 'r+b');
-
-        // Change EXE type
-        $type_record = unpack('Smagic/x58/Loffset', fread($f, 32 * 4));
-        if ($type_record['magic'] != 0x5a4d) {
-            $this->message('change_type: Not an MSDOS executable file', $error = true);
+    
+        fseek($fh, $doshead["TableOffset"], SEEK_SET);
+        $winhead = unpack(WINDOWS_HEADER, fread($fh, WINDOWS_HEADER_SIZE));
+        if ($winhead["Signature"] != "PE") {
+            $this->message('change_type: Not a PE exe');
+            fclose($fh);
+            return false;
         }
-        if (fseek($f, $type_record['offset'], SEEK_SET) != 0) {
-            $this->message("change_type: Seeking error (+{$type_record['offset']})", $error = true);
-        }
-
-        // PE Record
-        $pe_record = unpack('Lmagic/x16/Ssize', fread($f, 24));
-        if ($pe_record['magic'] != 0x4550) {
-            $this->message('change_type: PE header not found', $error = true);
-        }
-
-        // Check for 32-bit or 64-bit PE header
-        if ($pe_record['size'] == 224) {
-            // 32-bit PE header
-            $optional_header_offset = 68;
-        } elseif ($pe_record['size'] == 240) {
-            // 64-bit PE header
-            $optional_header_offset = 84;
-        } else {
-            $this->message('change_type: Unsupported PE header size', $error = true);
-        }
-
-        if (fseek($f, $type_record['offset'] + 24 + $optional_header_offset, SEEK_SET) != 0) {
-            $this->message("change_type: Seeking error (+{$type_record['offset']})", $error = true);
-        }
-
-        if (fwrite($f, pack('S', $new_format === 'CONSOLE' ? 3 : 2)) === false) {
-            $this->message('change_type: Write error', $error = true);
-        }
-
-        // Close file handle
-        fclose($f);
-
-        $this->message("change_type: File type changed to '{$new_format}'");
+    
+        $optionalHeader = unpack(OPTIONAL_HEADER, fread($fh, OPTIONAL_HEADER_SIZE));
+    
+        fseek($fh, $optionalHeader["AddressOfEntryPoint"] + 0x40, SEEK_SET);
+        fwrite($fh, "\02");
+    
+        fclose($fh);
+        return true;
     }
 
     /**
@@ -422,7 +395,7 @@ class Embeder2Command
         file_put_contents($manifestFile, json_encode($manifestFiles));
 
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
-        $this->change_type($path, $type);
+        $this->change_type($path);
 
         $this->message('build_dir: Build complete!');
 
