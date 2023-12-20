@@ -2,6 +2,24 @@
 
 namespace Embeder;
 
+define("DOSHEADER",
+	"a2Id/" .
+	"x22/" .
+	"vWinHeader/" .
+	"x34/" .
+	"vTableOffset"
+);
+define("DOSHEADER_SIZE", 62);
+
+define("WINHEADER",
+	"a2Signature/" .
+	"x18/" .
+	"vNT32/" .
+	"x70/" .
+	"CConsole"
+);
+define("WINHEADER_SIZE", 93);
+
 /**
  * Class Embeder2
  */
@@ -152,30 +170,76 @@ class Embeder2Command
      */
     public function change_type($file)
     {
+        $this->message("change_type: Current app type " . $this->get_mode($file), $error = false);
+
+        $converted = $this->convert($file);
+
+        $this->message("change_type: App changed to type " . $this->get_mode($file), $error = false);
+
+    }
+
+    function convert($file)
+    {
         $fh = fopen($file, "rw+b");
-        $doshead = unpack(DOS_HEADER, fread($fh, DOS_HEADER_SIZE));
+        $doshead = unpack(DOSHEADER, fread($fh, DOSHEADER_SIZE));
     
-        if ($doshead["Id"] != "MZ" || $doshead["WinHeader"] < 0x40) {
+        if($doshead["Id"] != "MZ" || $doshead["WinHeader"] < 0x40) {
             fclose($fh);
-            $this->message('change_type: Invalid exe header!');
             return false;
         }
     
         fseek($fh, $doshead["TableOffset"], SEEK_SET);
-        $winhead = unpack(WINDOWS_HEADER, fread($fh, WINDOWS_HEADER_SIZE));
-        if ($winhead["Signature"] != "PE") {
-            $this->message('change_type: Not a PE exe');
+        $winhead = unpack(WINHEADER, fread($fh, WINHEADER_SIZE));
+        if($winhead["Signature"] != "PE") {
             fclose($fh);
             return false;
         }
     
-        $optionalHeader = unpack(OPTIONAL_HEADER, fread($fh, OPTIONAL_HEADER_SIZE));
+        if($winhead["NT32"] != 0xE0) {
+            fclose($fh);
+            return false;
+        }
     
-        fseek($fh, $optionalHeader["AddressOfEntryPoint"] + 0x40, SEEK_SET);
-        fwrite($fh, "\02");
+        fseek($fh, $doshead["TableOffset"] + WINHEADER_SIZE - 1, SEEK_SET);
+    
+        if($winhead["Console"] == 3)
+            fwrite($fh, "\02");
+        elseif($winhead["Console"] == 2)
+            fwrite($fh, "\03");
+        else {
+            fclose($fh);
+            return false;
+        }
     
         fclose($fh);
         return true;
+    }
+    
+    function get_mode($file)
+    {
+        $fh = fopen($file, "rb");
+        $doshead = unpack(DOSHEADER, fread($fh, DOSHEADER_SIZE));
+    
+        if($doshead["Id"] != "MZ" || $doshead["WinHeader"] < 0x40) {
+            fclose($fh);
+            return false;
+        }
+    
+        fseek($fh, $doshead["TableOffset"], SEEK_SET);
+        $winhead = unpack(WINHEADER, fread($fh, WINHEADER_SIZE));
+        if($winhead["Signature"] != "PE") {
+            fclose($fh);
+            return false;
+        }
+    
+        if($winhead["NT32"] != 0xE0) {
+            fclose($fh);
+            return false;
+        }
+    
+        fclose($fh);
+    
+        return ($winhead["Console"] == 3) ? "console" : "windowed";
     }
 
     /**
