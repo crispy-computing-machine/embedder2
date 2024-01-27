@@ -4,28 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.appveyor.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.appveyor.yml" afterDir="false" />
+    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="8.3 correct wb, fix ini">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appveyor/build.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appveyor/install.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/install.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php-win.exe.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/php-win.exe.manifest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php.exe.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/php.exe.manifest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/.Win32Std.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/.Win32Std.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/Embeder2Command.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/Embeder2Command.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/intercept/Interceptor.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/intercept/Interceptor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/intercept/Stream.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/intercept/Stream.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/php.ini" beforeDir="false" afterPath="$PROJECT_DIR$/php/php.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/run.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/run.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ReadMe.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReadMe.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/embeder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/embeder.rc" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.rc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/embeder.sln" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/embeder.vcxproj.filters" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.vcxproj.filters" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/embeder.vcxproj.user" beforeDir="false" afterPath="$PROJECT_DIR$/src/embeder.vcxproj.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resource.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/resource.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +47,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP7" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2GcchBfI5CYmmhumqI5Ou8gcWCw" />
   <component name="ProjectViewState">
     <option name="autoscrollToSource" value="true" />
@@ -78,7 +61,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/dev/windows/embedder2",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/Projects/windows-core-development-tools",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -98,6 +82,13 @@
       <recent name="C:\dev\027e95115cf6ac1119126ca95379de1b\windows\embedder2" />
     </key>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-php-predefined-ba97393d7c68-b4dcf6bb9de9-com.jetbrains.php.sharedIndexes-PS-233.13135.108" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -113,7 +104,34 @@
       <workItem from="1667828330326" duration="8416000" />
       <workItem from="1667991338801" duration="2000" />
       <workItem from="1695196869620" duration="11647000" />
+      <workItem from="1703072250320" duration="1951000" />
+      <workItem from="1704636479756" duration="16000" />
     </task>
+    <task id="LOCAL-00001" summary="8.3.0">
+      <option name="closed" value="true" />
+      <created>1703072315776</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1703072315776</updated>
+    </task>
+    <task id="LOCAL-00002" summary="8.3">
+      <option name="closed" value="true" />
+      <created>1703072450809</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1703072450809</updated>
+    </task>
+    <task id="LOCAL-00003" summary="8.3 correct wb, fix ini">
+      <option name="closed" value="true" />
+      <created>1703073501378</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1703073501378</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,5 +147,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="8.3.0" />
+    <MESSAGE value="8.3" />
+    <MESSAGE value="8.3 correct wb, fix ini" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.3 correct wb, fix ini" />
   </component>
 </project>
