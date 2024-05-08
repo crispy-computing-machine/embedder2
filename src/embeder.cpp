@@ -41,7 +41,8 @@ static void embeded_ini_defaults(HashTable *configuration_hash)
 	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("Embed SAPI error:"), /* persistent */ 1));
 	zend_hash_str_update(configuration_hash, ZEND_STRL("error_prepend_string"), &ini_value);
 
-	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("E_ALL"), /* persistent */ 1));
+	// E_ALL doesn't work, you need to use the constant value
+	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("32767"), /* persistent */ 1));
 	zend_hash_str_update(configuration_hash, ZEND_STRL("error_reporting"), &ini_value);
 
 	ZVAL_NEW_STR(&ini_value, zend_string_init(ZEND_STRL("Off"), /* persistent */ 1));
