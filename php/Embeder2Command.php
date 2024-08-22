@@ -307,7 +307,7 @@ class Embeder2Command
         }
 
         $this->message("display_list: Res list of '$exeFile': ");
-        $list = res_list_type($h, true);
+        $list = res_list_type($h, false);
         if ($list === FALSE) {
             $this->message("display_list: Can't list type", $error = true);
         }
