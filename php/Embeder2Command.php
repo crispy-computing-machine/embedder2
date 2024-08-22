@@ -316,7 +316,7 @@ class Embeder2Command
             echo $iValue;
             $res = res_list($h, $list[$i]);
             foreach ($res as $jValue) {
-                echo "\t" . $jValue;
+                echo $jValue . PHP_EOL;
             }
         }
         res_close($h);

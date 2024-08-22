@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="new stub">
+    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="fix wb download">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/php/Embeder2Command.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/Embeder2Command.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +114,7 @@
       <workItem from="1706441751955" duration="2665000" />
       <workItem from="1724258129574" duration="876000" />
       <workItem from="1724319958068" duration="805000" />
-      <workItem from="1724326695467" duration="1318000" />
+      <workItem from="1724326695467" duration="4777000" />
     </task>
     <task id="LOCAL-00001" summary="8.3.0">
       <option name="closed" value="true" />
@@ -171,7 +172,23 @@
       <option name="project" value="LOCAL" />
       <updated>1724326776094</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix list res">
+      <option name="closed" value="true" />
+      <created>1724328313210</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1724328313210</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix wb download">
+      <option name="closed" value="true" />
+      <created>1724328495711</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1724328495711</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +212,8 @@
     <MESSAGE value="8.3" />
     <MESSAGE value="Winbinder-PHP8" />
     <MESSAGE value="new stub" />
-    <option name="LAST_COMMIT_MESSAGE" value="new stub" />
+    <MESSAGE value="fix list res" />
+    <MESSAGE value="fix wb download" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix wb download" />
   </component>
 </project>
