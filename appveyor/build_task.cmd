@@ -108,7 +108,7 @@ setlocal enableextensions enabledelayedexpansion
 
         rem Winbinder
         echo Downloading https://github.com/crispy-computing-machine/Winbinder-PHP8/releases/download/latest/php_winbinder.dll
-        wget  -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder-Archive/releases/download/latest/php_winbinder.dll
+        wget  -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" https://github.com/crispy-computing-machine/Winbinder-PHP8/releases/download/latest/php_winbinder.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_winbinder.dll" echo Error, php_winbinder not found. && exit /b 1
 
         rem win32ps
