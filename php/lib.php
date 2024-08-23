@@ -45,6 +45,23 @@ require 'res:///PHP/INC_STREAM';
  * @param $path
  * @return mixed|string
  */
+function embedded_file_exists($path)
+{
+    if(!defined('EMBEDED')) {
+        return file_exists($path);
+    }
+    $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
+    return file_get_contents($path) > 0;
+}
+
+/**
+ * Get the path to an embedded media file that is copied to the temporary directory
+ * This is for use with Menu and Toolbar image parameters and wb_load_image
+ *
+ * Note: Not very efficient as it copies the file
+ * @param $path
+ * @return mixed|string
+ */
 function embedded_media($path)
 {
     if(!defined('EMBEDED')) {

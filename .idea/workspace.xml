@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="fix wb download">
+    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="userland functions moved to lib">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/Embeder2Command.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/Embeder2Command.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +63,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Projects/embedder2",
+    "last_opened_file_path": "D:/Projects/windows-kernel",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -114,7 +113,8 @@
       <workItem from="1706441751955" duration="2665000" />
       <workItem from="1724258129574" duration="876000" />
       <workItem from="1724319958068" duration="805000" />
-      <workItem from="1724326695467" duration="4777000" />
+      <workItem from="1724326695467" duration="6905000" />
+      <workItem from="1724408169025" duration="1553000" />
     </task>
     <task id="LOCAL-00001" summary="8.3.0">
       <option name="closed" value="true" />
@@ -188,7 +188,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724328495711</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="userland functions moved to lib">
+      <option name="closed" value="true" />
+      <created>1724337796859</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1724337796859</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,6 +222,7 @@
     <MESSAGE value="new stub" />
     <MESSAGE value="fix list res" />
     <MESSAGE value="fix wb download" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix wb download" />
+    <MESSAGE value="userland functions moved to lib" />
+    <option name="LAST_COMMIT_MESSAGE" value="userland functions moved to lib" />
   </component>
 </project>
