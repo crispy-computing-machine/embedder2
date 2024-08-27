@@ -37,6 +37,7 @@ require 'res:///PHP/INC_STREAM';
 | For getting the path to media files or ini files
 |
 */
+
 /**
  * Get the path to an embedded media file that is copied to the temporary directory
  * This is for use with Menu and Toolbar image parameters and wb_load_image
@@ -50,8 +51,13 @@ function embedded_file_exists($path)
     if(!defined('EMBEDED')) {
         return file_exists($path);
     }
+    $originalPath = $path;
     $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
-    return file_get_contents($path) > 0;
+    $exists =  file_get_contents($path) > 0;
+
+    echo EMBEDED_DEBUG ? ('embedded_file_exists: ' . $originalPath . ' -> ' . ($exists ? 'exists' : 'does not exist') . PHP_EOL) : null;
+
+    return $exists;
 }
 
 /**
@@ -126,14 +132,18 @@ $interceptor = new Interceptor(function (string $path) {
     if (!$protectedFile) {
         $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
     }
-    echo EMBEDED_DEBUG ? ('Intercepting: ' . $originalFile . ' (' . $path . ')' . PHP_EOL) : null;
+
+    echo EMBEDED_DEBUG ? ('Intercepting: ' . $originalFile . ' (' . $path . ') ' . PHP_EOL) : null;
     $isMediaFile = in_array(pathinfo($originalFile, PATHINFO_EXTENSION), ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'ico', 'wav', 'midi', 'cur']);
     if ($isMediaFile) {
         $copied = copy($path, $tempFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . pathinfo($originalFile, PATHINFO_BASENAME));
         echo EMBEDED_DEBUG ? (('Intercepting: Media file ' . $originalFile . ' copied to ' . $tempFilename . ' (' . $path . ') -> ') . ($copied ? 'Success' : 'Failed') . PHP_EOL) : null;
         return $tempFilename; // return path
     }
-    return file_get_contents($path);
+
+    $intercepted = file_get_contents($path);
+    echo EMBEDED_DEBUG ? ('Intercepted: ' . $originalFile . ' (' . $path . ') -> ' . (strlen($intercepted) > 0 ? 'Success' : 'Failed') . PHP_EOL) : null;
+    return $intercepted;
 
 });
 

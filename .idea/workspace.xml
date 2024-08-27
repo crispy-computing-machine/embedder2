@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="userland functions moved to lib">
+    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="embedded_file_exists">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/php/Embeder2Command.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/Embeder2Command.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,12 +65,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Projects/windows-kernel",
+    "last_opened_file_path": "D:/Projects/win32std",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -114,7 +117,9 @@
       <workItem from="1724258129574" duration="876000" />
       <workItem from="1724319958068" duration="805000" />
       <workItem from="1724326695467" duration="6905000" />
-      <workItem from="1724408169025" duration="1553000" />
+      <workItem from="1724408169025" duration="4760000" />
+      <workItem from="1724664703567" duration="8009000" />
+      <workItem from="1724766266108" duration="1784000" />
     </task>
     <task id="LOCAL-00001" summary="8.3.0">
       <option name="closed" value="true" />
@@ -196,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724337796859</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="embedded_file_exists">
+      <option name="closed" value="true" />
+      <created>1724411199070</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1724411199070</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +236,7 @@
     <MESSAGE value="fix list res" />
     <MESSAGE value="fix wb download" />
     <MESSAGE value="userland functions moved to lib" />
-    <option name="LAST_COMMIT_MESSAGE" value="userland functions moved to lib" />
+    <MESSAGE value="embedded_file_exists" />
+    <option name="LAST_COMMIT_MESSAGE" value="embedded_file_exists" />
   </component>
 </project>

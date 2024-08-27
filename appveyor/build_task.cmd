@@ -116,6 +116,11 @@ setlocal enableextensions enabledelayedexpansion
         wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" https://github.com/crispy-computing-machine/php_win32ps/releases/download/latest/php_win32ps.dll
         IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_win32ps.dll" echo Error, php_win32ps not found. && exit /b 1
 
+        rem win32ps
+        echo Downloading https://github.com/crispy-computing-machine/php-wcli/releases/download/latest/php_wcli.dll
+        wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\php_wcli.dll" https://github.com/crispy-computing-machine/php-wcli/releases/download/latest/php_wcli.dll
+        IF NOT EXIST "%APPVEYOR_BUILD_FOLDER%\build\ext\php_wcli.dll" echo Error, php_wcli not found. && exit /b 1
+
         rem CACERT
         echo Downloading https://curl.se/ca/cacert.pem
         wget -q --show-progress -O "%APPVEYOR_BUILD_FOLDER%\build\ext\cacert.pem" https://curl.se/ca/cacert.pem

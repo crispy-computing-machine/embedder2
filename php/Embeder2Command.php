@@ -1,6 +1,12 @@
-<?php /** @noinspection PhpUnused */
+<?php
 
 namespace Embeder;
+
+use Exception;
+use FilesystemIterator;
+use Generator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 define("DOSHEADER",
 	"a2Id/" .
@@ -157,7 +163,7 @@ class Embeder2Command
 
         $this->check_exe($exeFile);
         $md5 = md5($alias);
-        $resourceContents = $this->composerFileCheck($alias, file_get_contents($newFile));
+        $resourceContents = file_get_contents($newFile);
         $this->message('add_file: ' . $newFile . ' to ' . $exeFile . ' as ' . $alias . ' [' . strtoupper($md5) . ']');
         return $this->update_resource($exeFile, 'PHP', $md5, $resourceContents);
     }
@@ -166,80 +172,68 @@ class Embeder2Command
      * Change between console and windows type program
      *
      * @param string $file - Full path and extension
-     * @param string $type
+     * @param string $new_format
      */
-    public function change_type($file)
+    public function change_type($file, $new_format = 'GUI')
     {
-        $this->message("change_type: Current app type " . $this->get_mode($file), $error = false);
-
-        $converted = $this->convert($file);
-
-        $this->message("change_type: App changed to type " . $this->get_mode($file), $error = false);
-
+        try {
+            $this->convert($file, $new_format);
+        } catch (Exception $e) {
+            echo $e;
+        }
     }
 
-    function convert($file)
+    /**
+     * Convert console ot GUI
+     *
+     * @param $file
+     * @param $new_format
+     * @return void
+     */
+    public function convert($file, $new_format = 'GUI')
     {
-        $fh = fopen($file, "rw+b");
-        $doshead = unpack(DOSHEADER, fread($fh, DOSHEADER_SIZE));
-    
-        if($doshead["Id"] != "MZ" || $doshead["WinHeader"] < 0x40) {
-            fclose($fh);
-            return false;
+        // Open the binary file in read-write mode
+        $f = fopen($file, 'r+b');
+        if (!$f) {
+            $this->message("Can't open '$file'", true);
+
         }
-    
-        fseek($fh, $doshead["TableOffset"], SEEK_SET);
-        $winhead = unpack(WINHEADER, fread($fh, WINHEADER_SIZE));
-        if($winhead["Signature"] != "PE") {
-            fclose($fh);
-            return false;
+
+        // Read the DOS header to find the PE header offset
+        $type_record = unpack('Smagic/x58/Loffset', fread($f, 32*4));
+        if ($type_record['magic'] != 0x5a4d) {
+            $this->message("Not an MSDOS executable file", true);
         }
-    
-        if($winhead["NT32"] != 0xE0) {
-            fclose($fh);
-            return false;
+
+        // Seek to the PE header offset
+        if (fseek($f, $type_record['offset']) != 0) {
+            $this->message("Seeking error (+{$type_record['offset']})", true);
         }
-    
-        fseek($fh, $doshead["TableOffset"] + WINHEADER_SIZE - 1, SEEK_SET);
-    
-        if($winhead["Console"] == 3)
-            fwrite($fh, "\02");
-        elseif($winhead["Console"] == 2)
-            fwrite($fh, "\03");
-        else {
-            fclose($fh);
-            return false;
+
+        // Read the PE header to verify its format
+        $pe_record = unpack('Lmagic/x16/Ssize', fread($f, 24));
+        if ($pe_record['magic'] != 0x4550) {
+            $this->message("PE header not found", true);
         }
-    
-        fclose($fh);
-        return true;
-    }
-    
-    function get_mode($file)
-    {
-        $fh = fopen($file, "rb");
-        $doshead = unpack(DOSHEADER, fread($fh, DOSHEADER_SIZE));
-    
-        if($doshead["Id"] != "MZ" || $doshead["WinHeader"] < 0x40) {
-            fclose($fh);
-            return false;
+        if ($pe_record['size'] != 224) {
+            $this->message("Optional header not in NT32 format", true);
         }
-    
-        fseek($fh, $doshead["TableOffset"], SEEK_SET);
-        $winhead = unpack(WINHEADER, fread($fh, WINHEADER_SIZE));
-        if($winhead["Signature"] != "PE") {
-            fclose($fh);
-            return false;
+
+        // Seek to the Subsystem field within the Optional Header
+        if (fseek($f, $type_record['offset'] + 24 + 68) != 0) {
+            $this->message("Seeking error (+{$type_record['offset']})", true);
         }
-    
-        if($winhead["NT32"] != 0xE0) {
-            fclose($fh);
-            return false;
+
+        // Determine the new subsystem type and write it
+        $subsystemType = ($new_format === 'CONSOLE' ? 3 : 2);
+        if (fwrite($f, pack('S', $subsystemType)) === false) {
+            $this->message("Write error", true);
         }
-    
-        fclose($fh);
-    
-        return ($winhead["Console"] == 3) ? "console" : "windowed";
+
+        // Close the file
+        fclose($f);
+
+        $this->message("Subsystem updated successfully to " . ($subsystemType == 3 ? 'CONSOLE' : 'GUI'), true);
     }
 
     /**
@@ -264,10 +258,6 @@ class Embeder2Command
             $this->message("update_resource: Can't update " . $res, $error = true);
         }
         $this->message("update_resource: '" . $exeFile . "' -> '" . $res . "' (" . strlen($data) . ' bytes)');
-
-        // @todo debug timing of adding resources? based on load of CPU/DISK?
-        #usleep(500000);
-        #usleep(1000000);
 
         return $reset;
     }
@@ -313,10 +303,10 @@ class Embeder2Command
         }
 
         foreach ($list as $i => $iValue) {
-            echo $iValue;
-            $res = res_list($h, $list[$i]);
+            $this->message($iValue);
+            $res = res_list($h, $iValue);
             foreach ($res as $jValue) {
-                echo $jValue . PHP_EOL;
+                $this->message($jValue);
             }
         }
         res_close($h);
@@ -335,7 +325,7 @@ class Embeder2Command
     {
 
         $this->check_exe($exeFile);
-        $res = "res:///{$section}/{$value}" . ($lang ?? ('/' . $lang));
+        $res = "res:///$section/$value" . ($lang ?? ('/' . $lang));
         $this->message(str_repeat('-', 10) . ' display_resource:' . $res . ' ' . str_repeat('-', 10));
         $this->message(file_get_contents($res));
         $this->message(str_repeat('-', 10) . ' End ' . str_repeat('-', 10));
@@ -365,7 +355,7 @@ class Embeder2Command
                     ++$i;
                     echo ' ';
                 }
-                echo "{$description}\n";
+                echo "$description\n";
             }
 
             exit(1);
@@ -406,10 +396,9 @@ class Embeder2Command
      * @param $rootDirectory - .\full\path\to\project\
      * @return void
      */
-    public function build_dir($path, $main, $rootDirectory, $type = 'CONSOLE')
+    public function build_dir($path, $main, $rootDirectory, $type = 'GUI')
     {
 
-        file_put_contents($manifestFile = dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', '');
         $this->message('build_dir: Creating new exe ' . $path . ' from  directory ' . $rootDirectory . ', Main file: ' . $main . ' (Type:' . $type . ')');
         $this->new_file($path);
         $this->add_main($path, $main);
@@ -425,21 +414,21 @@ class Embeder2Command
             $relativePath = str_replace($rootDirectory, '', $originalFullPath);
             $embedPath = $this->unleadingSlash($this->linux_path($relativePath));
 
-            // No hidden files, No git files, No directories // @todo pass as arguments to embedder
+            // No hidden files, No git files, No directories
             if (strpos($embedPath, '.git') !== FALSE) {
-                echo 'Skipping GIT: ' . $embedPath . PHP_EOL;
+                $this->message('build_dir: Skipping GIT: ' . $embedPath);
                 continue;
             }
             if (strpos($embedPath, '.idea') !== FALSE) {
-                echo 'Skipping IDEA: ' . $embedPath . PHP_EOL;
+                $this->message('build_dir: Skipping IDEA: ' . $embedPath);
                 continue;
             }
             if (basename($embedPath) === 'manifest.json') {
-                echo 'Skipping MANIFEST: ' . $embedPath . PHP_EOL;
+                $this->message('build_dir: Skipping MANIFEST: ' . $embedPath);
                 continue;
             }
             if (is_dir($originalFullPath)) {
-                echo 'Skipping DIRECTORY: ' . $embedPath . PHP_EOL;
+                $this->message('build_dir: Skipping DIRECTORY: ' . $embedPath);
                 continue;
             }
 
@@ -456,24 +445,25 @@ class Embeder2Command
         }
 
         // update manifest
-        file_put_contents($manifestFile, json_encode($manifestFiles));
+        file_put_contents($manifestFile = dirname($path) . DIRECTORY_SEPARATOR . 'manifest.json', '');
+        if(file_put_contents($manifestFile, json_encode($manifestFiles))){
+            $this->message('build_dir: Build manifest file complete!');
+        }
 
+        // Stats
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
-        $this->change_type($path);
-
+        $this->change_type($path, $type);
         $this->message('build_dir: Build complete!');
 
     }
 
     /**
-     * // @param $path
+     * @param $path
      * @param $main
      * @param $rootDirectory
-     * @param $type
      * @return void
-     * @todo validate exe and add any missing resources
      */
-    public function validate($path, $main, $rootDirectory, $type = 'CONSOLE')
+    public function validate($path, $main, $rootDirectory)
     {
 
         $this->message('build_dir: ' . $path . ' Validating...');
@@ -525,54 +515,19 @@ class Embeder2Command
     /**
      * Helper: Memory safe directory/file iterator
      * @param $directory
-     * @param $fileExtension
-     * @return \Generator
+     * @return Generator
      */
-    function filesInDir($directory)
+    public function filesInDir($directory)
     {
 
         if (!is_dir($directory)) {
             return;
         }
 
-        yield from new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
+        yield from new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
         );
-    }
-
-    /**
-     * @return string
-     * @todo Override composer autoloader class/methods to "embed" https://github.com/ircmaxell/PhpGenerics/blob/master/lib/PhpGenerics/Autoloader.php
-     */
-    function composerFileCheck($fileName, $fileContents)
-    {
-
-        // composer specific includes
-        if (strpos($fileName, 'autoload_real.php') !== FALSE || strpos($fileName, 'autoload.php') !== FALSE) {
-            $fileContents = str_replace("require __DIR__ . '/ClassLoader.php';", "require 'vendor/composer/ClassLoader.php';", $fileContents);
-            $fileContents = str_replace("require __DIR__ . '/platform_check.php';", "require 'vendor/composer/platform_check.php';", $fileContents);
-            $fileContents = str_replace("require __DIR__ . '/autoload_static.php';", "require 'vendor/composer/autoload_static.php';", $fileContents);
-            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_namespaces.php';", "\$map = require 'vendor/composer/autoload_namespaces.php';", $fileContents);
-            $fileContents = str_replace("\$map = require __DIR__ . '/autoload_psr4.php';", "\$map = require 'vendor/composer/autoload_psr4.php';", $fileContents);
-            $fileContents = str_replace("\$classMap = require __DIR__ . '/autoload_classmap.php';", "\$classMap = require 'vendor/composer/autoload_classmap.php';", $fileContents);
-            $fileContents = str_replace("require_once __DIR__ . '/composer/autoload_real.php';", "require_once 'vendor/composer/autoload_real.php';", $fileContents);
-            $fileContents = str_replace("\$includeFiles = require __DIR__ . '/autoload_files.php';", "\$includeFiles = require 'vendor/composer/autoload_files.php';", $fileContents);
-        }
-
-        // Main include function for compose
-        #if (strpos($fileName, 'ClassLoader.php') !== FALSE) {
-        #    $fileContents = str_replace("include \$file;", "include \$file;", $fileContents);
-        #}
-
-        // Replace dunder path constants
-        if (strpos($fileName, 'autoload_static.php') !== FALSE) {
-            $fileContents = str_replace("__DIR__ . '/../..' . '/", "'", $fileContents);
-            $fileContents = str_replace("__DIR__ . '/..' . '/", "'vendor/", $fileContents);
-        }
-
-        return $fileContents;
-
     }
 
     /**
@@ -581,7 +536,7 @@ class Embeder2Command
      * @param $path
      * @return string
      */
-    function linux_path($path)
+    public function linux_path($path)
     {
         $path = str_replace($backslash = chr(92), $forwardSlash = chr(47), $path);
         $path = str_replace($forwardSlash . $forwardSlash, $forwardSlash, $path); // remove doubles
@@ -593,7 +548,7 @@ class Embeder2Command
      * @param string $path
      * @return string
      */
-    function leadingSlash(string $path)
+    public function leadingSlash(string $path)
     {
         return $forwardSlash = chr(47) . $this->unleadingSlash($path);
     }
@@ -603,7 +558,7 @@ class Embeder2Command
      * @param string $path
      * @return string
      */
-    function trailingSlash(string $path)
+    public function trailingSlash(string $path)
     {
         return $this->untrailingslash($path) . $forwardSlash = chr(47);
     }
@@ -613,7 +568,7 @@ class Embeder2Command
      * @param string $path
      * @return string
      */
-    function untrailingSlash(string $path)
+    public function untrailingSlash(string $path)
     {
         return rtrim($path, $forwardSlash = chr(47));
     }
@@ -623,7 +578,7 @@ class Embeder2Command
      * @param string $path
      * @return string
      */
-    function unleadingSlash(string $path)
+    public function unleadingSlash(string $path)
     {
         return ltrim($path, $forwardSlash = chr(47));
     }
@@ -634,11 +589,8 @@ class Embeder2Command
      */
     public function info()
     {
-        /** @noinspection ForgottenDebugOutputInspection */
         return phpinfo();
     }
-
-
 }
 
 // New command with arguments
