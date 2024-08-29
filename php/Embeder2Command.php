@@ -215,13 +215,14 @@ class Embeder2Command
         if ($pe_record['magic'] != 0x4550) {
             $this->message("PE header not found", true);
         }
-        if ($pe_record['size'] != 224) {
-            $this->message("Optional header not in NT32 format", true);
-        }
 
-        // Seek to the Subsystem field within the Optional Header
-        if (fseek($f, $type_record['offset'] + 24 + 68) != 0) {
-            $this->message("Seeking error (+{$type_record['offset']})", true);
+        // After reading the PE header size
+        $optionalHeaderSize = $pe_record['size'];
+        $subsystemOffset = $type_record['offset'] + 24 + $optionalHeaderSize - 16; // Assuming Subsystem is always 16 bytes from the end of the optional header
+
+        // Seek to the Subsystem field
+        if (fseek($f, $subsystemOffset) != 0) {
+            $this->message("Seeking error to Subsystem field", true);
         }
 
         // Determine the new subsystem type and write it
