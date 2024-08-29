@@ -162,9 +162,9 @@ class Embeder2Command
     {
 
         $this->check_exe($exeFile);
-        $md5 = md5($alias);
+        $md5 = strtoupper(md5($alias));
         $resourceContents = file_get_contents($newFile);
-        $this->message('add_file: ' . $newFile . ' to ' . $exeFile . ' as ' . $alias . ' [' . strtoupper($md5) . ']');
+        $this->message('add_file: ' . $newFile . ' to ' . $exeFile . ' as ' . $alias . ' [' . $md5 . ']');
         return $this->update_resource($exeFile, 'PHP', $md5, $resourceContents);
     }
 
