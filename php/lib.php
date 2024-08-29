@@ -53,7 +53,7 @@ function embedded_file_exists($path)
     }
     $originalPath = $path;
     $path = 'res:///PHP/' . md5(str_replace($backslash = chr(92), $forwardSlash = chr(47), $path));
-    $exists =  file_get_contents($path) > 0;
+    $exists =  strlen(file_get_contents($path)) > 0;
 
     echo EMBEDED_DEBUG ? ('embedded_file_exists: ' . $originalPath . ' -> ' . ($exists ? 'exists' : 'does not exist') . PHP_EOL) : null;
 

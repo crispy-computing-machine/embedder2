@@ -233,7 +233,7 @@ class Embeder2Command
         // Close the file
         fclose($f);
 
-        $this->message("Subsystem updated successfully to " . ($subsystemType == 3 ? 'CONSOLE' : 'GUI'), true);
+        $this->message("Subsystem updated successfully to " . ($subsystemType == 3 ? 'CONSOLE' : 'GUI'));
     }
 
     /**
@@ -452,7 +452,6 @@ class Embeder2Command
 
         // Stats
         $this->message('build_dir: ' . $path . ' Total: ' . $totalFiles . '/Success: ' . $filesAdded . '/Failed: ' . $failedFiles);
-        $this->change_type($path, $type);
         $this->message('build_dir: Build complete!');
 
     }
@@ -466,7 +465,7 @@ class Embeder2Command
     public function validate($path, $main, $rootDirectory)
     {
 
-        $this->message('build_dir: ' . $path . ' Validating...');
+        $this->message('validate: ' . $path . ' Validating...');
 
         // Check Main
         // Check and Add missing resource (res_open() corrupts exe, and cant update exe while checking.... use temp!)
@@ -489,16 +488,16 @@ class Embeder2Command
 
             // see if file is in "mising" tmp file, if not, add it to original exe...
             $res = strlen(@file_get_contents('res://' . $missingTmpFile . '/PHP/' . md5($embedPath)));
-            $this->message('build_dir: ' . $path . ' Validating ' . $embedPath . ' -> ' . $res);
+            $this->message('validate: ' . $path . ' Validating ' . $embedPath . ' -> ' . $res);
             if ($res === 0) {
-                $this->message('build_dir: ' . $path . ' Missing, Adding ' . $embedPath . ' -> ' . $res);
+                $this->message('validate: ' . $path . ' Missing, Adding ' . $embedPath . ' -> ' . $res);
                 $missingFiles[] = [$path, $originalFullPath, $embedPath];
             }
         }
 
         // Missing files array to process
         $numberOfMissingFiles = count($missingFiles);
-        $this->message('build_dir: ' . $path . ' Missing files ' . $numberOfMissingFiles);
+        $this->message('validate: ' . $path . ' Missing files ' . $numberOfMissingFiles);
         $missingAdded = 0;
         foreach ($missingFiles as $file) {
             [$path, $originalFullPath, $embedPath] = $file;
@@ -508,7 +507,7 @@ class Embeder2Command
         // Clear up temp file/handles
         unlink($missingTmpFile);
 
-        $this->message('build_dir: ' . $path . ' Validation complete! ' . $missingAdded . '/' . $numberOfMissingFiles . ' missing resources added!');
+        $this->message('validate: ' . $path . ' Validation complete! ' . $missingAdded . '/' . $numberOfMissingFiles . ' missing resources added!');
 
     }
 
