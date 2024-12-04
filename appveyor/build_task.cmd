@@ -52,7 +52,6 @@ setlocal enableextensions enabledelayedexpansion
 		--with-gd=static ^
 		--with-gettext=static ^
 		--with-gmp=static ^
-		--with-imap=static ^
 		--enable-intl=static ^
 		--with-ldap=no ^
 		--with-mysqli=static ^
