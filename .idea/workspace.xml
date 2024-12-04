@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="embedded_file_exists">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="724d105f-e25a-4428-9505-02dadd3d708b" name="Changes" comment="php 8.4">
       <change beforePath="$PROJECT_DIR$/appveyor/build_task.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/appveyor/build_task.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/Embeder2Command.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/Embeder2Command.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/php/lib.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/lib.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +46,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP7" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\Program Files (x86)\php-8.2-Win32-vs16-x64-latest\php.exe" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -65,7 +62,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Projects/win32std",
+    "last_opened_file_path": "D:/Projects/Winbinder",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -89,7 +86,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.15026.12" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PS-243.21565.202" />
+        <option value="bundled-php-predefined-a98d8de5180a-5fbe0c30323e-com.jetbrains.php.sharedIndexes-PS-243.21565.202" />
       </set>
     </attachedChunks>
   </component>
@@ -209,7 +207,31 @@
       <option name="project" value="LOCAL" />
       <updated>1724411199070</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="php 8.4">
+      <option name="closed" value="true" />
+      <created>1733326125676</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1733326125676</updated>
+    </task>
+    <task id="LOCAL-00013" summary="php 8.4">
+      <option name="closed" value="true" />
+      <created>1733326571850</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1733326571850</updated>
+    </task>
+    <task id="LOCAL-00014" summary="php 8.4">
+      <option name="closed" value="true" />
+      <created>1733326676754</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1733326676754</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +259,7 @@
     <MESSAGE value="fix wb download" />
     <MESSAGE value="userland functions moved to lib" />
     <MESSAGE value="embedded_file_exists" />
-    <option name="LAST_COMMIT_MESSAGE" value="embedded_file_exists" />
+    <MESSAGE value="php 8.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="php 8.4" />
   </component>
 </project>

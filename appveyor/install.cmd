@@ -13,7 +13,7 @@ setlocal enableextensions enabledelayedexpansion
 	)
 
 	if not exist "%PHP_BUILD_CACHE_SDK_DIR%" (
-		echo Cloning remote SDK repository
+		echo Cloning remote SDK repository %SDK_REMOTE% %SDK_BRANCH%
 		rem git clone -q --depth=1 --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%" 2>&1
 		git clone -v --branch %SDK_BRANCH% %SDK_REMOTE% "%PHP_BUILD_CACHE_SDK_DIR%"
 	) else (
