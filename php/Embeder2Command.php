@@ -192,51 +192,44 @@ class Embeder2Command
      */
     public function convert($file, $new_format = 'GUI')
     {
-        // Open the binary file in read-write mode
         $f = fopen($file, 'r+b');
         if (!$f) {
             $this->message("Can't open '$file'", true);
-
         }
 
-        // Read the DOS header to find the PE header offset
-        $type_record = unpack('Smagic/x58/Loffset', fread($f, 32*4));
+        $type_record = unpack('Smagic/x58/Loffset', fread($f, 64)); // 64 bytes for DOS header
         if ($type_record['magic'] != 0x5a4d) {
             $this->message("Not an MSDOS executable file", true);
         }
 
-        // Seek to the PE header offset
         if (fseek($f, $type_record['offset']) != 0) {
             $this->message("Seeking error (+{$type_record['offset']})", true);
         }
 
-        // Read the PE header to verify its format
-        $pe_record = unpack('Lmagic/x16/Ssize', fread($f, 24));
+        $pe_record = unpack('Lmagic/x16/Ssize', fread($f, 24)); // PE header
         if ($pe_record['magic'] != 0x4550) {
             $this->message("PE header not found", true);
         }
 
-        // After reading the PE header size
+        // Read the entire optional header to find the correct offset
         $optionalHeaderSize = $pe_record['size'];
-        $subsystemOffset = $type_record['offset'] + 24 + $optionalHeaderSize - 16; // Assuming Subsystem is always 16 bytes from the end of the optional header
+        $optionalHeader = fread($f, $optionalHeaderSize);
 
-        // Seek to the Subsystem field
+        // Subsystem is at the 68th byte for 32-bit or 64th for 64-bit in Optional Header
+        $subsystemOffset = $type_record['offset'] + 24 + ($optionalHeaderSize == 224 ? 64 : 68); // 224 for 64-bit, 216 for 32-bit
+
         if (fseek($f, $subsystemOffset) != 0) {
             $this->message("Seeking error to Subsystem field", true);
         }
 
-        // Determine the new subsystem type and write it
         $subsystemType = ($new_format === 'CONSOLE' ? 3 : 2);
         if (fwrite($f, pack('S', $subsystemType)) === false) {
             $this->message("Write error", true);
         }
 
-        // Close the file
         fclose($f);
-
         $this->message("Subsystem updated successfully to " . ($subsystemType == 3 ? 'CONSOLE' : 'GUI'));
     }
-
     /**
      * Update existing resource file within an EXE
      *
