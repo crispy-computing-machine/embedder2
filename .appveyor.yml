@@ -16,7 +16,7 @@ environment:
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       PHP_BUILD_CRT: vs17
-      PHP_REL: 8.4.1
+      PHP_REL: 8.4.17
       PHP_DEPS_BRANCH: 8.4
       ARCHITECTURES: x64
       ZTS_STATES: enable
