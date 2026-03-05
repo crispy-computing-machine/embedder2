@@ -20,6 +20,23 @@ Additional extensions included:
 ## Additional library's
 - FreeImage - Use with Winbinder or FFI
 
+## Bootstrap override and exit codes
+By default, the embedded bootstrap include remains:
+
+`include 'res:///PHP/LIB';`
+
+You can override the include target through PHP INI with:
+
+`embeder.bootstrap=/path/to/bootstrap.php`
+
+`embeder.bootstrap` defaults to an empty value, so if it is unset/empty the embedder falls back to `res:///PHP/LIB`.
+
+Exit-code behavior is deterministic:
+- If `zend_eval_string(...)` fails, the process exits with failure (`EXIT_FAILURE`).
+- If the eval result is an integer/long, that value is returned (clamped to the platform `int` range).
+- If the eval result is not an integer, it is converted safely to a long and then clamped to `int` before returning.
+- If no usable eval value is available, the process exits with failure (`EXIT_FAILURE`).
+
 ## Old Credits
 - [Eric Colinet](mailto:e.colinet@laposte.net) - For the original concept & code!
 - [Jared Allard](mailto:jaredallard@outlook.com) - Mantaining the project, improving the features, and more!
