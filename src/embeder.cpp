@@ -23,9 +23,9 @@
 /* PHP Includes */
 #include "php_embed.h"
 #include "ext/standard/php_standard.h"
-#include "zend_smart_str.h"
 #include <limits.h>
-#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #ifdef PHP_WIN32
 #include <io.h>
@@ -72,18 +72,51 @@ static int clamp_zend_long_to_int(zend_long value)
 	return (int) value;
 }
 
-static void smart_str_append_php_single_quoted(smart_str *buffer, const char *value)
+static bool build_eval_include_command(const char *target, char *buffer, size_t buffer_size)
 {
-	const unsigned char *cursor = (const unsigned char *) value;
+	const char *prefix = "include '";
+	const char *suffix = "';";
+	size_t out = 0;
+	const unsigned char *cursor;
 
+	if (target == NULL || buffer == NULL || buffer_size == 0) {
+		return false;
+	}
+
+	while (*prefix != '\0') {
+		if (out + 1 >= buffer_size) {
+			return false;
+		}
+		buffer[out++] = *prefix++;
+	}
+
+	cursor = (const unsigned char *) target;
 	while (*cursor != '\0') {
-		if (*cursor == '\'' || *cursor == '\\') {
-			smart_str_appendc(buffer, '\\');
+		if ((*cursor == '\'' || *cursor == '\\') && out + 1 >= buffer_size) {
+			return false;
 		}
 
-		smart_str_appendc(buffer, (char) *cursor);
+		if (*cursor == '\'' || *cursor == '\\') {
+			buffer[out++] = '\\';
+		}
+
+		if (out + 1 >= buffer_size) {
+			return false;
+		}
+
+		buffer[out++] = (char) *cursor;
 		cursor++;
 	}
+
+	while (*suffix != '\0') {
+		if (out + 1 >= buffer_size) {
+			return false;
+		}
+		buffer[out++] = *suffix++;
+	}
+
+	buffer[out] = '\0';
+	return true;
 }
 
 static const char *resolve_bootstrap_target(void)
@@ -99,8 +132,7 @@ static const char *resolve_bootstrap_target(void)
 
 /* Main */
 int main(int argc, char** argv) {
-	smart_str eval_command = {0};
-	const char *eval_string = NULL;
+	char eval_string[8192];
 	const char *bootstrap_target;
 	zval ret_value;
 	int exit_status = EXIT_FAILURE;
@@ -118,17 +150,10 @@ int main(int argc, char** argv) {
 		PG(during_request_startup) = 0;
 
 		bootstrap_target = resolve_bootstrap_target();
-		smart_str_appends(&eval_command, "include '");
-		smart_str_append_php_single_quoted(&eval_command, bootstrap_target);
-		smart_str_appends(&eval_command, "';");
-		smart_str_0(&eval_command);
-
-		if (eval_command.s != NULL) {
-			eval_string = ZSTR_VAL(eval_command.s);
-		}
 
 		/* Execute */
-		if (eval_string == NULL || zend_eval_string((char *) eval_string, &ret_value, "main") == FAILURE) {
+		if (!build_eval_include_command(bootstrap_target, eval_string, sizeof(eval_string)) ||
+			zend_eval_string(eval_string, &ret_value, "main") == FAILURE) {
 			php_printf("Failed to eval.\n");
 			exit_status = EXIT_FAILURE;
 		} else if (Z_TYPE(ret_value) == IS_LONG) {
@@ -161,7 +186,6 @@ int main(int argc, char** argv) {
 	/* Stop PHP embed */
 	PHP_EMBED_END_BLOCK(); // PHP_EMBED_END_BLOCK()
 
-	smart_str_free(&eval_command);
 
 	/* Return exit status */
 	return exit_status;
